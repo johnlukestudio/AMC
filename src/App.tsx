@@ -5,6 +5,7 @@ import { AboutPage, VideoFeature } from "./AboutPage"
 import { CareersPage } from "./CareersPage"
 import { ArticlePage, NewsPage } from "./NewsPage"
 import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
+import { applySeo } from "./seo"
 
 const asset = "/media"
 
@@ -465,7 +466,7 @@ function Hero() {
               <img
                 key={c.name}
                 src={c.img}
-                alt=""
+                alt={c.name}
                 className={`absolute inset-0 size-full object-cover transition-opacity duration-500 ${
                   i === active ? "opacity-100" : "opacity-0"
                 }`}
@@ -485,7 +486,7 @@ function Hero() {
               <img
                 key={c.name}
                 src={c.img}
-                alt=""
+                alt={c.name}
                 className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${i === active ? "opacity-100" : "opacity-0"}`}
               />
             ))}
@@ -551,7 +552,7 @@ function About() {
       {/* Background video placeholder: swap the <img> for a muted, looping <video> */}
       <img
         src={aboutBg}
-        alt=""
+        alt="Custom millwork and cabinetry in an AMC project space"
         className="absolute inset-0 size-full animate-[bgvideo_24s_ease-in-out_infinite_alternate] object-cover opacity-40"
       />
       <div className="absolute inset-0 bg-black/50" />
@@ -859,7 +860,7 @@ function Testimonials() {
     <section className="relative overflow-hidden">
       <img
         src={testimonialBg}
-        alt=""
+        alt="Finished architectural millwork interior by American Millwork & Cabinetry"
         className="absolute inset-0 size-full object-cover"
       />
       <div className="absolute inset-0 bg-black/20" />
@@ -1159,11 +1160,14 @@ function useRoute() {
     const id = requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "instant" }))
     return () => cancelAnimationFrame(id)
   }, [hash])
-  return route
+  return { route, hash }
 }
 
 export default function App() {
-  const route = useRoute()
+  const { route, hash } = useRoute()
+  useEffect(() => {
+    applySeo(route)
+  }, [route, hash])
   return (
     <div className="bg-white text-black">
       <Header overDark={route === "project"} />

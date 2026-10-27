@@ -273,7 +273,7 @@ export function NewsCard({ post, className = "aspect-[4/5]" }: { post: Post; cla
     <a href={`#/news/${post.slug}`} className={`group relative block overflow-hidden bg-black ${className}`}>
       <img
         src={post.img}
-        alt=""
+        alt={post.title}
         className="absolute inset-0 size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />

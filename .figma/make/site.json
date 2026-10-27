@@ -1,8 +1,12 @@
 {
-  "title": "AMC Millwork",
-  "description": "Create visually appealing websites tailored for cabinetry brands, enhancing user engagement with customizable templates and a professional design aesthetic.",
+  "title": "American Millwork & Cabinetry",
+  "description": "American Millwork & Cabinetry builds custom architectural millwork, cabinetry and surfaces in Emmaus, PA. In-house fabrication for commercial projects since 2003.",
+  "language": "en",
   "robots": {
     "index": false
+  },
+  "openGraph": {
+    "image": "/media/factory/bc70d6ea_image.png"
   },
   "accessibility": {
     "addBypassLinks": false,

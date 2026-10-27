@@ -22,7 +22,7 @@ export function CareersPage() {
         >
           <img
             src="/media/factory/e307e871_image.png"
-            alt=""
+            alt="AMC Emmaus shop floor"
             className="absolute inset-0 size-full object-cover opacity-70 transition duration-700 group-hover:scale-[1.02] group-hover:opacity-55"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />

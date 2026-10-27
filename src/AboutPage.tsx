@@ -251,7 +251,7 @@ export function VideoFeature({
       >
         <img
           src={img}
-          alt=""
+          alt={title}
           className="absolute inset-0 size-full object-cover opacity-75 transition duration-700 group-hover:scale-[1.02] group-hover:opacity-60"
         />
         <span className="absolute left-1/2 top-1/2 flex size-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white text-white backdrop-blur-sm transition-colors duration-300 group-hover:bg-white group-hover:text-black md:size-32">
@@ -311,7 +311,7 @@ export function AboutPage() {
               <img
                 key={i}
                 src={src}
-                alt=""
+                alt={i >= CAROUSEL.length ? "" : "Custom millwork project by American Millwork & Cabinetry"}
                 aria-hidden={i >= CAROUSEL.length}
                 className="aspect-[4/5] w-[260px] shrink-0 object-cover md:w-[330px]"
               />
@@ -385,7 +385,7 @@ export function AboutPage() {
                   <div className="aspect-[4/3] w-full max-w-[220px] overflow-hidden bg-neutral-100">
                     <img
                       src={t.img}
-                      alt=""
+                      alt={`${t.year} ${t.title}`}
                       draggable={false}
                       className="size-full object-cover grayscale transition duration-500 hover:grayscale-0"
                     />
