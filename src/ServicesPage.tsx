@@ -567,7 +567,7 @@ export function ServiceDetail() {
           <p className="max-w-[720px] text-h3-s xl:text-h3-m leading-[1.45] tracking-[-0.01em] ">{s.overview}</p>
         </div>
         <div ref={ref(0)} className="mt-16 aspect-[16/9] overflow-hidden md:aspect-auto md:h-[680px]" style={reveal.clip}>
-          <img src={s.overviewImg} alt="" className="size-full object-cover" style={reveal.img} />
+          <img src={s.overviewImg} alt={`${s.title} overview`} className="size-full object-cover" style={reveal.img} />
         </div>
       </section>
 
@@ -600,7 +600,7 @@ export function ServiceDetail() {
             ))}
           </ol>
           <div className="aspect-[4/5] overflow-hidden max-lg:max-h-[520px] max-lg:w-full lg:aspect-auto">
-            <img src={s.stepsImg} alt="" className="size-full object-cover" />
+            <img src={s.stepsImg} alt={`${s.title} fabrication process`} className="size-full object-cover" />
           </div>
         </div>
       </section>
@@ -608,7 +608,7 @@ export function ServiceDetail() {
       <section className="mx-auto max-w-[1750px] px-6 md:px-10">
         <SectionHead title="What you get" n="04" aside={LOREM_SHORT} />
         <div className="mt-14 aspect-[16/9] overflow-hidden md:aspect-auto md:h-[560px]">
-          <img src={s.deliverablesImg} alt="" className="size-full object-cover" />
+          <img src={s.deliverablesImg} alt={`${s.title} deliverables`} className="size-full object-cover" />
         </div>
         <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
           {s.deliverables.map((d, i) => (
