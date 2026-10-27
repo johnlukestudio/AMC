@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 
 const asset = "/media"
-const LOREM =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-const LOREM_SHORT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 type Item = { label?: string; title: string; img: string; body?: string }
 type Step = { title: string; body: string }
@@ -54,12 +51,12 @@ export const SERVICE_DATA: Service[] = [
     intro: "Custom architectural millwork engineered, built and installed by one team, from lobby walls to reception desks.",
     hero: `${asset}/02cb0.png`,
     overview:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus. Curabitur blandit tempus porttitor, nullam quis risus eget urna mollis ornare vel eu leo. Donec ullamcorper nulla non metus auctor fringilla.",
+      "Custom architectural millwork for lobbies, reception desks, wall paneling, trim and fixtures. Cabinets, tops, trim and panels move through dedicated parts of the shop at the same time, so complex packages stay coordinated. We take on the work other shops pass on: the off-the-wall details architects sketch when the standard box will not do.",
     overviewImg: `${asset}/cat-millwork.png`,
     meta: [
-      { label: "Markets", value: "Commercial · Residential" },
+      { label: "Markets", value: "Commercial · Institutional" },
       { label: "Grade", value: "AWI Premium · Custom" },
-      { label: "Lead time", value: "Lorem ipsum" },
+      { label: "Lead time", value: "Just-in-time after field measure" },
       { label: "Region", value: "PA · NY · NJ" },
     ],
     tags: ["Commercial · Hospitality", "Custom · Premium grade"],
@@ -72,10 +69,10 @@ export const SERVICE_DATA: Service[] = [
     steps: STEPS_DEFAULT,
     stepsImg: `${asset}/factory/6cf042d6_image.png`,
     deliverables: [
-      { title: "Shop drawings", body: LOREM_SHORT },
-      { title: "Finish samples", body: LOREM_SHORT },
-      { title: "Fabricated millwork", body: LOREM_SHORT },
-      { title: "Installed & punched", body: LOREM_SHORT },
+      { title: "Shop drawings", body: "Detailed submittals in packets so architects can review details early, not after 150 pages land at once." },
+      { title: "Finish samples", body: "Laminate, veneer, stain and sheen samples matched to the spec before production starts." },
+      { title: "Fabricated millwork", body: "Cabinets, tops, trim and panels built in dedicated shop zones, labeled and ready for install." },
+      { title: "Installed & punched", body: "AMC Installers puts it in place and closes the punch list with the same team that built it." },
     ],
     deliverablesImg: `${asset}/9765d.png`,
   },
@@ -91,7 +88,7 @@ export const SERVICE_DATA: Service[] = [
     meta: [
       { label: "Markets", value: "Industrial · Medical · Education" },
       { label: "Materials", value: "Laminate · Veneer · Solid wood" },
-      { label: "Lead time", value: "Lorem ipsum" },
+      { label: "Lead time", value: "Coordinated to project schedule" },
       { label: "Region", value: "PA · NY · NJ" },
     ],
     tags: ["Industrial · Medical", "Standard · Semi-custom"],
@@ -205,7 +202,7 @@ export const SERVICE_DATA: Service[] = [
     meta: [
       { label: "Spaces", value: "Office · Retail · Academic" },
       { label: "Material", value: "Solid surface · Corian" },
-      { label: "Lead time", value: "Lorem ipsum" },
+      { label: "Lead time", value: "Coordinated to project schedule" },
       { label: "Region", value: "PA · NY · NJ" },
     ],
     tags: ["Solid surface · Corian", "Retail · Healthcare"],
@@ -261,6 +258,48 @@ export const SERVICE_DATA: Service[] = [
   },
 ]
 
+const HOW_A_JOB_MOVES = [
+  {
+    title: "Shop split",
+    body: "Cabinets, tops, trim and wall panels each run in their own part of the shop at the same time. Your package is built in parallel, not in a single line.",
+  },
+  {
+    title: "Just-in-time field dimensions",
+    body: "We catch field measures three to four weeks before manufacturing. Custom work needs accurate dimensions. We do not build to a guess.",
+  },
+  {
+    title: "Scoped handoff",
+    body: "When a job goes active, the estimator hands it off with GM, VP of Operations, the lead engineer and the submittal engineer in the room. Scope is detailed room by room.",
+  },
+  {
+    title: "Submittals in packets",
+    body: "We feed drawings and samples in phases so architects and designers can confirm details early, then clean up changes before the whole set is drawn.",
+  },
+]
+
+const SERVICE_QUOTES = [
+  {
+    quote: "I want what nobody else wants to do. I want the crazy off the wall, and everybody looks at and goes, it can't be done.",
+    name: "Kyle Morgan",
+    role: "Custom Millwork Engineer",
+  },
+  {
+    quote: "To price something that's never been built before is a lot of team effort.",
+    name: "Chad Everett",
+    role: "Estimator",
+  },
+  {
+    quote: "Everything we do is custom. We get to build things that have never been built before.",
+    name: "Meredith",
+    role: "VP of Operations",
+  },
+  {
+    quote: "We're like brothers here. Everybody gets along.",
+    name: "Angel",
+    role: "Machine Operator",
+  },
+]
+
 const CAPABILITIES = [
   {
     title: "Experienced estimators",
@@ -287,9 +326,18 @@ const CAPABILITIES = [
 const FAQ = [
   { q: "Which regions do you serve?", a: "We work across Pennsylvania, New York and New Jersey, with additional reach into Maryland and D.C." },
   { q: "Do you handle installation?", a: "Yes. AMC Installers LLC installs everything we manufacture, with open, prevailing or union crews." },
-  { q: "Can you work from our architect's drawings?", a: LOREM },
-  { q: "What is a typical lead time?", a: LOREM },
-  { q: "Do you offer custom finishes?", a: LOREM },
+  {
+    q: "Can you work from our architect's drawings?",
+    a: "Yes. We read plans and specs for what the drawings show and for what experience says the space needs. Our job is to translate incomplete details into product that matches the architect's intent.",
+  },
+  {
+    q: "What is a typical lead time?",
+    a: "We work just in time. Field dimensions usually come in three to four weeks before manufacturing. Custom work needs accurate field measure before we build.",
+  },
+  {
+    q: "Do you offer custom finishes?",
+    a: "Yes. Stains, sheens, laminates and veneers are sampled in submittals. Solid surface and Corian work through our surfaces division when the project calls for it.",
+  },
 ]
 
 /* Staggered clip-reveal shared with the homepage services list. */
@@ -379,7 +427,7 @@ function Faq() {
     <section className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
       <div className="grid gap-10 md:grid-cols-[35%_1fr]">
         <h2 className="text-h2-s md:text-h2-m xl:text-h2-l leading-[1] tracking-[-0.03em] ">
-          FAQ<sup className="ml-2 align-super text-caption-s tracking-normal text-black/50">[05]</sup>
+          FAQ<sup className="ml-2 align-super text-caption-s tracking-normal text-black/50">[04]</sup>
         </h2>
         <ul className="border-t border-black/15">
           {FAQ.map((f, i) => (
@@ -501,11 +549,28 @@ export function ServicesOverview() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-[1750px] px-6 pb-24 md:px-10 md:pb-32">
+        <SectionHead
+          title="How a job moves"
+          n="02"
+          aside="A short look at how work flows from award to submittal, for GCs and architects who need the handoffs clear."
+        />
+        <ol className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          {HOW_A_JOB_MOVES.map((step, i) => (
+            <li key={step.title} className="border-t border-black/20 pt-6">
+              <span className="text-caption-s text-black/50">Step {String(i + 1).padStart(2, "0")}</span>
+              <h3 className="mt-4 text-h4-m leading-[1.25]">{step.title}</h3>
+              <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{step.body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section className="bg-black text-white">
         <div className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <h2 className="text-h2-s md:text-h2-m xl:text-h2-l leading-[1] tracking-[-0.03em] ">
-              Our process<sup className="ml-2 align-super text-caption-s tracking-normal text-white/50">[02]</sup>
+              Our process<sup className="ml-2 align-super text-caption-s tracking-normal text-white/50">[03]</sup>
             </h2>
             <p className="max-w-[360px] text-body2-s leading-[1.6] text-white/60 md:text-right">
               The capabilities behind every AMC project.
@@ -518,6 +583,16 @@ export function ServicesOverview() {
                 <h3 className="mt-6 text-h4-m leading-[1.25]">{c.title}</h3>
                 <p className="mt-4 text-body2-s leading-[1.6] text-white/65">{c.body}</p>
               </div>
+            ))}
+          </div>
+          <div className="mt-20 grid gap-x-8 gap-y-10 border-t border-white/15 pt-16 md:grid-cols-2 lg:grid-cols-4">
+            {SERVICE_QUOTES.map((q) => (
+              <blockquote key={q.name}>
+                <p className="text-body2-s leading-[1.6] text-white/80">&ldquo;{q.quote}&rdquo;</p>
+                <footer className="mt-4 text-caption-s uppercase tracking-[0.12em] text-white/45">
+                  {q.name} · {q.role}
+                </footer>
+              </blockquote>
             ))}
           </div>
         </div>
@@ -606,7 +681,7 @@ export function ServiceDetail() {
       </section>
 
       <section className="mx-auto max-w-[1750px] px-6 md:px-10">
-        <SectionHead title="What you get" n="04" aside={LOREM_SHORT} />
+        <SectionHead title="What you get" n="04" aside="Drawings, samples, fabricated product and install, handled by one team." />
         <div className="mt-14 aspect-[16/9] overflow-hidden md:aspect-auto md:h-[560px]">
           <img src={s.deliverablesImg} alt={`${s.title} deliverables`} className="size-full object-cover" />
         </div>

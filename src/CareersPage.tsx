@@ -1,10 +1,43 @@
 import { useState } from "react"
-import { Eyebrow } from "./App"
+import { Eyebrow, OutlineButton } from "./App"
 
 const field =
   "w-full border-b border-black/50 bg-transparent px-3 py-4 text-body2-s text-black outline-none transition-colors placeholder:text-black/30 focus:border-black"
 
 const MAX_BYTES = 50 * 1024 * 1024
+
+const GROWTH = [
+  {
+    name: "Tyler Ferrell",
+    role: "Estimating",
+    body: "Started after school, then summers, then full time. Led the milling department before moving into estimating. “Here at American Millwork I have a lot of options.”",
+  },
+  {
+    name: "Kyle Morgan",
+    role: "Custom Millwork Engineer",
+    body: "Employee number three. Started on the bench, then team leader, production supervisor, production manager, and now lead engineer for custom work. “I want what nobody else wants to do.”",
+  },
+  {
+    name: "Hunter",
+    role: "Lead Engineer",
+    body: "Joined right out of college as a drafter, then lead submittal engineer, then lead engineer. “American Millwork gives everyone opportunities to grow their career here.”",
+  },
+]
+
+const CULTURE = [
+  {
+    title: "Continual improvement",
+    body: "Lean here means getting better every day. Cross-training keeps skills sharp and moves people where the work needs them.",
+  },
+  {
+    title: "QC at every handoff",
+    body: "The next station is the customer. Edge-banders can push bad parts back. We check quality at every step, not five minutes before the truck leaves.",
+  },
+  {
+    title: "Room to grow",
+    body: "Stay on the bench if that is what you love, or move into estimating, engineering, or project management. The path is open if you go after it.",
+  },
+]
 
 export function CareersPage() {
   const [sent, setSent] = useState(false)
@@ -43,16 +76,78 @@ export function CareersPage() {
         </button>
       </section>
 
+      {/* Site visit CTA (George's applicant advice) */}
+      <section className="mx-auto max-w-[1750px] px-6 pt-20 md:px-10 md:pt-28">
+        <div className="grid gap-10 border-b border-black/15 pb-16 md:grid-cols-2 md:items-end md:pb-20">
+          <div>
+            <Eyebrow>visit first</Eyebrow>
+            <h2 className="mt-6 max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.15] text-dark-950 ">
+              Come for a site visit. Talk to the people who do the work.
+            </h2>
+          </div>
+          <div className="flex flex-col items-start gap-6 md:items-end">
+            <p className="max-w-md text-body1-s leading-[1.6] text-black/60 md:text-right">
+              George&apos;s advice to applicants is simple: walk the shop, meet the team face to face, and see
+              whether this is a place you want to be part of. Then apply below.
+            </p>
+            <a href="#/contact">
+              <OutlineButton>Request a site visit</OutlineButton>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Culture */}
+      <section className="mx-auto max-w-[1750px] px-6 py-20 md:px-10 md:py-28">
+        <div className="grid gap-10 md:grid-cols-2 md:items-end">
+          <Eyebrow>how we work</Eyebrow>
+          <h2 className="max-w-[520px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.15] md:text-right ">
+            Lean habits. Real handoffs. Room to grow.
+          </h2>
+        </div>
+        <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {CULTURE.map((c, i) => (
+            <div key={c.title} className="border-t border-black/20 pt-6">
+              <span className="text-caption-s text-black/50">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="mt-4 text-h4-m leading-[1.25]">{c.title}</h3>
+              <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Growth stories */}
+      <section className="bg-black text-white">
+        <div className="mx-auto max-w-[1750px] px-6 py-20 md:px-10 md:py-28">
+          <div className="grid gap-10 md:grid-cols-2 md:items-end">
+            <Eyebrow>growth here</Eyebrow>
+            <h2 className="max-w-[520px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.15] md:text-right ">
+              If you want more, this is a place that has it.
+            </h2>
+          </div>
+          <div className="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-3">
+            {GROWTH.map((g) => (
+              <blockquote key={g.name} className="border-l border-white/25 pl-5">
+                <p className="text-body1-s leading-[1.6] text-white/80">{g.body}</p>
+                <footer className="mt-6 text-caption-s uppercase tracking-[0.12em] text-white/50">
+                  {g.name} · {g.role}
+                </footer>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Application */}
       <section className="mx-auto grid max-w-[1750px] grid-cols-1 gap-12 px-6 pt-20 pb-24 md:grid-cols-2 md:gap-16 md:px-10 md:pt-28 md:pb-32">
         <div>
           <Eyebrow>apply</Eyebrow>
           <h2 className="mt-6 max-w-[520px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.15] text-dark-950 ">
-            Build your career with us.
+            Ready to build with us?
           </h2>
           <p className="mt-6 max-w-md text-body1-s leading-[1.6] text-black/60">
-            Join our fast paced, award winning, growing company. We have a great company culture. If you want to move
-            ahead in your career, American Millwork &amp; Cabinetry is the right choice for you.
+            After you visit, send a short note and your resume. We hire across skill levels when people show up
+            ready to learn, work, and take pride in what leaves the dock.
           </p>
         </div>
         <div className="w-full md:max-w-[560px] md:justify-self-end">
