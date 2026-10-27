@@ -29,7 +29,7 @@ export const NEWS: Post[] = [
       {
         p: [
           "American Millwork & Cabinetry is proud to have been chosen as a recipient of the prestigious Architectural Woodwork Institute “Award of Excellence” for our work on the new luxury apartment complex AVE Blue Bell, and to see the project featured in the latest issue of Design Solutions Magazine.",
-          "The award recognizes architectural woodwork that sets the standard for craftsmanship, detailing and installation. For a team that has built everything in-house since 2002, it is a meaningful nod from the industry we care about most.",
+          "The award recognizes architectural woodwork that sets the standard for craftsmanship, detailing and installation. For a team that has built everything in-house since 2003, it is a meaningful nod from the industry we care about most.",
         ],
       },
       {

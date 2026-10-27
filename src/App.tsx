@@ -412,7 +412,7 @@ function Hero() {
       </h1>
       <div className="mt-6 flex justify-between text-caption-s uppercase tracking-[0.04em]">
         <span>Custom Millwork</span>
-        <span>since 2002</span>
+        <span>since 2003</span>
       </div>
       <div className="mt-8 grid grid-cols-2 gap-3">
         {HERO_CATEGORIES.map((c, i) => (
@@ -521,7 +521,7 @@ function Hero() {
             Custom Millwork
           </div>
           <div className="pointer-events-none absolute right-[max(1.5rem,calc(50%-875px+1.5rem))] top-[22%] md:top-1/2 -translate-y-1/2 text-caption-s uppercase tracking-[0.04em] text-black md:right-[max(2.5rem,calc(50%-875px+2.5rem))]">
-            since 2002
+            since 2003
           </div>
         </div>
 
@@ -541,7 +541,7 @@ function Hero() {
 /* ---------- About ---------- */
 function About() {
   const stats = [
-    { n: "24+", label: "Years in business" },
+    { n: "23+", label: "Years in business" },
     { n: "1,200+", label: "Projects delivered" },
     { n: "3", label: "States served" },
     { n: "100%", label: "Custom fabrication" },

@@ -442,7 +442,7 @@ export function ServicesOverview() {
           </h1>
           <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
             Millwork, casework, acoustical and surfaces, estimated, engineered, built and installed by one team in
-            Emmaus, PA since 2002.
+            Emmaus, PA since 2003.
           </p>
         </div>
         <div className="mt-14 grid gap-3 md:grid-cols-[1.6fr_1fr]">
