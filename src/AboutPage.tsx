@@ -171,7 +171,7 @@ const CAROUSEL = [
 
 const STATS = [
   { n: "23+", title: "Years experience", body: "Building custom millwork in-house since 2003" },
-  { n: "1,200+", title: "Projects completed", body: "Delivered on schedule across the Northeast" },
+  { n: "~83", title: "People across the shop", body: "About 50 on the floor, ~22 in the office, 9 to 11 on install, six in estimating, five in project management" },
   { n: "80k", title: "Sq. ft. facility", body: "Our Emmaus, PA plant houses every operation" },
   { n: "AWI", title: "QCP certified", body: "Products meet or exceed Quality Certification Program standards" },
 ]
@@ -182,12 +182,12 @@ const PILLARS = [
     body: "A team of skilled technicians, trained craftsmen and business professionals who know how to get the job done and deliver it on time, flexing to changes in process or schedule.",
   },
   {
-    title: "Excellent location",
-    body: "Our Emmaus plant sits minutes from the interstate, giving us direct access to Pennsylvania, New Jersey, New York, Delaware and Maryland.",
+    title: "Continual improvement",
+    body: "Lean is not a slogan here. The main idea we buy into is continual improvement: better processes, cross-training, and people who can move where the work needs them.",
   },
   {
-    title: "Scale of facility",
-    body: "A full complement of state-of-the-art woodworking equipment. CNC software integrates bar scanners and labelers to coordinate every part through the shop.",
+    title: "QC at every handoff",
+    body: "We do not wait until the truck is loaded. The next station is the customer. An edge-bander can push bad parts back. Quality is checked at every step of the way.",
   },
   {
     title: "Our pride is our work",
@@ -218,13 +218,13 @@ const TEAM = [
   { name: "Chris Aungst", role: "Lead Estimator", img: `${asset}/about/chris.png` },
 ]
 
-// Placeholder rows - final list pending client documentation
+// Drawn from existing site memberships / news assets (no invented certs).
 const CERTS = [
   { year: "01", title: "Quality Certification Program (QCP)", body: "Architectural Woodwork Institute" },
   { year: "02", title: "Active member", body: "Architectural Woodwork Institute (AWI)" },
   { year: "03", title: "AAA bonded company", body: "Product & service warranties" },
-  { year: "04", title: "Certification name", body: "Issuing organization" },
-  { year: "05", title: "Certification name", body: "Issuing organization" },
+  { year: "04", title: "Associated Builders & Contractors", body: "Member" },
+  { year: "05", title: "Green Advantage", body: "LEED Accredited professionals in-house" },
 ]
 
 export function VideoFeature({
@@ -413,6 +413,12 @@ export function AboutPage() {
           <Eyebrow>Team</Eyebrow>
           <h2 className="max-w-[520px] text-h3-s leading-[1.1] md:text-right md:text-h3-m xl:text-h3-l">The people behind the shop.</h2>
         </div>
+        <p className="mt-8 max-w-[720px] text-body1-s leading-[1.6] text-black/70">
+          AMC is a family business. Linda, George&apos;s sister, has run the office for more than twenty years.
+          Brother David worked here nearly eighteen years before retiring. A stepson and a grandson have
+          worked on the floor too. Beyond blood relatives, the shop runs on the same family feel: people
+          who stay, teach, and grow into new roles.
+        </p>
         <div className="mt-14 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-3">
           {TEAM.map((m, i) => (
             <figure key={m.name} className={i === 1 ? "md:mt-24" : i === 2 ? "md:mt-12" : ""}>
@@ -437,8 +443,8 @@ export function AboutPage() {
           <h2 className="text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] ">Build with us. We're hiring craftspeople in Emmaus.</h2>
           <div className="flex flex-col items-start gap-8 md:items-end">
             <p className="max-w-md text-body1-s leading-[1.6] text-black/70 md:text-right">
-              Cabinetmakers, CNC operators, finishers, installers and estimators. Join a shop that invests in its
-              people and its tools.
+              Cabinetmakers, CNC operators, finishers, installers and estimators. Come for a site visit, talk to
+              the people who do the work, and see if this shop feels like home.
             </p>
             <a href="#/careers">
               <OutlineButton>View careers</OutlineButton>
