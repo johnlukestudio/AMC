@@ -6,7 +6,7 @@ import { CareersPage } from "./CareersPage"
 import { ArticlePage, NewsPage } from "./NewsPage"
 import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
 
-const asset = "/assets"
+const asset = "/media"
 
 /* Real American Millwork & Cabinetry project photography, curated per section */
 const aboutBg = `${asset}/9cd5c.png`
@@ -661,16 +661,16 @@ const REACH = [
 
 const FACTORY = [
   {
-    src: "/assets/factory/11af8e22_image.png",
+    src: "/media/factory/11af8e22_image.png",
     alt: "AMC craftsman measuring a panel",
   },
-  { src: "/assets/factory/bc70d6ea_image.png", alt: "AMC shop floor" },
+  { src: "/media/factory/bc70d6ea_image.png", alt: "AMC shop floor" },
   {
-    src: "/assets/factory/6cf042d6_image.png",
+    src: "/media/factory/6cf042d6_image.png",
     alt: "Holz-Her CNC machining center",
   },
   {
-    src: "/assets/factory/2777aef6_image.png",
+    src: "/media/factory/2777aef6_image.png",
     alt: "AMC team assembling casework",
   },
 ]
@@ -684,7 +684,7 @@ function Locations() {
           <div className="flex min-h-0 flex-col gap-3 md:col-span-7">
             <div className="relative min-h-[220px] flex-1 overflow-hidden">
               <img
-                src="/assets/factory/e307e871_image.png"
+                src="/media/factory/e307e871_image.png"
                 alt="AMC headquarters and manufacturing facility in Emmaus, PA"
                 className="absolute inset-0 size-full object-cover"
               />

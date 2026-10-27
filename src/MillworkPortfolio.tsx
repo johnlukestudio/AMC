@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 
-const asset = "/assets"
+const asset = "/media"
 const corner = `${asset}/4a604.svg`
 
 const PROJECTS = [

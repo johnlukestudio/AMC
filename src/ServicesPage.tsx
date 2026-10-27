@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 
-const asset = "/assets"
+const asset = "/media"
 const LOREM =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 const LOREM_SHORT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { Eyebrow } from "./App"
 
-const asset = "/assets"
+const asset = "/media"
 
 type Block = { h?: string; p: string[] }
 export type Post = {

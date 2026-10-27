@@ -21,7 +21,7 @@ export function CareersPage() {
           className="group relative block aspect-[16/9] w-full overflow-hidden bg-black text-left md:aspect-[21/9]"
         >
           <img
-            src="/assets/factory/e307e871_image.png"
+            src="/media/factory/e307e871_image.png"
             alt=""
             className="absolute inset-0 size-full object-cover opacity-70 transition duration-700 group-hover:scale-[1.02] group-hover:opacity-55"
           />

@@ -102,7 +102,7 @@ function TimelineScroller({ children }: { children: ReactNode }) {
   )
 }
 
-const asset = "/assets"
+const asset = "/media"
 
 const CAROUSEL = [
   "9765d", "30adf", "e52e8", "6896d", "940fb", "825ea", "6b3df", "b6a68", "10b28", "96354",

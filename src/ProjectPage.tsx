@@ -1,4 +1,4 @@
-const asset = "/assets"
+const asset = "/media"
 
 const DETAILS = [
   { label: "Duration", value: "18 Months" },
