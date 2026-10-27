@@ -2,15 +2,23 @@ import React, { useEffect, useRef, useState, type ReactNode } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 
 /* Full-bleed horizontal scroller: items peek past the page margins, while the
-   custom progress bar stays aligned to the 1750px content grid. */
+   custom progress bar stays aligned to the 1750px content grid.
+   Auto-drifts while in view; pauses on hover, focus, or drag. */
 function TimelineScroller({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
   const track = useRef<HTMLDivElement>(null)
   const [bar, setBar] = useState({ size: 1, offset: 0 })
   const [dragging, setDragging] = useState(false)
+  const draggingRef = useRef(false)
+  const paused = useRef(false)
+  const inView = useRef(false)
+  const reduceMotion = useRef(false)
+
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    reduceMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
     const update = () => {
       const size = el.clientWidth / el.scrollWidth
       const max = el.scrollWidth - el.clientWidth
@@ -19,11 +27,52 @@ function TimelineScroller({ children }: { children: ReactNode }) {
     update()
     el.addEventListener("scroll", update, { passive: true })
     window.addEventListener("resize", update)
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView.current = entry.isIntersecting
+      },
+      { threshold: 0.25 },
+    )
+    io.observe(el)
+
+    let raf = 0
+    let last = performance.now()
+    const tick = (now: number) => {
+      const dt = Math.min(32, now - last)
+      last = now
+      const max = el.scrollWidth - el.clientWidth
+      if (
+        !reduceMotion.current &&
+        inView.current &&
+        !paused.current &&
+        !draggingRef.current &&
+        max > 0
+      ) {
+        // ~28px/sec: slow enough to read, fast enough to feel alive
+        el.scrollLeft += (28 * dt) / 1000
+        if (el.scrollLeft >= max - 0.5) {
+          el.scrollLeft = 0
+        }
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
     return () => {
+      cancelAnimationFrame(raf)
+      io.disconnect()
       el.removeEventListener("scroll", update)
       window.removeEventListener("resize", update)
     }
   }, [])
+
+  const pause = () => {
+    paused.current = true
+  }
+  const resume = () => {
+    if (!dragging) paused.current = false
+  }
 
   // Mouse drag on the content (touch already scrolls natively).
   const startContentDrag = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -31,12 +80,16 @@ function TimelineScroller({ children }: { children: ReactNode }) {
     if (!el || e.pointerType !== "mouse") return
     const x0 = e.clientX
     const s0 = el.scrollLeft
+    draggingRef.current = true
     setDragging(true)
+    paused.current = true
     const move = (ev: PointerEvent) => {
       el.scrollLeft = s0 - (ev.clientX - x0)
     }
     const up = () => {
+      draggingRef.current = false
       setDragging(false)
+      paused.current = false
       window.removeEventListener("pointermove", move)
       window.removeEventListener("pointerup", up)
     }
@@ -57,10 +110,14 @@ function TimelineScroller({ children }: { children: ReactNode }) {
       el.scrollLeft = ratio * (el.scrollWidth - el.clientWidth)
     }
     seek(e.clientX)
+    draggingRef.current = true
     setDragging(true)
+    paused.current = true
     const move = (ev: PointerEvent) => seek(ev.clientX)
     const up = () => {
+      draggingRef.current = false
       setDragging(false)
+      paused.current = false
       window.removeEventListener("pointermove", move)
       window.removeEventListener("pointerup", up)
     }
@@ -73,6 +130,10 @@ function TimelineScroller({ children }: { children: ReactNode }) {
       <div
         ref={ref}
         onPointerDown={startContentDrag}
+        onPointerEnter={pause}
+        onPointerLeave={resume}
+        onFocusCapture={pause}
+        onBlurCapture={resume}
         className={`overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
           bar.size < 0.999 ? (dragging ? "cursor-grabbing select-none" : "cursor-grab") : ""
         }`}
@@ -91,7 +152,7 @@ function TimelineScroller({ children }: { children: ReactNode }) {
           >
             <div className="relative h-[7px] rounded-[30px] bg-green-100">
               <div
-                className="absolute top-0 h-full rounded-[30px] bg-dark-950"
+                className="absolute top-0 h-full rounded-[30px] bg-dark-950 transition-[left,width] duration-150 ease-out"
                 style={{ width: `${bar.size * 100}%`, left: `${bar.offset * 100}%` }}
               />
             </div>
@@ -109,9 +170,9 @@ const CAROUSEL = [
 ].map((n) => `${asset}/${n}.png`)
 
 const STATS = [
-  { n: "24+", title: "Years experience", body: "Building custom millwork in-house since 2002" },
+  { n: "23+", title: "Years experience", body: "Building custom millwork in-house since 2003" },
   { n: "1,200+", title: "Projects completed", body: "Delivered on schedule across the Northeast" },
-  { n: "75k", title: "Sq. ft. facility", body: "Our Emmaus, PA plant houses every operation" },
+  { n: "80k", title: "Sq. ft. facility", body: "Our Emmaus, PA plant houses every operation" },
   { n: "AWI", title: "QCP certified", body: "Products meet or exceed Quality Certification Program standards" },
 ]
 
@@ -134,26 +195,21 @@ const PILLARS = [
   },
 ]
 
-// Placeholder milestones: square-footage history is real, awards/certifications
-// marked "placeholder" are illustrative until the client confirms the list.
-type Milestone = { year: string; kind: "Growth" | "Award" | "Certification" | "Company"; title: string; body: string; img: string; sqft?: number }
+// Square-footage and company beats from George Reitz (owner interview). Awards/certs
+// that were not in that interview stay out of this strip.
+type Milestone = { year: string; kind: "Growth" | "Company"; title: string; body: string; img: string; sqft?: number }
 const TIMELINE: Milestone[] = [
-  { year: "2001", kind: "Growth", sqft: 3000, title: "The first shop", body: "AMC opens a 3,000 sq ft shop with a small crew and a big ambition.", img: `${asset}/factory/11af8e22_image.png` },
-  { year: "2002", kind: "Company", title: "American Millwork & Cabinetry Inc.", body: "The company incorporates and lands its first commercial millwork contracts.", img: `${asset}/62abe.png` },
-  { year: "2004", kind: "Growth", sqft: 10000, title: "First expansion", body: "A move to 10,000 sq ft to keep pace with growing commercial work.", img: `${asset}/08f78.png` },
-  { year: "2006", kind: "Growth", sqft: 20000, title: "Doubling the floor", body: "20,000 sq ft brings more production in-house.", img: `${asset}/cf31d.png` },
-  { year: "2008", kind: "Certification", title: "AWI membership", body: "AMC joins the Architectural Woodwork Institute. Lorem ipsum dolor sit amet.", img: `${asset}/02cb0.png` },
-  { year: "2010", kind: "Certification", title: "FSC® Chain of Custody", body: "Certified to supply FSC® products for sustainable projects. Lorem ipsum.", img: `${asset}/6dc05.png` },
-  { year: "2012", kind: "Company", title: "AmeriCase™ launches", body: "A dedicated casework division for industrial, medical and education markets.", img: `${asset}/f291a.png` },
-  { year: "2014", kind: "Growth", sqft: 50000, title: "A major move", body: "50,000 sq ft adds capacity for large-scale casework programs.", img: `${asset}/factory/bc70d6ea_image.png` },
-  { year: "2016", kind: "Company", title: "Schelling panel saw", body: "The first architectural casework manufacturer to install a Schelling saw and retrieval system.", img: `${asset}/factory/6cf042d6_image.png` },
-  { year: "2018", kind: "Growth", sqft: 60000, title: "Finishing & CNC", body: "60,000 sq ft with expanded finishing and CNC operations.", img: `${asset}/f4bae.png` },
-  { year: "2019", kind: "Certification", title: "AWI Self-Labeling", body: "Our AWI Quality Certification status is upgraded to Self-Labeling.", img: `${asset}/e5b5d.png` },
-  { year: "2020", kind: "Award", title: "ABC STEP Safety Award", body: "Diamond Level recognition, plus two more safety awards that year.", img: `${asset}/factory/2777aef6_image.png` },
-  { year: "2021", kind: "Award", title: "AWI Award of Excellence", body: "Recognized for the interior millwork at AVE Blue Bell.", img: `${asset}/9765d.png` },
-  { year: "2022", kind: "Company", title: "AMC Acoustical", body: "Acoustical ceiling and wall systems join the family. Lorem ipsum dolor.", img: `${asset}/cat-acoustics.png` },
-  { year: "2023", kind: "Award", title: "Design excellence", body: "Placeholder award. Lorem ipsum dolor sit amet, consectetur adipiscing.", img: `${asset}/8b3b0.png` },
-  { year: "2024", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "One-source manufacturing for millwork, casework, acoustical and surfaces.", img: `${asset}/factory/e307e871_image.png` },
+  { year: "2001", kind: "Company", title: "The business plan", body: "Fall 2001: George writes the plan for American Millwork & Cabinetry, named in honor of the fallen of 9/11.", img: `${asset}/62abe.png` },
+  { year: "2003", kind: "Growth", sqft: 8000, title: "First shop", body: "Opens in an 8,000 sq ft shop. First product ships April 2003 - $735,000 in year one.", img: `${asset}/factory/11af8e22_image.png` },
+  { year: "2004", kind: "Growth", sqft: 15000, title: "Taking more of the building", body: "Adds another 5,000 sq ft of the leased space - about 14-15,000 sq ft in all.", img: `${asset}/08f78.png` },
+  { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/cf31d.png` },
+  { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring Emmaus shop. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/02cb0.png` },
+  { year: "2006", kind: "Growth", sqft: 14000, title: "Emmaus", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft of the buildings that still stood.", img: `${asset}/factory/bc70d6ea_image.png` },
+  { year: "2007", kind: "Growth", sqft: 15000, title: "Rooted in Emmaus", body: "Settled at roughly 15,000 sq ft as the company rebuilt its book of work.", img: `${asset}/6dc05.png` },
+  { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/f291a.png` },
+  { year: "2011", kind: "Growth", sqft: 50000, title: "Americas production", body: "2010-2011: another 20,000 sq ft for the Americas production division.", img: `${asset}/factory/6cf042d6_image.png` },
+  { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/f4bae.png` },
+  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/factory/e307e871_image.png` },
 ]
 
 const TEAM = [
@@ -162,7 +218,7 @@ const TEAM = [
   { name: "Chris Aungst", role: "Lead Estimator", img: `${asset}/about/chris.png` },
 ]
 
-// Placeholder rows — final list pending client documentation
+// Placeholder rows - final list pending client documentation
 const CERTS = [
   { year: "01", title: "Quality Certification Program (QCP)", body: "Architectural Woodwork Institute" },
   { year: "02", title: "Active member", body: "Architectural Woodwork Institute (AWI)" },
@@ -220,7 +276,7 @@ export function AboutPage() {
       {/* Intro */}
       <section className="mx-auto flex max-w-[1750px] flex-col-reverse justify-between gap-10 px-6 pt-32 pb-14 md:flex-row md:items-end md:px-10 md:pt-[160px]">
         <p className="max-w-[760px] text-h4-m xl:text-h4-l leading-[1.6] tracking-[-0.02em] ">
-          Founded in 2002, the AMC group of companies manufactures and installs high-quality millwork and cabinetry:
+          Shipping since 2003, the AMC group of companies manufactures and installs high-quality millwork and cabinetry:
           custom profiles, solid wood and veneer cabinets, surfaces and every aspect of architectural millwork, all
           from one shop in Emmaus, PA.
         </p>
@@ -304,7 +360,7 @@ export function AboutPage() {
         <div className="mx-auto flex max-w-[1750px] flex-col gap-6 px-6 md:flex-row md:items-end md:justify-between md:px-10">
           <Eyebrow>Our growth</Eyebrow>
           <h2 className="max-w-[560px] text-h3-s leading-[1.1] md:text-right md:text-h3-m xl:text-h3-l">
-            From 3,000 to 80,000 sq ft.
+            From 8,000 to 80,000 sq ft.
           </h2>
         </div>
         <TimelineScroller>
@@ -334,11 +390,15 @@ export function AboutPage() {
                       className="size-full object-cover grayscale transition duration-500 hover:grayscale-0"
                     />
                   </div>
-                  <span className="mt-5 block text-caption-s uppercase tracking-[0.12em] text-black/50">
-                    {t.kind}
-                    {t.sqft ? ` · ${t.sqft.toLocaleString("en-US")} sq ft` : ""}
-                  </span>
-                  <h3 className="mt-2 text-h4-s">{t.title}</h3>
+                  {t.sqft ? (
+                    <p className="mt-5 text-h3-s md:text-h3-m leading-none tracking-tight ">
+                      {t.sqft.toLocaleString("en-US")}
+                      <span className="ml-1 text-caption-s uppercase tracking-[0.12em] text-black/50">sq ft</span>
+                    </p>
+                  ) : (
+                    <span className="mt-5 block text-caption-s uppercase tracking-[0.12em] text-black/50">{t.kind}</span>
+                  )}
+                  <h3 className={`text-h4-s ${t.sqft ? "mt-3" : "mt-2"}`}>{t.title}</h3>
                   <p className="mt-2 max-w-[240px] text-body2-s text-black/60">{t.body}</p>
                 </article>
               </li>
