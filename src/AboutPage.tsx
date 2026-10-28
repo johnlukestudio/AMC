@@ -530,9 +530,9 @@ const TIMELINE: Milestone[] = [
 ]
 
 const TEAM = [
-  { name: "George Reitz", role: "President & CEO", img: `${asset}/about/george.jpg` },
+  { name: "George Reitz", role: "President & CEO", img: `${asset}/about/chris.jpg` },
   { name: "Linda Reitz", role: "Office Manager", img: `${asset}/about/linda.jpg` },
-  { name: "Chris Robbins", role: "General Manager", img: `${asset}/about/chris.jpg` },
+  { name: "Chris Robbins", role: "General Manager", img: `${asset}/about/george.jpg` },
   { name: "Meredith", role: "VP of Operations", img: `${asset}/about/meredith.jpg` },
 ]
 
@@ -698,7 +698,7 @@ export function AboutPage() {
           {TEAM.map((m) => (
             <figure key={m.name}>
               <div className="aspect-[4/5] overflow-hidden bg-neutral-100">
-                <img src={m.img} alt={m.name} className="size-full object-cover grayscale transition duration-500 hover:grayscale-0" />
+                <img src={m.img} alt={m.name} className="size-full object-cover transition duration-500" />
               </div>
               <figcaption className="mt-3 flex justify-between gap-3 text-caption-m">
                 <span>{m.name}</span>
