@@ -8,3 +8,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <App />
   </React.StrictMode>,
 )
+
+// Fade out the black/cream AMC boot splash once React has mounted.
+const boot = document.getElementById('amc-boot')
+if (boot) {
+  const remove = () => boot.remove()
+  requestAnimationFrame(() => {
+    boot.classList.add('is-done')
+    window.setTimeout(remove, 320)
+  })
+}

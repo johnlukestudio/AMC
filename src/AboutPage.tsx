@@ -195,21 +195,35 @@ const PILLARS = [
   },
 ]
 
-// Square-footage and company beats from George Reitz (owner interview). Awards/certs
-// that were not in that interview stay out of this strip.
-type Milestone = { year: string; kind: "Growth" | "Company"; title: string; body: string; img: string; sqft?: number }
+// Growth beats from George Reitz (owner interview), interleaved with dated
+// awards and certifications from the live America's Finest Standard page.
+type Milestone = {
+  year: string
+  kind: "Growth" | "Company" | "Quality" | "Award"
+  title: string
+  body: string
+  img: string
+  sqft?: number
+}
 const TIMELINE: Milestone[] = [
   { year: "2001", kind: "Company", title: "The business plan", body: "Fall 2001: George writes the plan for American Millwork & Cabinetry, named in honor of the fallen of 9/11.", img: `${asset}/62abe.png` },
   { year: "2003", kind: "Growth", sqft: 8000, title: "First shop", body: "Opens in an 8,000 sq ft shop. First product ships April 2003 - $735,000 in year one.", img: `${asset}/factory/11af8e22_image.png` },
   { year: "2004", kind: "Growth", sqft: 15000, title: "Taking more of the building", body: "Adds another 5,000 sq ft of the leased space - about 14-15,000 sq ft in all.", img: `${asset}/08f78.png` },
   { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/cf31d.png` },
   { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring Emmaus shop. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/02cb0.png` },
-  { year: "2006", kind: "Growth", sqft: 14000, title: "Emmaus", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft of the buildings that still stood.", img: `${asset}/factory/bc70d6ea_image.png` },
-  { year: "2007", kind: "Growth", sqft: 15000, title: "Rooted in Emmaus", body: "Settled at roughly 15,000 sq ft as the company rebuilt its book of work.", img: `${asset}/6dc05.png` },
+  { year: "2006", kind: "Growth", sqft: 14000, title: "Emmaus", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/factory/bc70d6ea_image.png` },
   { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/f291a.png` },
   { year: "2011", kind: "Growth", sqft: 50000, title: "Americas production", body: "2010-2011: another 20,000 sq ft for the Americas production division.", img: `${asset}/factory/6cf042d6_image.png` },
   { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/f4bae.png` },
+  { year: "2019", kind: "Award", title: "ABC STEP Diamond", body: "Late 2019 into early 2020: Association of Builders and Contractors STEP Award at Diamond Level, for the greatest safety improvement.", img: `${asset}/about/awards/step-diamond.jpg` },
+  { year: "2020", kind: "Award", title: "Zero Lost Time", body: "Over 100,000 man hours with zero lost time in one fiscal year. Recognized with Federated Insurance and AWI partners.", img: `${asset}/about/awards/zero-lost-time.jpg` },
+  { year: "2020", kind: "Award", title: "Safety Improvement", body: "Safety Improvement Recognition for year-over-year gains and the programs that stuck.", img: `${asset}/about/awards/safety-improvement.jpg` },
+  { year: "2020", kind: "Award", title: "Fire certification", body: "Fire certification on record for the plant and our America's Finest standard.", img: `${asset}/about/awards/fire-cert.png` },
+  { year: "2021", kind: "Award", title: "AWI Award of Excellence", body: "February 2021: AWI Award of Excellence for AVE Blue Bell luxury apartments, featured in Design Solutions Magazine.", img: `${asset}/about/awards/ave-blue-bell.jpg` },
+  { year: "2021", kind: "Quality", title: "NJ Public Works", body: "State of New Jersey Public Works Contractor Registration #663358. Registration date March 12, 2021. George Reitz, President.", img: `${asset}/about/awards/nj-public-works.jpg` },
+  { year: "2021", kind: "Award", title: "Zero Lost Time again", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/zero-lost-time.jpg` },
   { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/factory/e307e871_image.png` },
+  { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/qcp-2022.jpg` },
 ]
 
 const TEAM = [
@@ -219,13 +233,15 @@ const TEAM = [
   { name: "Meredith", role: "VP of Operations", img: `${asset}/about/meredith.jpg` },
 ]
 
-// Drawn from existing site memberships / news assets (no invented certs).
+// From America's Finest Standard + related news (no invented certs).
 const CERTS = [
-  { year: "01", title: "Quality Certification Program (QCP)", body: "Architectural Woodwork Institute" },
-  { year: "02", title: "Active member", body: "Architectural Woodwork Institute (AWI)" },
-  { year: "03", title: "AAA bonded company", body: "Product & service warranties" },
-  { year: "04", title: "Associated Builders & Contractors", body: "Member" },
-  { year: "05", title: "Green Advantage", body: "LEED Accredited professionals in-house" },
+  { year: "01", title: "Quality Certification Program (QCP)", body: "AMC, AMC Installers, and AmeriCase certified by AWI" },
+  { year: "02", title: "Architectural Woodwork Institute", body: "Long-term members in good standing" },
+  { year: "03", title: "ABC STEP Award, Diamond Level", body: "Greatest safety improvement, late 2019 / early 2020" },
+  { year: "04", title: "Zero Lost Time Accident Achievement", body: "100,000+ man hours, zero lost time" },
+  { year: "05", title: "NJ Public Works Contractor", body: "Registration #663358, March 12, 2021" },
+  { year: "06", title: "AAA bonded company", body: "Product & service warranties" },
+  { year: "07", title: "Green Advantage / LEED", body: "In-house guidance on credits for your project" },
 ]
 
 export function VideoFeature({
@@ -283,11 +299,17 @@ export function AboutPage() {
         </p>
         <h1 className="text-h2-s xl:text-h2-m leading-[1.1] tracking-[-0.02em] ">About AMC</h1>
       </section>
-      <img
-        src={`${asset}/about/team.png`}
-        alt="The American Millwork & Cabinetry team on the shop floor in Emmaus"
+      <video
         className="h-[60vh] max-h-[640px] min-h-[320px] w-full object-cover"
-      />
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster={`${asset}/about/team.png`}
+        aria-label="The American Millwork & Cabinetry team on the shop floor in Emmaus"
+      >
+        <source src={`${asset}/about/team.mp4`} type="video/mp4" />
+      </video>
 
       {/* Story + slow carousel + stats */}
       <section className="py-24 md:py-32">
