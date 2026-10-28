@@ -29,6 +29,21 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
     description:
       "Learn about American Millwork & Cabinetry: custom architectural millwork and cabinetry from our Emmaus, PA shop since 2003.",
   },
+  "casework-vs-millwork": {
+    title: `Casework vs Millwork | ${SITE_NAME}`,
+    description:
+      "What is the difference between casework and millwork? A plain guide for architects and GCs, from AMC in Emmaus, PA.",
+  },
+  americase: {
+    title: `Commercial Casework / AmeriCase | ${SITE_NAME}`,
+    description:
+      "AmeriCase commercial casework in laminate, veneer and solid wood. Bid-day pricing from our Emmaus, PA plant.",
+  },
+  "architectural-millwork": {
+    title: `Architectural Millwork | ${SITE_NAME}`,
+    description:
+      "Architectural millwork companies in Pennsylvania and the Mid-Atlantic. Custom woodwork from AMC in Emmaus, PA.",
+  },
   services: {
     title: `Services | ${SITE_NAME}`,
     description:
@@ -110,11 +125,26 @@ function resolveSeo(route: string): SeoEntry {
 
   if (route === "service") {
     const slug = hash.replace(/^#\/services\//, "").split(/[?#]/)[0]
+    if (slug === "commercial-casework") return ROUTE_SEO.americase
+    if (slug === "architectural-millwork") return ROUTE_SEO["architectural-millwork"]
     const label = SERVICE_TITLES[slug] ?? "Services"
     return {
       title: `${label} | ${SITE_NAME}`,
       description: `Custom ${label.toLowerCase()} from American Millwork & Cabinetry. Engineered, fabricated and installed in Emmaus, PA.`,
     }
+  }
+
+  if (route === "insight") {
+    const slug = hash.replace(/^#\/insights\/?/, "").split(/[?#]/)[0]
+    return ROUTE_SEO[slug] ?? ROUTE_SEO["casework-vs-millwork"]
+  }
+
+  if (route === "americase") {
+    return ROUTE_SEO.americase
+  }
+
+  if (route === "architectural-millwork") {
+    return ROUTE_SEO["architectural-millwork"]
   }
 
   if (route === "millwork") {
