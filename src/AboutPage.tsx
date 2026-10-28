@@ -268,24 +268,24 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
           snapOn ? "snap-x snap-proximity" : ""
         } ${bar.size < 0.999 ? (dragging ? "cursor-grabbing select-none" : "cursor-grab") : ""}`}
       >
-        <ol className="flex w-max min-w-full px-[max(var(--g),calc(50vw-130px))] py-8 md:px-[max(var(--g),calc(50vw-150px))]">
+        <ol className="flex w-max min-w-full px-[max(var(--g),calc(50vw-105px))] py-6 md:px-[max(var(--g),calc(50vw-120px))]">
           {items.map((t, i) => {
             const above = i % 2 === 1
             const isActive = i === active
             const scaleCls = prefersReduced
               ? ""
               : isActive
-                ? "md:scale-[1.05] origin-center"
+                ? "md:scale-[1.03] origin-center"
                 : "md:scale-100"
             return (
               <li
                 key={t.year + t.title}
                 data-tl-card
-                className={`flex w-[260px] shrink-0 snap-center flex-col transition-[opacity,transform] duration-300 ease-out md:grid md:w-[300px] md:grid-rows-[1fr_auto_1fr] ${scaleCls} ${
+                className={`flex w-[210px] shrink-0 snap-center flex-col transition-[opacity,transform] duration-300 ease-out md:grid md:w-[240px] md:grid-rows-[1fr_auto_1fr] ${scaleCls} ${
                   isActive ? "opacity-100" : "opacity-60"
                 }`}
               >
-                <div className="relative flex h-16 items-center md:row-start-2 md:h-20">
+                <div className="relative flex h-12 items-center md:row-start-2 md:h-16">
                   <span className="absolute inset-x-0 top-1/2 h-px bg-black/20" />
                   <span
                     className={`relative size-3 rounded-full ring-[6px] ring-white transition-colors ${
@@ -295,19 +295,19 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
                   <span
                     className={`relative ml-3 bg-white pr-3 font-medium leading-none tracking-[-0.04em] ${
                       isActive
-                        ? "text-[40px] md:text-[52px]"
-                        : "text-[32px] md:text-[40px] text-black/55"
+                        ? "text-[32px] md:text-[38px]"
+                        : "text-[26px] md:text-[30px] text-black/55"
                     }`}
                   >
                     {t.year}
                   </span>
                 </div>
                 <article
-                  className={`border-l border-dashed border-black/25 pr-8 pl-5 ${
-                    above ? "pt-6 md:row-start-1 md:self-end md:pt-0 md:pb-6" : "pt-6 md:row-start-3 md:self-start"
+                  className={`border-l border-dashed border-black/25 pr-5 pl-4 ${
+                    above ? "pt-4 md:row-start-1 md:self-end md:pt-0 md:pb-4" : "pt-4 md:row-start-3 md:self-start"
                   }`}
                 >
-                  <div className="aspect-[3/2] w-full max-w-[240px] overflow-hidden bg-neutral-100">
+                  <div className="aspect-[3/2] w-full max-w-[190px] overflow-hidden bg-neutral-100">
                     <img
                       src={t.img}
                       alt={`${t.year} ${t.title}`}
@@ -315,7 +315,7 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
                       className="size-full object-contain object-center grayscale transition duration-500 hover:grayscale-0"
                     />
                   </div>
-                  <div className="mt-5 flex flex-wrap items-center gap-2">
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
                     <span
                       className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] ${KIND_CHIP[t.kind]}`}
                     >
@@ -328,7 +328,7 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
                     )}
                   </div>
                   <h3 className="mt-3 text-h4-s">{t.title}</h3>
-                  <p className="mt-2 max-w-[240px] text-body2-s text-black/60">{t.body}</p>
+                  <p className="mt-2 max-w-[200px] text-body2-s text-black/60">{t.body}</p>
                 </article>
               </li>
             )
