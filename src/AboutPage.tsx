@@ -234,6 +234,55 @@ const CAROUSEL = [
   "9765d", "30adf", "e52e8", "6896d", "940fb", "825ea", "6b3df", "b6a68", "10b28", "96354",
 ].map((n) => `${asset}/${n}.png`)
 
+function CountUpStat({ value, delay = 0 }: { value: string; delay?: number }) {
+  const m = value.match(/^(\D*)(\d+)(\D*)$/)
+  const prefix = m ? m[1] : ""
+  const target = m ? parseInt(m[2], 10) : 0
+  const suffix = m ? m[3] : ""
+  const ref = useRef<HTMLSpanElement>(null)
+  const [n, setN] = useState<number | null>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!m || !el) return
+    if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return
+    if (typeof IntersectionObserver === "undefined") return
+    setN(0)
+    let raf = 0
+    let timer = 0
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return
+        io.disconnect()
+        timer = window.setTimeout(() => {
+          const dur = 1300
+          const start = performance.now()
+          const tick = (t: number) => {
+            const p = Math.min(1, (t - start) / dur)
+            setN(Math.round(target * (1 - Math.pow(1 - p, 3))))
+            if (p < 1) raf = requestAnimationFrame(tick)
+          }
+          raf = requestAnimationFrame(tick)
+        }, delay)
+      },
+      { threshold: 0.4 },
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      clearTimeout(timer)
+      cancelAnimationFrame(raf)
+    }
+  }, [value, delay])
+  if (!m) return <span ref={ref}>{value}</span>
+  return (
+    <span ref={ref} aria-label={value}>
+      {prefix}
+      {n === null ? target : n}
+      {suffix}
+    </span>
+  )
+}
+
 const STATS = [
   { n: "23+", title: "Years experience", body: "Building custom millwork in-house since 2003" },
   { n: "~83", title: "People across the shop", body: "About 50 on the floor, ~22 in the office, 9 to 11 on install, six in estimating, five in project management" },
@@ -398,9 +447,9 @@ export function AboutPage() {
         </div>
 
         <div className="mx-auto mt-20 grid max-w-[1750px] grid-cols-2 gap-x-6 gap-y-12 px-6 md:mt-24 md:grid-cols-4 md:px-10">
-          {STATS.map((s) => (
+          {STATS.map((s, i) => (
             <div key={s.title} className="border-t border-black/20 pt-6">
-              <span className="block text-h2-s md:text-h2-m xl:text-h2-l leading-none tracking-tight ">{s.n}</span>
+              <span className="block text-h2-s md:text-h2-m xl:text-h2-l leading-none tracking-tight "><CountUpStat value={s.n} delay={i * 150} /></span>
               <p className="mt-6 text-h4-s">{s.title}</p>
               <p className="mt-2 max-w-[260px] text-body2-s leading-[1.5] text-black/60">{s.body}</p>
             </div>
