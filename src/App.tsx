@@ -3,6 +3,11 @@ import { MillworkPortfolio } from "./MillworkPortfolio"
 import { ProjectPage } from "./ProjectPage"
 import { AboutPage, VideoFeature } from "./AboutPage"
 import { CareersPage } from "./CareersPage"
+import {
+  ArchitecturalMillworkPage,
+  CaseworkVsMillworkPage,
+  CommercialCaseworkPage,
+} from "./SeoPages"
 import { ArticlePage, NewsPage } from "./NewsPage"
 import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
 import { applySeo } from "./seo"
@@ -59,7 +64,7 @@ type NavItem = { label: string; href?: string; items?: NavLink[] }
 
 const DIVISIONS: NavLink[] = [
   { label: "American Millwork", href: "#/services/millwork" },
-  { label: "AmeriCase", href: "#/services/casework" },
+  { label: "AmeriCase", href: "#/americase" },
   { label: "AMC Acoustical", href: "#/services/acoustical" },
   { label: "American Surfaces", href: "#/services/surfaces" },
 ]
@@ -70,10 +75,19 @@ const NAV: NavItem[] = [
     items: [
       { label: "About us", href: "#/about" },
       { label: "Careers", href: "#/careers" },
+      { label: "Casework vs millwork", href: "#/insights/casework-vs-millwork" },
       { label: "Our Divisions", href: "#/services", children: DIVISIONS },
     ],
   },
-  { label: "Services", href: "#/services", items: SERVICES.map((x) => ({ label: x.title, href: `#/services/${x.slug}` })) },
+  {
+    label: "Services",
+    href: "#/services",
+    items: [
+      { label: "Architectural millwork", href: "#/services/architectural-millwork" },
+      { label: "Commercial casework", href: "#/americase" },
+      ...SERVICES.map((x) => ({ label: x.title, href: `#/services/${x.slug}` })),
+    ],
+  },
   {
     label: "Portfolio",
     items: [
@@ -1002,6 +1016,7 @@ const FOOTER_COLUMNS: { title: string; href?: string; links: NavLink[] }[] = [
     links: [
       { label: "About us", href: "#/about" },
       { label: "Careers", href: "#/careers" },
+      { label: "Casework vs millwork", href: "#/insights/casework-vs-millwork" },
       { label: "News", href: "#/news" },
       { label: "Contact", href: "#/contact" },
     ],
@@ -1192,26 +1207,23 @@ function ContactPage() {
 }
 
 function useRoute() {
-  const get = () =>
-    window.location.hash.startsWith("#/services/")
-      ? "service"
-      : window.location.hash.startsWith("#/services")
-      ? "services"
-      : window.location.hash.startsWith("#/news/")
-      ? "article"
-      : window.location.hash.startsWith("#/news")
-      ? "news"
-      : window.location.hash.startsWith("#/contact")
-      ? "contact"
-      : window.location.hash.startsWith("#/careers")
-        ? "careers"
-        : window.location.hash.startsWith("#/about")
-        ? "about"
-      : window.location.hash.startsWith("#/portfolio/project")
-        ? "project"
-        : window.location.hash.startsWith("#/portfolio")
-        ? "millwork"
-        : "home"
+  const get = () => {
+    const h = window.location.hash
+    if (h.startsWith("#/insights/")) return "insight"
+    if (h === "#/americase" || h.startsWith("#/americase?")) return "americase"
+    if (h.startsWith("#/services/architectural-millwork")) return "architectural-millwork"
+    if (h.startsWith("#/services/commercial-casework")) return "americase"
+    if (h.startsWith("#/services/")) return "service"
+    if (h.startsWith("#/services")) return "services"
+    if (h.startsWith("#/news/")) return "article"
+    if (h.startsWith("#/news")) return "news"
+    if (h.startsWith("#/contact")) return "contact"
+    if (h.startsWith("#/careers")) return "careers"
+    if (h.startsWith("#/about")) return "about"
+    if (h.startsWith("#/portfolio/project")) return "project"
+    if (h.startsWith("#/portfolio")) return "millwork"
+    return "home"
+  }
   const [route, setRoute] = useState(get)
   const [hash, setHash] = useState(window.location.hash)
   useEffect(() => {
@@ -1242,7 +1254,13 @@ export default function App() {
     <div className="bg-white text-black">
       <Header overDark={route === "project"} />
       <main>
-        {route === "services" ? (
+        {route === "insight" ? (
+          <CaseworkVsMillworkPage />
+        ) : route === "americase" ? (
+          <CommercialCaseworkPage />
+        ) : route === "architectural-millwork" ? (
+          <ArchitecturalMillworkPage />
+        ) : route === "services" ? (
           <ServicesOverview />
         ) : route === "service" ? (
           <ServiceDetail key={window.location.hash} />
