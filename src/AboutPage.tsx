@@ -213,9 +213,10 @@ const TIMELINE: Milestone[] = [
 ]
 
 const TEAM = [
-  { name: "George Reitz", role: "President & CEO", img: `${asset}/about/george.png` },
-  { name: "Linda Reitz", role: "Office Manager", img: `${asset}/about/linda.png` },
-  { name: "Chris Aungst", role: "Lead Estimator", img: `${asset}/about/chris.png` },
+  { name: "George Reitz", role: "President & CEO", img: `${asset}/about/george.jpg` },
+  { name: "Linda Reitz", role: "Office Manager", img: `${asset}/about/linda.jpg` },
+  { name: "Chris Robbins", role: "General Manager", img: `${asset}/about/chris.jpg` },
+  { name: "Meredith", role: "VP of Operations", img: `${asset}/about/meredith.jpg` },
 ]
 
 // Drawn from existing site memberships / news assets (no invented certs).
@@ -419,9 +420,9 @@ export function AboutPage() {
           worked on the floor too. Beyond blood relatives, the shop runs on the same family feel: people
           who stay, teach, and grow into new roles.
         </p>
-        <div className="mt-14 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mt-14 grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {TEAM.map((m, i) => (
-            <figure key={m.name} className={i === 1 ? "md:mt-24" : i === 2 ? "md:mt-12" : ""}>
+            <figure key={m.name} className={i === 1 ? "lg:mt-24" : i === 2 ? "lg:mt-12" : i === 3 ? "lg:mt-20" : ""}>
               <div className="aspect-[4/5] overflow-hidden bg-neutral-100">
                 <img src={m.img} alt={m.name} className="size-full object-cover grayscale transition duration-500 hover:grayscale-0" />
               </div>
