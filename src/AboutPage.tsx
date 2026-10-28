@@ -83,6 +83,8 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
   const [snapOn, setSnapOn] = useState(true)
   const draggingRef = useRef(false)
   const paused = useRef(false)
+  const hovered = useRef(false)
+  const dir = useRef(1)
   const inView = useRef(false)
   const reduceMotion = useRef(false)
   const [prefersReduced, setPrefersReduced] = useState(false)
@@ -131,6 +133,19 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
     )
     io.observe(el)
 
+    // Any wheel / trackpad / touch intent pauses drift; resume only after a quiet period.
+    let idle = 0
+    const userIntent = () => {
+      paused.current = true
+      window.clearTimeout(idle)
+      idle = window.setTimeout(() => {
+        if (!hovered.current && !draggingRef.current) paused.current = false
+      }, 4000)
+    }
+    el.addEventListener("wheel", userIntent, { passive: true })
+    el.addEventListener("touchstart", userIntent, { passive: true })
+    el.addEventListener("keydown", userIntent)
+
     let raf = 0
     let last = performance.now()
     const tick = (now: number) => {
@@ -146,10 +161,11 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
       if (drifting) {
         // Soften snap while auto-drifting so continuous scroll does not fight mandatory snap.
         if (el.style.scrollSnapType !== "none") el.style.scrollSnapType = "none"
-        el.scrollLeft += (28 * dt) / 1000
-        if (el.scrollLeft >= max - 0.5) {
-          el.scrollLeft = 0
-        }
+        el.scrollLeft += (dir.current * 28 * dt) / 1000
+        if (el.scrollLeft >= max - 0.5) dir.current = -1
+        else if (el.scrollLeft <= 0.5) dir.current = 1
+      } else if (!draggingRef.current && el.style.scrollSnapType === "none") {
+        el.style.scrollSnapType = ""
       }
       raf = requestAnimationFrame(tick)
     }
@@ -157,6 +173,10 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
 
     return () => {
       cancelAnimationFrame(raf)
+      window.clearTimeout(idle)
+      el.removeEventListener("wheel", userIntent)
+      el.removeEventListener("touchstart", userIntent)
+      el.removeEventListener("keydown", userIntent)
       io.disconnect()
       el.removeEventListener("scroll", update)
       window.removeEventListener("resize", update)
@@ -174,11 +194,12 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
     setSnapOn(false)
   }
   const pause = () => {
+    hovered.current = true
     paused.current = true
-    enableSnap()
   }
   const resume = () => {
-    if (!dragging) paused.current = false
+    hovered.current = false
+    if (!draggingRef.current) paused.current = false
   }
 
   const startContentDrag = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -197,7 +218,7 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
       draggingRef.current = false
       setDragging(false)
       enableSnap()
-      paused.current = false
+      if (!hovered.current) paused.current = false
       window.removeEventListener("pointermove", move)
       window.removeEventListener("pointerup", up)
     }
@@ -226,7 +247,7 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
       draggingRef.current = false
       setDragging(false)
       enableSnap()
-      paused.current = false
+      if (!hovered.current) paused.current = false
       window.removeEventListener("pointermove", move)
       window.removeEventListener("pointerup", up)
     }
@@ -244,17 +265,17 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
         onFocusCapture={pause}
         onBlurCapture={resume}
         className={`overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
-          snapOn ? "snap-x snap-mandatory" : ""
+          snapOn ? "snap-x snap-proximity" : ""
         } ${bar.size < 0.999 ? (dragging ? "cursor-grabbing select-none" : "cursor-grab") : ""}`}
       >
-        <ol className="flex w-max min-w-full px-[var(--g)]">
+        <ol className="flex w-max min-w-full px-[max(var(--g),calc(50vw-130px))] py-8 md:px-[max(var(--g),calc(50vw-150px))]">
           {items.map((t, i) => {
             const above = i % 2 === 1
             const isActive = i === active
             const scaleCls = prefersReduced
               ? ""
               : isActive
-                ? "md:scale-[1.05]"
+                ? "md:scale-[1.05] origin-center"
                 : "md:scale-100"
             return (
               <li
@@ -286,12 +307,12 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
                     above ? "pt-6 md:row-start-1 md:self-end md:pt-0 md:pb-6" : "pt-6 md:row-start-3 md:self-start"
                   }`}
                 >
-                  <div className="aspect-[4/3] w-full max-w-[220px] overflow-hidden bg-neutral-100">
+                  <div className="aspect-[3/2] w-full max-w-[240px] overflow-hidden bg-neutral-100">
                     <img
                       src={t.img}
                       alt={`${t.year} ${t.title}`}
                       draggable={false}
-                      className="size-full object-cover grayscale transition duration-500 hover:grayscale-0"
+                      className="size-full object-contain object-center grayscale transition duration-500 hover:grayscale-0"
                     />
                   </div>
                   <div className="mt-5 flex flex-wrap items-center gap-2">
