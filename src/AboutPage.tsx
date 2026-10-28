@@ -511,7 +511,7 @@ const TIMELINE: Milestone[] = [
   { year: "2001", kind: "Company", title: "The business plan", body: "Fall 2001: George writes the plan for American Millwork & Cabinetry, named in honor of the fallen of 9/11.", img: `${asset}/62abe.png` },
   { year: "2003", kind: "Growth", sqft: 8000, title: "First shop", body: "Opens in an 8,000 sq ft shop. First product ships April 2003 - $735,000 in year one.", img: `${asset}/factory/11af8e22_image.png` },
   { year: "2004", kind: "Growth", sqft: 15000, title: "Taking more of the building", body: "Adds another 5,000 sq ft of the leased space - about 14-15,000 sq ft in all.", img: `${asset}/factory/2777aef6_image.png` },
-  { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/f4bae.png` },
+  { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/about/fire.jpg` },
   { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring Emmaus shop. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/02cb0.png` },
   { year: "2006", kind: "Growth", sqft: 14000, title: "Emmaus", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/factory/e307e871_image.png` },
   { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/factory/bc70d6ea_image.png` },
