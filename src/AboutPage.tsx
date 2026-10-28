@@ -4,7 +4,7 @@ import { Eyebrow, OutlineButton } from "./App"
 /* Full-bleed horizontal scroller: items peek past the page margins, while the
    custom progress bar stays aligned to the 1750px content grid.
    Auto-drifts while in view; pauses on hover, focus, or drag.
-   Light treatments: scroll-snap + active scale, sqft growth rail, giant years. */
+   Light treatments: scroll-snap + active scale, giant years. */
 type Milestone = {
   year: string
   kind: "Growth" | "Company" | "Quality" | "Award"
@@ -21,59 +21,6 @@ const KIND_CHIP: Record<Milestone["kind"], string> = {
   Award: "bg-gold-100 text-gold-800",
 }
 
-/** Interpolate floor area along the timeline from known Growth sqft points. */
-function sqftSeries(items: Milestone[]): number[] {
-  const known = items
-    .map((t, i) => (t.sqft != null ? ([i, t.sqft] as const) : null))
-    .filter((x): x is readonly [number, number] => x != null)
-  if (known.length === 0) return items.map(() => 0)
-  return items.map((_, i) => {
-    if (i <= known[0][0]) return known[0][1]
-    if (i >= known[known.length - 1][0]) return known[known.length - 1][1]
-    let a = known[0]
-    let b = known[known.length - 1]
-    for (let k = 0; k < known.length - 1; k++) {
-      if (i >= known[k][0] && i <= known[k + 1][0]) {
-        a = known[k]
-        b = known[k + 1]
-        break
-      }
-    }
-    const t = (i - a[0]) / Math.max(1, b[0] - a[0])
-    return a[1] + (b[1] - a[1]) * t
-  })
-}
-
-function SqftGrowthRail({ series }: { series: number[] }) {
-  const min = series[0] ?? 8000
-  const max = Math.max(...series, min + 1)
-  const n = Math.max(1, series.length - 1)
-  const pts = series.map((v, i) => {
-    const x = (i / n) * 100
-    const y = 100 - ((v - min) / (max - min)) * 88 - 6
-    return `${x.toFixed(2)},${y.toFixed(2)}`
-  })
-  const area = `0,100 ${pts.join(" ")} 100,100`
-  const line = pts.join(" ")
-  return (
-    <div className="relative mt-3 h-10 w-full" aria-hidden>
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full overflow-visible">
-        <polygon points={area} className="fill-green-100/80" />
-        <polyline
-          points={line}
-          fill="none"
-          className="stroke-dark-950"
-          strokeWidth="1.25"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-      <span className="pointer-events-none absolute right-0 top-0 text-[10px] uppercase tracking-[0.14em] text-black/45">
-        80k sq ft
-      </span>
-    </div>
-  )
-}
-
 function TimelineScroller({ items }: { items: Milestone[] }) {
   const ref = useRef<HTMLDivElement>(null)
   const track = useRef<HTMLDivElement>(null)
@@ -88,7 +35,6 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
   const inView = useRef(false)
   const reduceMotion = useRef(false)
   const [prefersReduced, setPrefersReduced] = useState(false)
-  const series = sqftSeries(items)
 
   useEffect(() => {
     const el = ref.current
@@ -353,7 +299,6 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
             </div>
           </div>
         )}
-        <SqftGrowthRail series={series} />
       </div>
     </div>
   )
