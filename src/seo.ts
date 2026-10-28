@@ -125,8 +125,8 @@ function resolveSeo(route: string): SeoEntry {
 
   if (route === "service") {
     const slug = hash.replace(/^#\/services\//, "").split(/[?#]/)[0]
-    if (slug === "commercial-casework") return ROUTE_SEO.americase
-    if (slug === "architectural-millwork") return ROUTE_SEO["architectural-millwork"]
+    if (slug === "commercial-casework" || slug === "casework") return ROUTE_SEO.americase
+    if (slug === "architectural-millwork" || slug === "millwork") return ROUTE_SEO["architectural-millwork"]
     const label = SERVICE_TITLES[slug] ?? "Services"
     return {
       title: `${label} | ${SITE_NAME}`,

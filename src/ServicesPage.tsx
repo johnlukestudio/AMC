@@ -7,6 +7,8 @@ type Item = { label?: string; title: string; img: string; body?: string }
 type Step = { title: string; body: string }
 export type Service = {
   slug: string
+  /** When set, overview links here and no #/services/<slug> detail page is served. */
+  hubHref?: string
   title: string
   kicker: string
   intro: string
@@ -46,7 +48,8 @@ const STEPS_DEFAULT: Step[] = [
 export const SERVICE_DATA: Service[] = [
   {
     slug: "millwork",
-    title: "Millwork",
+    hubHref: "#/services/architectural-millwork",
+    title: "Architectural millwork",
     kicker: "Architectural woodwork",
     intro: "Custom architectural millwork engineered, built and installed by one team, from lobby walls to reception desks.",
     hero: `${asset}/02cb0.png`,
@@ -78,7 +81,8 @@ export const SERVICE_DATA: Service[] = [
   },
   {
     slug: "casework",
-    title: "Casework",
+    hubHref: "#/americase",
+    title: "Commercial casework",
     kicker: "AmeriCase™ division",
     intro: "Standard and semi-custom casework for virtually any application, in plastic laminate, veneer or solid wood.",
     hero: `${asset}/6dc05.png`,
@@ -530,7 +534,7 @@ export function ServicesOverview() {
                     ))}
                   </ul>
                   <a
-                    href={`#/services/${s.slug}`}
+                    href={s.hubHref ?? `#/services/${s.slug}`}
                     className="flex items-center justify-center gap-2 bg-black py-3 text-caption-s uppercase tracking-wide text-white transition-colors hover:bg-black/80"
                   >
                     View {s.title} <span aria-hidden>↗</span>
@@ -606,10 +610,11 @@ export function ServicesOverview() {
 
 /* ---------- Detail: #/services/<slug> ---------- */
 export function ServiceDetail() {
-  const slug = window.location.hash.replace("#/services/", "")
-  const s = SERVICE_DATA.find((x) => x.slug === slug) ?? SERVICE_DATA[0]
-  const idx = SERVICE_DATA.indexOf(s)
-  const next = SERVICE_DATA[(idx + 1) % SERVICE_DATA.length]
+  const slug = window.location.hash.replace("#/services/", "").split(/[?#]/)[0]
+  const detailServices = SERVICE_DATA.filter((x) => !x.hubHref)
+  const s = detailServices.find((x) => x.slug === slug) ?? detailServices[0]
+  const idx = detailServices.indexOf(s)
+  const next = detailServices[(idx + 1) % detailServices.length]
   const ref = useRowReveal(1)
   return (
     <>

@@ -347,8 +347,8 @@ export function CommercialCaseworkPage() {
             casework portfolio
           </a>{" "}
           or the full{" "}
-          <a href="#/services/casework" className="underline underline-offset-4 text-black">
-            Casework service page
+          <a href="#/americase" className="underline underline-offset-4 text-black">
+            AmeriCase commercial casework hub
           </a>
           .
         </p>
@@ -502,8 +502,8 @@ export function ArchitecturalMillworkPage() {
             millwork portfolio
           </a>{" "}
           or the{" "}
-          <a href="#/services/millwork" className="underline underline-offset-4 text-black">
-            Millwork service page
+          <a href="#/services/architectural-millwork" className="underline underline-offset-4 text-black">
+            Architectural millwork hub
           </a>
           . For commercial cabinets and storage, see{" "}
           <a href="#/americase" className="underline underline-offset-4 text-black">

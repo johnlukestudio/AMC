@@ -53,17 +53,17 @@ const emailArrow = `${asset}/fa403.svg`
 const logoWhite = `${asset}/logo-white.svg`
 
 export const SERVICES = [
-  { title: "Millwork", slug: "millwork", img: serviceImgs[0] },
-  { title: "Casework", slug: "casework", img: serviceImgs[1] },
-  { title: "Acoustical", slug: "acoustical", img: `${asset}/cat-acoustics.png` },
-  { title: "Surfaces", slug: "surfaces", img: serviceImgs[2] },
+  { title: "Millwork", href: "#/services/architectural-millwork", img: serviceImgs[0] },
+  { title: "Casework", href: "#/americase", img: serviceImgs[1] },
+  { title: "Acoustical", href: "#/services/acoustical", img: `${asset}/cat-acoustics.png` },
+  { title: "Surfaces", href: "#/services/surfaces", img: serviceImgs[2] },
 ]
 
 type NavLink = { label: string; href: string; children?: NavLink[] }
 type NavItem = { label: string; href?: string; items?: NavLink[] }
 
 const DIVISIONS: NavLink[] = [
-  { label: "American Millwork", href: "#/services/millwork" },
+  { label: "American Millwork", href: "#/services/architectural-millwork" },
   { label: "AmeriCase", href: "#/americase" },
   { label: "AMC Acoustical", href: "#/services/acoustical" },
   { label: "American Surfaces", href: "#/services/surfaces" },
@@ -85,7 +85,8 @@ const NAV: NavItem[] = [
     items: [
       { label: "Architectural millwork", href: "#/services/architectural-millwork" },
       { label: "Commercial casework", href: "#/americase" },
-      ...SERVICES.map((x) => ({ label: x.title, href: `#/services/${x.slug}` })),
+      { label: "Acoustical", href: "#/services/acoustical" },
+      { label: "Surfaces", href: "#/services/surfaces" },
     ],
   },
   {
@@ -406,16 +407,64 @@ function Header({ overDark = false }: { overDark?: boolean }) {
 }
 
 /* ---------- Hero ---------- */
+function HeroPlantInset() {
+  const ref = useRef<HTMLVideoElement>(null)
+  const [reduce, setReduce] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const apply = () => {
+      const prefersReduce = mq.matches
+      setReduce(prefersReduce)
+      const v = ref.current
+      if (!v) return
+      if (prefersReduce) {
+        v.pause()
+      } else {
+        void v.play().catch(() => {})
+      }
+    }
+    apply()
+    mq.addEventListener("change", apply)
+    return () => mq.removeEventListener("change", apply)
+  }, [])
+
+  return reduce ? (
+    <img
+      src={`${asset}/home/plant.jpg`}
+      alt=""
+      className="absolute inset-0 size-full object-cover"
+      aria-hidden
+    />
+  ) : (
+    <video
+      ref={ref}
+      className="absolute inset-0 size-full object-cover"
+      autoPlay
+      muted
+      playsInline
+      loop
+      poster={`${asset}/home/plant.jpg`}
+      aria-hidden
+    >
+      <source src={`${asset}/home/plant.mp4`} type="video/mp4" />
+    </video>
+  )
+}
+
 function Hero() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState({ x: 0.5, y: 0.5 })
-  const [active, setActive] = useState(0)
+  // Surfaces is the bottom-band category (JL: bottom scroll effect = Surfaces).
+  const surfacesIdx = HERO_CATEGORIES.findIndex((c) => c.name === "Surfaces")
+  const [active, setActive] = useState(surfacesIdx >= 0 ? surfacesIdx : 0)
   // Touch devices have no hover: cycle categories automatically.
   useEffect(() => {
     if (!window.matchMedia("(hover: none)").matches) return
     const id = setInterval(() => setActive((a) => (a + 1) % HERO_CATEGORIES.length), 2600)
     return () => clearInterval(id)
   }, [])
+  const surfaces = HERO_CATEGORIES[surfacesIdx >= 0 ? surfacesIdx : HERO_CATEGORIES.length - 1]
   return (
     <>
     <section className="bg-white px-6 pt-[150px] pb-16 md:hidden">
@@ -466,49 +515,22 @@ function Hero() {
             className="pointer-events-none absolute top-0 bottom-0 border-l border-dashed border-black/30"
             style={{ left: `${pos.x * 100}%` }}
           />
-          {/* Crosshair viewport — image swaps with active category */}
-          <div
-            className="pointer-events-none absolute hidden size-[220px] -translate-x-1/2 -translate-y-1/2 overflow-hidden [@media(hover:hover)_and_(min-width:768px)]:block"
-            style={{ left: `${pos.x * 100}%`, top: `${pos.y * 100}%` }}
-          >
+
+          {/* Top-right inset: plant media (swapped up from the bottom band) */}
+          <div className="pointer-events-none absolute left-[58%] top-[38%] z-[5] hidden size-[220px] -translate-x-1/2 -translate-y-1/2 overflow-hidden [@media(hover:hover)_and_(min-width:768px)]:block xl:left-[56%] xl:size-[260px]">
             <span className="absolute left-0 top-0 z-10 size-[10px] border-l border-t border-black/50" />
             <span className="absolute right-0 top-0 z-10 size-[10px] border-r border-t border-black/50" />
             <span className="absolute bottom-0 left-0 z-10 size-[10px] border-b border-l border-black/50" />
             <span className="absolute bottom-0 right-0 z-10 size-[10px] border-b border-r border-black/50" />
-            {HERO_CATEGORIES.map((c, i) => (
-              <img
-                key={c.name}
-                src={c.img}
-                alt={c.name}
-                className={`absolute inset-0 size-full object-cover transition-opacity duration-500 ${
-                  i === active ? "opacity-100" : "opacity-0"
-                }`}
-              />
-            ))}
-            {/* Category name overlaid on the image, top */}
-            <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/50 to-transparent pt-3 pb-6 text-center">
-              <span className="text-caption-m uppercase tracking-[0.18em] text-white">
-                {HERO_CATEGORIES[active].name}
-              </span>
-            </div>
+            <HeroPlantInset />
           </div>
 
-          {/* Touch / mobile: centered category card */}
-          <div className="pointer-events-none absolute left-1/2 top-[44%] aspect-[4/5] w-[min(56vw,300px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden [@media(hover:hover)_and_(min-width:768px)]:hidden">
-            {HERO_CATEGORIES.map((c, i) => (
-              <img
-                key={c.name}
-                src={c.img}
-                alt={c.name}
-                className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${i === active ? "opacity-100" : "opacity-0"}`}
-              />
-            ))}
-            <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/50 to-transparent pt-3 pb-6 text-center">
-              <span className="text-caption-m uppercase tracking-[0.18em] text-white">{HERO_CATEGORIES[active].name}</span>
-            </div>
+          {/* Touch / tablet: centered plant card (desktop inset hidden) */}
+          <div className="pointer-events-none absolute left-1/2 top-[40%] aspect-[4/5] w-[min(56vw,300px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden [@media(hover:hover)_and_(min-width:768px)]:hidden">
+            <HeroPlantInset />
           </div>
 
-          {/* Three category divider zones */}
+          {/* Category divider zones */}
           <div className="absolute inset-0 flex">
             {HERO_CATEGORIES.map((c, i) => (
               <div
@@ -539,8 +561,23 @@ function Hero() {
           </div>
         </div>
 
-        {/* Big headline — spans full width, edge to edge */}
-        <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[1750px] px-6 pb-8 md:px-10 md:pb-12">
+        {/* Bottom band: Surfaces scroll/label slot (swapped down from the type inset) */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[6] h-[min(28vh,240px)] overflow-hidden bg-neutral-950">
+          <img
+            src={surfaces.img}
+            alt={surfaces.name}
+            className="absolute inset-0 size-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
+          <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/45 to-transparent pt-3 pb-6 text-center">
+            <span className="text-caption-m uppercase tracking-[0.18em] text-white">
+              {surfaces.name}
+            </span>
+          </div>
+        </div>
+
+        {/* Big headline - sits above the Surfaces band */}
+        <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[1750px] px-6 pb-[calc(min(28vh,240px)+1.5rem)] md:px-10">
           <h1 className="w-full text-center font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[15vw] md:whitespace-nowrap md:text-[min(8.7vw,152px)]">
             America's <br className="md:hidden" />
             Millwork
@@ -660,10 +697,10 @@ function Services() {
         </a>
       </div>
       <div className="mt-12">
-        {SERVICES.map(({ title, slug, img }, i) => (
+        {SERVICES.map(({ title, href, img }, i) => (
           <a
             key={title}
-            href={`#/services/${slug}`}
+            href={href}
             ref={ref(i)}
             className="group grid grid-cols-1 items-center gap-6 border-b border-black/10 py-2 md:grid-cols-2"
           >
@@ -1213,6 +1250,9 @@ function useRoute() {
     if (h === "#/americase" || h.startsWith("#/americase?")) return "americase"
     if (h.startsWith("#/services/architectural-millwork")) return "architectural-millwork"
     if (h.startsWith("#/services/commercial-casework")) return "americase"
+    // Plain millwork / casework detail pages fold into the SEO hubs.
+    if (h.startsWith("#/services/millwork")) return "architectural-millwork"
+    if (h.startsWith("#/services/casework")) return "americase"
     if (h.startsWith("#/services/")) return "service"
     if (h.startsWith("#/services")) return "services"
     if (h.startsWith("#/news/")) return "article"
@@ -1228,7 +1268,23 @@ function useRoute() {
   const [hash, setHash] = useState(window.location.hash)
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual"
+    const rewriteServiceAliases = () => {
+      const h = window.location.hash
+      if (h.startsWith("#/services/millwork")) {
+        const next = "#/services/architectural-millwork"
+        if (h !== next) window.location.replace(next)
+        return true
+      }
+      if (h.startsWith("#/services/casework")) {
+        const next = "#/americase"
+        if (h !== next) window.location.replace(next)
+        return true
+      }
+      return false
+    }
+    rewriteServiceAliases()
     const onHash = () => {
+      if (rewriteServiceAliases()) return
       setRoute(get())
       setHash(window.location.hash)
     }
