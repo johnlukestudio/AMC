@@ -1019,7 +1019,7 @@ const contactImg = `${asset}/9765d.png`
 function ContactPage() {
   const [sent, setSent] = useState(false)
   const field =
-    "w-full border-b border-black/50 bg-transparent px-3 py-5 text-body2-s text-black outline-none transition-colors placeholder:text-black/30 focus:border-black"
+    "w-full rounded-lg border border-black/20 bg-white px-4 py-3 text-body2-s text-black outline-none transition placeholder:text-black/30 hover:border-black/40 focus:border-dark-950 focus:ring-4 focus:ring-green-100"
   return (
     <>
       <section className="mx-auto grid max-w-[1750px] grid-cols-1 gap-16 px-6 pt-32 md:grid-cols-2 md:px-10 md:pt-[140px]">
@@ -1028,47 +1028,37 @@ function ContactPage() {
           <h1 className="mt-6 text-h3-s md:text-h3-m xl:text-h3-l capitalize leading-[1.4] text-dark-950 ">
             How to find us
           </h1>
+          <div className="mt-10 rounded-2xl border border-black/10 bg-green-50 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.04)] md:p-10">
           {sent ? (
-            <p className="mt-12 border-t border-black/10 pt-8 text-body2-s leading-[1.6] text-black/60">
-              Thanks, your message is on its way. Our team will get back to you
-              shortly.
+            <p role="status" className="rounded-lg border border-black/10 bg-white p-6 text-body2-s leading-[1.6] text-black/70">
+              Thanks, your message is on its way. Our team will get back to you shortly.
             </p>
           ) : (
             <form
-              className="mt-10 flex flex-col"
+              className="flex flex-col gap-6"
               onSubmit={(e) => {
                 e.preventDefault()
                 setSent(true)
               }}
             >
-              <input
-                required
-                name="name"
-                placeholder="Name"
-                className={field}
-              />
-              <input
-                required
-                type="email"
-                name="email"
-                placeholder="Email"
-                className={field}
-              />
-              <textarea
-                required
-                name="message"
-                placeholder="Your Message"
-                rows={4}
-                className={`${field} resize-none`}
-              />
-              <button
-                type="submit"
-                className="mt-8 h-[50px] w-full max-w-[347px] rounded-full border border-dark-950 text-body2-s capitalize text-dark-950 transition-colors duration-300 hover:bg-dark-950 hover:text-white"
-              >
-                Submit
+            <div>
+              <label htmlFor="contact-name" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Name<span className="ml-1 text-black/40" aria-hidden="true">*</span></label>
+              <input id="contact-name" required name="name" autoComplete="name" placeholder="Jane Smith" className={field} />
+            </div>
+            <div>
+              <label htmlFor="contact-email" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Email<span className="ml-1 text-black/40" aria-hidden="true">*</span></label>
+              <input id="contact-email" required type="email" name="email" autoComplete="email" placeholder="you@example.com" className={field} />
+            </div>
+            <div>
+              <label htmlFor="contact-message" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Message<span className="ml-1 text-black/40" aria-hidden="true">*</span></label>
+              <textarea id="contact-message" required name="message" placeholder="Tell us about your project" rows={5} className={`${field} resize-y`} />
+            </div>
+              <button type="submit" className="mt-2 h-[52px] w-full rounded-full bg-dark-950 text-body2-s font-medium capitalize text-white transition-colors duration-300 hover:bg-black/80 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-200">
+                Send message
               </button>
             </form>
           )}
+          </div>
         </div>
         <div className="-mr-6 overflow-hidden md:-mr-10 md:ml-[20%]">
           <img

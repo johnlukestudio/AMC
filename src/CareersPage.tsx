@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 
 const field =
-  "w-full border-b border-black/50 bg-transparent px-3 py-4 text-body2-s text-black outline-none transition-colors placeholder:text-black/30 focus:border-black"
+  "w-full rounded-lg border border-black/20 bg-white px-4 py-3 text-body2-s text-black outline-none transition placeholder:text-black/30 hover:border-black/40 focus:border-dark-950 focus:ring-4 focus:ring-green-100"
 
 const MAX_BYTES = 50 * 1024 * 1024
 
@@ -151,63 +151,68 @@ export function CareersPage() {
           </p>
         </div>
         <div className="w-full md:max-w-[560px] md:justify-self-end">
+        <div className="rounded-2xl border border-black/10 bg-green-50 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.04)] md:p-10">
+        <h3 className="text-body1-s font-medium text-dark-950">Application</h3>
+        <p className="mt-1 text-caption-s text-black/50">Fields marked * are required.</p>
         {sent ? (
-          <p className="border-t border-black/10 pt-8 text-body2-s leading-[1.6] text-black/60">
+          <p role="status" className="mt-8 rounded-lg border border-black/10 bg-white p-6 text-body2-s leading-[1.6] text-black/70">
             Thanks, your application is in. Our team will review it and get back to you shortly.
           </p>
         ) : (
           <form
-            className="flex flex-col"
+            className="mt-8 flex flex-col gap-6"
             onSubmit={(e) => {
               e.preventDefault()
               if (!fileError) setSent(true)
             }}
           >
-            <input required name="name" placeholder="Name" className={field} />
-            <input type="tel" name="phone" placeholder="Phone number" className={field} />
-            <input required type="email" name="email" placeholder="Email" className={field} />
-
-            <div className="border-b border-black/50 px-3 py-4">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <span className="text-body2-s text-black/30">Upload resume</span>
-                <label className="cursor-pointer rounded-full border border-dark-950 px-5 py-2 text-caption-s uppercase tracking-wide text-dark-950 transition-colors duration-300 hover:bg-dark-950 hover:text-white focus-within:bg-dark-950 focus-within:text-white">
-                  {file ? "Replace file" : "Choose file"}
-                  <input
-                    type="file"
-                    name="resume"
-                    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    className="sr-only"
-                    onChange={(e) => {
-                      const f = e.target.files?.[0] ?? null
-                      setFile(f)
-                      setFileError(f && f.size > MAX_BYTES ? "File exceeds 50 MB." : "")
-                    }}
-                  />
-                </label>
-              </div>
-              {file && <p className="mt-3 truncate text-body2-s text-black">{file.name}</p>}
-              <div className="mt-3 flex flex-wrap justify-between gap-2 text-caption-s text-black/50">
-                <span>Accepted file types: PDF, DOC, DOCX</span>
-                <span>Max. file size: 50 MB</span>
-              </div>
-              {fileError && <p className="mt-2 text-caption-s text-gold-800">{fileError}</p>}
+            <div>
+              <label htmlFor="apply-name" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Name<span className="ml-1 text-black/40" aria-hidden="true">*</span></label>
+              <input id="apply-name" required name="name" autoComplete="name" placeholder="Jane Smith" className={field} />
             </div>
-
-            <textarea
-              required
-              name="message"
-              placeholder="Message or relevant information"
-              rows={3}
-              className={`${field} resize-none`}
-            />
-            <button
-              type="submit"
-              className="mt-8 h-[50px] w-full max-w-[347px] rounded-full border border-dark-950 text-body2-s capitalize text-dark-950 transition-colors duration-300 hover:bg-dark-950 hover:text-white"
-            >
-              Submit
+            <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label htmlFor="apply-phone" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Phone<span className="ml-2 normal-case tracking-normal text-black/40">(optional)</span></label>
+              <input id="apply-phone" type="tel" name="phone" autoComplete="tel" placeholder="(555) 555-5555" className={field} />
+            </div>
+            <div>
+              <label htmlFor="apply-email" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Email<span className="ml-1 text-black/40" aria-hidden="true">*</span></label>
+              <input id="apply-email" required type="email" name="email" autoComplete="email" placeholder="you@example.com" className={field} />
+            </div>
+            </div>
+            <div>
+              <label htmlFor="apply-resume" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Resume<span className="ml-1 text-black/40" aria-hidden="true">*</span></label>
+              <label htmlFor="apply-resume" className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-black/20 bg-white px-4 py-8 text-center transition hover:border-black/40 focus-within:border-dark-950 focus-within:ring-4 focus-within:ring-green-100">
+                <span className="text-body2-s text-dark-950">{file ? file.name : "Choose a file"}</span>
+                <span className="text-caption-s text-black/50">{file ? "Click to replace" : "Click to browse"}</span>
+                <input
+                  id="apply-resume"
+                  required
+                  type="file"
+                  name="resume"
+                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  className="sr-only"
+                  aria-describedby="apply-resume-help"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0] ?? null
+                    setFile(f)
+                    setFileError(f && f.size > MAX_BYTES ? "File exceeds 50 MB." : "")
+                  }}
+                />
+              </label>
+              <p id="apply-resume-help" className="mt-2 text-caption-s text-black/50">Accepted file types: PDF, DOC, DOCX. Max file size: 50 MB.</p>
+              {fileError && <p role="alert" className="mt-2 text-caption-s text-gold-800">{fileError}</p>}
+            </div>
+            <div>
+              <label htmlFor="apply-message" className="mb-2 block text-caption-s font-medium uppercase tracking-[0.08em] text-dark-950">Message<span className="ml-1 text-black/40" aria-hidden="true">*</span></label>
+              <textarea id="apply-message" required name="message" placeholder="Tell us about your experience or the role you want" rows={5} className={`${field} resize-y`} />
+            </div>
+            <button type="submit" className="mt-2 h-[52px] w-full rounded-full bg-dark-950 text-body2-s font-medium capitalize text-white transition-colors duration-300 hover:bg-black/80 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-200">
+              Submit application
             </button>
           </form>
         )}
+        </div>
         </div>
       </section>
     </>
