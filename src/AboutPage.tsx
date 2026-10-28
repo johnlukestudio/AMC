@@ -408,10 +408,10 @@ export function AboutPage() {
         </TimelineScroller>
       </section>
 
-      {/* Team */}
+      {/* Leadership team */}
       <section className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <Eyebrow>Team</Eyebrow>
+          <Eyebrow>Leadership team</Eyebrow>
           <h2 className="max-w-[520px] text-h3-s leading-[1.1] md:text-right md:text-h3-m xl:text-h3-l">The people behind the shop.</h2>
         </div>
         <p className="mt-8 max-w-[720px] text-body1-s leading-[1.6] text-black/70">
@@ -420,15 +420,15 @@ export function AboutPage() {
           worked on the floor too. Beyond blood relatives, the shop runs on the same family feel: people
           who stay, teach, and grow into new roles.
         </p>
-        <div className="mt-14 grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {TEAM.map((m, i) => (
-            <figure key={m.name} className={i === 1 ? "lg:mt-24" : i === 2 ? "lg:mt-12" : i === 3 ? "lg:mt-20" : ""}>
+        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          {TEAM.map((m) => (
+            <figure key={m.name}>
               <div className="aspect-[4/5] overflow-hidden bg-neutral-100">
                 <img src={m.img} alt={m.name} className="size-full object-cover grayscale transition duration-500 hover:grayscale-0" />
               </div>
-              <figcaption className="mt-3 flex justify-between text-caption-m">
+              <figcaption className="mt-3 flex justify-between gap-3 text-caption-m">
                 <span>{m.name}</span>
-                <span className="text-black/60">{m.role}</span>
+                <span className="text-right text-black/60">{m.role}</span>
               </figcaption>
             </figure>
           ))}
