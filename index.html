@@ -5,10 +5,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><!-- figma:title --></title>
+    <style>
+      /* Critical boot splash: black/cream AMC logo while the SPA loads */
+      #amc-boot {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1e1e1e;
+        transition: opacity 280ms ease;
+      }
+      #amc-boot img {
+        width: min(180px, 48vw);
+        height: auto;
+        display: block;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        #amc-boot img {
+          animation: amc-boot-pulse 1.6s ease-in-out infinite;
+        }
+      }
+      @keyframes amc-boot-pulse {
+        0%, 100% { opacity: 0.78; }
+        50% { opacity: 1; }
+      }
+      #amc-boot.is-done {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
     <!-- figma:head-end -->
   </head>
   <body>
     <!-- figma:body-start -->
+    <div id="amc-boot" aria-hidden="true">
+      <img src="/media/logo-white.svg" alt="" width="180" height="30" />
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- figma:body-end -->
