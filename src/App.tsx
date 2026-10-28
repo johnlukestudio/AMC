@@ -10,7 +10,6 @@ import { applySeo } from "./seo"
 const asset = "/media"
 
 /* Real American Millwork & Cabinetry project photography, curated per section */
-const aboutBg = `${asset}/9cd5c.png`
 const processImgs = [
   `${asset}/62abe.png`, // Consultation
   `${asset}/08f78.png`, // Engineering & Shop Drawings
@@ -539,6 +538,57 @@ function Hero() {
   )
 }
 
+/* Locked-off plant exterior; simple loop (flags only). Poster when reduced motion. */
+function AboutPlantBg() {
+  const ref = useRef<HTMLVideoElement>(null)
+  const [reduce, setReduce] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const apply = () => {
+      const prefersReduce = mq.matches
+      setReduce(prefersReduce)
+      const v = ref.current
+      if (!v) return
+      if (prefersReduce) {
+        v.pause()
+      } else {
+        void v.play().catch(() => {})
+      }
+    }
+    apply()
+    mq.addEventListener("change", apply)
+    return () => mq.removeEventListener("change", apply)
+  }, [])
+
+  return (
+    <>
+      {reduce ? (
+        <img
+          src={`${asset}/home/plant.jpg`}
+          alt=""
+          className="absolute inset-0 size-full object-cover opacity-40"
+          aria-hidden
+        />
+      ) : (
+        <video
+          ref={ref}
+          className="absolute inset-0 size-full object-cover opacity-40"
+          autoPlay
+          muted
+          playsInline
+          loop
+          poster={`${asset}/home/plant.jpg`}
+          aria-label="American Millwork & Cabinetry plant exterior in Emmaus"
+        >
+          <source src={`${asset}/home/plant.mp4`} type="video/mp4" />
+        </video>
+      )}
+      <div className="absolute inset-0 bg-black/50" />
+    </>
+  )
+}
+
 /* ---------- About ---------- */
 function About() {
   const stats = [
@@ -549,17 +599,7 @@ function About() {
   ]
   return (
     <section className="relative overflow-hidden bg-black text-white">
-      {/* Background video placeholder: swap the <img> for a muted, looping <video> */}
-      <img
-        src={aboutBg}
-        alt="Custom millwork and cabinetry in an AMC project space"
-        className="absolute inset-0 size-full animate-[bgvideo_24s_ease-in-out_infinite_alternate] object-cover opacity-40"
-      />
-      <div className="absolute inset-0 bg-black/50" />
-      <span className="absolute right-6 top-6 z-10 flex items-center gap-2 text-caption-s uppercase tracking-[0.16em] text-white/70 md:right-10 md:top-8">
-        <span className="size-1.5 animate-pulse rounded-full bg-gold-500" />
-        Background video · placeholder
-      </span>
+      <AboutPlantBg />
       <div className="relative mx-auto grid max-w-[1750px] gap-16 px-6 py-24 md:grid-cols-2 md:px-10 md:py-32">
         <div>
           <Eyebrow>About us</Eyebrow>
