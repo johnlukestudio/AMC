@@ -165,6 +165,71 @@ function TimelineScroller({ children }: { children: ReactNode }) {
 
 const asset = "/media"
 
+/* Aerial plant clip is not a seamless loop; ping-pong forward/reverse instead of a hard cut. */
+function HeroDroneLoop() {
+  const ref = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const v = ref.current
+    if (!v) return
+    let dir: 1 | -1 = 1
+    let raf = 0
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    let last = performance.now()
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000)
+      last = now
+      // playbackRate cannot be negative in most browsers; scrub manually for reverse.
+      if (dir === -1) {
+        v.currentTime = Math.max(0, v.currentTime - dt)
+        if (v.currentTime <= 0.04) {
+          dir = 1
+          void v.play().catch(() => {})
+        }
+      }
+      raf = requestAnimationFrame(tick)
+    }
+
+    const onTime = () => {
+      if (reduce) return
+      if (dir === 1 && v.duration && v.currentTime >= v.duration - 0.08) {
+        dir = -1
+        v.pause()
+      }
+    }
+
+    if (reduce) {
+      v.loop = true
+      return
+    }
+
+    v.loop = false
+    v.addEventListener("timeupdate", onTime)
+    raf = requestAnimationFrame(tick)
+    return () => {
+      cancelAnimationFrame(raf)
+      v.removeEventListener("timeupdate", onTime)
+    }
+  }, [])
+
+  return (
+    <video
+      ref={ref}
+      className="h-[60vh] max-h-[640px] min-h-[320px] w-full object-cover"
+      autoPlay
+      muted
+      playsInline
+      poster={`${asset}/about/team.png`}
+      aria-label="Aerial view of the American Millwork & Cabinetry plant in Emmaus"
+    >
+      <source src={`${asset}/about/team.mp4`} type="video/mp4" />
+    </video>
+  )
+}
+
+
+
 const CAROUSEL = [
   "9765d", "30adf", "e52e8", "6896d", "940fb", "825ea", "6b3df", "b6a68", "10b28", "96354",
 ].map((n) => `${asset}/${n}.png`)
@@ -299,17 +364,7 @@ export function AboutPage() {
         </p>
         <h1 className="text-h2-s xl:text-h2-m leading-[1.1] tracking-[-0.02em] ">About AMC</h1>
       </section>
-      <video
-        className="h-[60vh] max-h-[640px] min-h-[320px] w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster={`${asset}/about/team.png`}
-        aria-label="The American Millwork & Cabinetry team on the shop floor in Emmaus"
-      >
-        <source src={`${asset}/about/team.mp4`} type="video/mp4" />
-      </video>
+      <HeroDroneLoop />
 
       {/* Story + slow carousel + stats */}
       <section className="py-24 md:py-32">
