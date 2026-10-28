@@ -3,26 +3,121 @@ import { Eyebrow, OutlineButton } from "./App"
 
 /* Full-bleed horizontal scroller: items peek past the page margins, while the
    custom progress bar stays aligned to the 1750px content grid.
-   Auto-drifts while in view; pauses on hover, focus, or drag. */
-function TimelineScroller({ children }: { children: ReactNode }) {
+   Auto-drifts while in view; pauses on hover, focus, or drag.
+   Light treatments: scroll-snap + active scale, sqft growth rail, giant years. */
+type Milestone = {
+  year: string
+  kind: "Growth" | "Company" | "Quality" | "Award"
+  title: string
+  body: string
+  img: string
+  sqft?: number
+}
+
+const KIND_CHIP: Record<Milestone["kind"], string> = {
+  Growth: "bg-green-100 text-green-800",
+  Company: "bg-dark-100 text-dark-800",
+  Quality: "bg-green-50 text-green-700",
+  Award: "bg-gold-100 text-gold-800",
+}
+
+/** Interpolate floor area along the timeline from known Growth sqft points. */
+function sqftSeries(items: Milestone[]): number[] {
+  const known = items
+    .map((t, i) => (t.sqft != null ? ([i, t.sqft] as const) : null))
+    .filter((x): x is readonly [number, number] => x != null)
+  if (known.length === 0) return items.map(() => 0)
+  return items.map((_, i) => {
+    if (i <= known[0][0]) return known[0][1]
+    if (i >= known[known.length - 1][0]) return known[known.length - 1][1]
+    let a = known[0]
+    let b = known[known.length - 1]
+    for (let k = 0; k < known.length - 1; k++) {
+      if (i >= known[k][0] && i <= known[k + 1][0]) {
+        a = known[k]
+        b = known[k + 1]
+        break
+      }
+    }
+    const t = (i - a[0]) / Math.max(1, b[0] - a[0])
+    return a[1] + (b[1] - a[1]) * t
+  })
+}
+
+function SqftGrowthRail({ series }: { series: number[] }) {
+  const min = series[0] ?? 8000
+  const max = Math.max(...series, min + 1)
+  const n = Math.max(1, series.length - 1)
+  const pts = series.map((v, i) => {
+    const x = (i / n) * 100
+    const y = 100 - ((v - min) / (max - min)) * 88 - 6
+    return `${x.toFixed(2)},${y.toFixed(2)}`
+  })
+  const area = `0,100 ${pts.join(" ")} 100,100`
+  const line = pts.join(" ")
+  return (
+    <div className="relative mt-3 h-10 w-full" aria-hidden>
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full overflow-visible">
+        <polygon points={area} className="fill-green-100/80" />
+        <polyline
+          points={line}
+          fill="none"
+          className="stroke-dark-950"
+          strokeWidth="1.25"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+      <span className="pointer-events-none absolute right-0 top-0 text-[10px] uppercase tracking-[0.14em] text-black/45">
+        80k sq ft
+      </span>
+    </div>
+  )
+}
+
+function TimelineScroller({ items }: { items: Milestone[] }) {
   const ref = useRef<HTMLDivElement>(null)
   const track = useRef<HTMLDivElement>(null)
   const [bar, setBar] = useState({ size: 1, offset: 0 })
   const [dragging, setDragging] = useState(false)
+  const [active, setActive] = useState(0)
+  const [snapOn, setSnapOn] = useState(true)
   const draggingRef = useRef(false)
   const paused = useRef(false)
   const inView = useRef(false)
   const reduceMotion = useRef(false)
+  const [prefersReduced, setPrefersReduced] = useState(false)
+  const series = sqftSeries(items)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     reduceMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    setPrefersReduced(reduceMotion.current)
+
+    const cardEls = () => Array.from(el.querySelectorAll<HTMLElement>("[data-tl-card]"))
+
+    const nearest = () => {
+      const cards = cardEls()
+      if (!cards.length) return 0
+      const mid = el.scrollLeft + el.clientWidth / 2
+      let best = 0
+      let bestDist = Infinity
+      cards.forEach((c, i) => {
+        const center = c.offsetLeft + c.offsetWidth / 2
+        const d = Math.abs(center - mid)
+        if (d < bestDist) {
+          bestDist = d
+          best = i
+        }
+      })
+      return best
+    }
 
     const update = () => {
       const size = el.clientWidth / el.scrollWidth
       const max = el.scrollWidth - el.clientWidth
       setBar({ size, offset: max > 0 ? (el.scrollLeft / max) * (1 - size) : 0 })
+      setActive(nearest())
     }
     update()
     el.addEventListener("scroll", update, { passive: true })
@@ -42,14 +137,15 @@ function TimelineScroller({ children }: { children: ReactNode }) {
       const dt = Math.min(32, now - last)
       last = now
       const max = el.scrollWidth - el.clientWidth
-      if (
+      const drifting =
         !reduceMotion.current &&
         inView.current &&
         !paused.current &&
         !draggingRef.current &&
         max > 0
-      ) {
-        // ~28px/sec: slow enough to read, fast enough to feel alive
+      if (drifting) {
+        // Soften snap while auto-drifting so continuous scroll does not fight mandatory snap.
+        if (el.style.scrollSnapType !== "none") el.style.scrollSnapType = "none"
         el.scrollLeft += (28 * dt) / 1000
         if (el.scrollLeft >= max - 0.5) {
           el.scrollLeft = 0
@@ -67,14 +163,24 @@ function TimelineScroller({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  const enableSnap = () => {
+    const el = ref.current
+    if (el) el.style.scrollSnapType = ""
+    setSnapOn(true)
+  }
+  const disableSnap = () => {
+    const el = ref.current
+    if (el) el.style.scrollSnapType = "none"
+    setSnapOn(false)
+  }
   const pause = () => {
     paused.current = true
+    enableSnap()
   }
   const resume = () => {
     if (!dragging) paused.current = false
   }
 
-  // Mouse drag on the content (touch already scrolls natively).
   const startContentDrag = (e: React.PointerEvent<HTMLDivElement>) => {
     const el = ref.current
     if (!el || e.pointerType !== "mouse") return
@@ -83,12 +189,14 @@ function TimelineScroller({ children }: { children: ReactNode }) {
     draggingRef.current = true
     setDragging(true)
     paused.current = true
+    disableSnap()
     const move = (ev: PointerEvent) => {
       el.scrollLeft = s0 - (ev.clientX - x0)
     }
     const up = () => {
       draggingRef.current = false
       setDragging(false)
+      enableSnap()
       paused.current = false
       window.removeEventListener("pointermove", move)
       window.removeEventListener("pointerup", up)
@@ -97,7 +205,6 @@ function TimelineScroller({ children }: { children: ReactNode }) {
     window.addEventListener("pointerup", up)
   }
 
-  // Drag or click the custom bar; position maps to scroll progress.
   const startBarDrag = (e: React.PointerEvent<HTMLDivElement>) => {
     const el = ref.current
     const t = track.current
@@ -113,10 +220,12 @@ function TimelineScroller({ children }: { children: ReactNode }) {
     draggingRef.current = true
     setDragging(true)
     paused.current = true
+    disableSnap()
     const move = (ev: PointerEvent) => seek(ev.clientX)
     const up = () => {
       draggingRef.current = false
       setDragging(false)
+      enableSnap()
       paused.current = false
       window.removeEventListener("pointermove", move)
       window.removeEventListener("pointerup", up)
@@ -135,13 +244,78 @@ function TimelineScroller({ children }: { children: ReactNode }) {
         onFocusCapture={pause}
         onBlurCapture={resume}
         className={`overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
-          bar.size < 0.999 ? (dragging ? "cursor-grabbing select-none" : "cursor-grab") : ""
-        }`}
+          snapOn ? "snap-x snap-mandatory" : ""
+        } ${bar.size < 0.999 ? (dragging ? "cursor-grabbing select-none" : "cursor-grab") : ""}`}
       >
-        <ol className="flex w-max min-w-full px-[var(--g)]">{children}</ol>
+        <ol className="flex w-max min-w-full px-[var(--g)]">
+          {items.map((t, i) => {
+            const above = i % 2 === 1
+            const isActive = i === active
+            const scaleCls = prefersReduced
+              ? ""
+              : isActive
+                ? "md:scale-[1.05]"
+                : "md:scale-100"
+            return (
+              <li
+                key={t.year + t.title}
+                data-tl-card
+                className={`flex w-[260px] shrink-0 snap-center flex-col transition-[opacity,transform] duration-300 ease-out md:grid md:w-[300px] md:grid-rows-[1fr_auto_1fr] ${scaleCls} ${
+                  isActive ? "opacity-100" : "opacity-60"
+                }`}
+              >
+                <div className="relative flex h-16 items-center md:row-start-2 md:h-20">
+                  <span className="absolute inset-x-0 top-1/2 h-px bg-black/20" />
+                  <span
+                    className={`relative size-3 rounded-full ring-[6px] ring-white transition-colors ${
+                      isActive ? "bg-dark-950" : "bg-black/40"
+                    }`}
+                  />
+                  <span
+                    className={`relative ml-3 bg-white pr-3 font-medium leading-none tracking-[-0.04em] ${
+                      isActive
+                        ? "text-[40px] md:text-[52px]"
+                        : "text-[32px] md:text-[40px] text-black/55"
+                    }`}
+                  >
+                    {t.year}
+                  </span>
+                </div>
+                <article
+                  className={`border-l border-dashed border-black/25 pr-8 pl-5 ${
+                    above ? "pt-6 md:row-start-1 md:self-end md:pt-0 md:pb-6" : "pt-6 md:row-start-3 md:self-start"
+                  }`}
+                >
+                  <div className="aspect-[4/3] w-full max-w-[220px] overflow-hidden bg-neutral-100">
+                    <img
+                      src={t.img}
+                      alt={`${t.year} ${t.title}`}
+                      draggable={false}
+                      className="size-full object-cover grayscale transition duration-500 hover:grayscale-0"
+                    />
+                  </div>
+                  <div className="mt-5 flex flex-wrap items-center gap-2">
+                    <span
+                      className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] ${KIND_CHIP[t.kind]}`}
+                    >
+                      {t.kind}
+                    </span>
+                    {t.sqft != null && (
+                      <span className="text-caption-s uppercase tracking-[0.12em] text-black/50">
+                        {t.sqft.toLocaleString("en-US")} sq ft
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="mt-3 text-h4-s">{t.title}</h3>
+                  <p className="mt-2 max-w-[240px] text-body2-s text-black/60">{t.body}</p>
+                </article>
+              </li>
+            )
+          })}
+        </ol>
       </div>
-      {bar.size < 0.999 && (
-        <div className="mx-auto mt-6 max-w-[1750px] px-6 md:px-10">
+      <div className="mx-auto mt-6 max-w-[1750px] px-6 md:px-10">
+        {bar.size < 0.999 && (
           <div
             ref={track}
             onPointerDown={startBarDrag}
@@ -157,8 +331,9 @@ function TimelineScroller({ children }: { children: ReactNode }) {
               />
             </div>
           </div>
-        </div>
-      )}
+        )}
+        <SqftGrowthRail series={series} />
+      </div>
     </div>
   )
 }
@@ -311,34 +486,26 @@ const PILLARS = [
 
 // Growth beats from George Reitz (owner interview), interleaved with dated
 // awards and certifications from the live America's Finest Standard page.
-type Milestone = {
-  year: string
-  kind: "Growth" | "Company" | "Quality" | "Award"
-  title: string
-  body: string
-  img: string
-  sqft?: number
-}
 const TIMELINE: Milestone[] = [
   { year: "2001", kind: "Company", title: "The business plan", body: "Fall 2001: George writes the plan for American Millwork & Cabinetry, named in honor of the fallen of 9/11.", img: `${asset}/62abe.png` },
   { year: "2003", kind: "Growth", sqft: 8000, title: "First shop", body: "Opens in an 8,000 sq ft shop. First product ships April 2003 - $735,000 in year one.", img: `${asset}/factory/11af8e22_image.png` },
-  { year: "2004", kind: "Growth", sqft: 15000, title: "Taking more of the building", body: "Adds another 5,000 sq ft of the leased space - about 14-15,000 sq ft in all.", img: `${asset}/08f78.png` },
-  { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/cf31d.png` },
+  { year: "2004", kind: "Growth", sqft: 15000, title: "Taking more of the building", body: "Adds another 5,000 sq ft of the leased space - about 14-15,000 sq ft in all.", img: `${asset}/factory/2777aef6_image.png` },
+  { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/f4bae.png` },
   { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring Emmaus shop. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/02cb0.png` },
-  { year: "2006", kind: "Growth", sqft: 14000, title: "Emmaus", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/factory/bc70d6ea_image.png` },
-  { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/f291a.png` },
+  { year: "2006", kind: "Growth", sqft: 14000, title: "Emmaus", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/factory/e307e871_image.png` },
+  { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/factory/bc70d6ea_image.png` },
   { year: "2011", kind: "Growth", sqft: 50000, title: "Americas production", body: "2010-2011: another 20,000 sq ft for the Americas production division.", img: `${asset}/factory/6cf042d6_image.png` },
-  { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/f4bae.png` },
+  { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/08f78.png` },
   { year: "2019", kind: "Award", title: "ABC STEP Diamond", body: "Late 2019 into early 2020: Association of Builders and Contractors STEP Award at Diamond Level, for the greatest safety improvement.", img: `${asset}/about/awards/step-diamond.jpg` },
   { year: "2020", kind: "Award", title: "Zero Lost Time", body: "Over 100,000 man hours with zero lost time in one fiscal year. Recognized with Federated Insurance and AWI partners.", img: `${asset}/about/awards/zero-lost-time.jpg` },
   { year: "2020", kind: "Award", title: "Safety Improvement", body: "Safety Improvement Recognition for year-over-year gains and the programs that stuck.", img: `${asset}/about/awards/safety-improvement.jpg` },
   { year: "2020", kind: "Award", title: "Fire certification", body: "Fire certification on record for the plant and our America's Finest standard.", img: `${asset}/about/awards/fire-cert.png` },
   { year: "2021", kind: "Award", title: "AWI Award of Excellence", body: "February 2021: AWI Award of Excellence for AVE Blue Bell luxury apartments, featured in Design Solutions Magazine.", img: `${asset}/about/awards/ave-blue-bell.jpg` },
   { year: "2021", kind: "Quality", title: "NJ Public Works", body: "State of New Jersey Public Works Contractor Registration #663358. Registration date March 12, 2021. George Reitz, President.", img: `${asset}/about/awards/nj-public-works.jpg` },
-  { year: "2021", kind: "Award", title: "Zero Lost Time again", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/zero-lost-time.jpg` },
-  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/factory/e307e871_image.png` },
-  { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/qcp-2022.jpg` },
-  { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/factory/6cf042d6_image.png` },
+  { year: "2021", kind: "Award", title: "Zero Lost Time again", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/step-2020.jpg` },
+  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/f291a.png` },
+  { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/awi-2022.jpg` },
+  { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/cf31d.png` },
 ]
 
 const TEAM = [
@@ -491,48 +658,7 @@ export function AboutPage() {
             From 8,000 to 80,000 sq ft.
           </h2>
         </div>
-        <TimelineScroller>
-          {TIMELINE.map((t, i) => {
-            const above = i % 2 === 1
-            return (
-              <li
-                key={t.year + t.title}
-                className="flex w-[260px] shrink-0 flex-col md:grid md:w-[300px] md:grid-rows-[1fr_auto_1fr]"
-              >
-                {/* Axis: one segment per item forms a continuous center line */}
-                <div className="relative flex h-14 items-center md:row-start-2">
-                  <span className="absolute inset-x-0 top-1/2 h-px bg-black/20" />
-                  <span className="relative size-3 rounded-full bg-black ring-[6px] ring-white" />
-                  <span className="relative ml-4 bg-white pr-3 text-h4-m leading-none tracking-[-0.01em]">{t.year}</span>
-                </div>
-                <article
-                  className={`border-l border-dashed border-black/25 pr-8 pl-5 ${
-                    above ? "pt-6 md:row-start-1 md:self-end md:pt-0 md:pb-6" : "pt-6 md:row-start-3 md:self-start"
-                  }`}
-                >
-                  <div className="aspect-[4/3] w-full max-w-[220px] overflow-hidden bg-neutral-100">
-                    <img
-                      src={t.img}
-                      alt={`${t.year} ${t.title}`}
-                      draggable={false}
-                      className="size-full object-cover grayscale transition duration-500 hover:grayscale-0"
-                    />
-                  </div>
-                  {t.sqft ? (
-                    <p className="mt-5 text-h3-s md:text-h3-m leading-none tracking-tight ">
-                      {t.sqft.toLocaleString("en-US")}
-                      <span className="ml-1 text-caption-s uppercase tracking-[0.12em] text-black/50">sq ft</span>
-                    </p>
-                  ) : (
-                    <span className="mt-5 block text-caption-s uppercase tracking-[0.12em] text-black/50">{t.kind}</span>
-                  )}
-                  <h3 className={`text-h4-s ${t.sqft ? "mt-3" : "mt-2"}`}>{t.title}</h3>
-                  <p className="mt-2 max-w-[240px] text-body2-s text-black/60">{t.body}</p>
-                </article>
-              </li>
-            )
-          })}
-        </TimelineScroller>
+        <TimelineScroller items={TIMELINE} />
       </section>
 
       {/* Leadership team */}
