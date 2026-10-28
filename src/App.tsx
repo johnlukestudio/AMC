@@ -716,6 +716,50 @@ const FACTORY = [
   },
 ]
 
+function LocationsPlantMedia() {
+  const ref = useRef<HTMLVideoElement>(null)
+  const [reduce, setReduce] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const apply = () => {
+      const prefersReduce = mq.matches
+      setReduce(prefersReduce)
+      const v = ref.current
+      if (!v) return
+      if (prefersReduce) {
+        v.pause()
+      } else {
+        void v.play().catch(() => {})
+      }
+    }
+    apply()
+    mq.addEventListener("change", apply)
+    return () => mq.removeEventListener("change", apply)
+  }, [])
+
+  return reduce ? (
+    <img
+      src={`${asset}/home/plant.jpg`}
+      alt="AMC headquarters and manufacturing facility in Emmaus, PA"
+      className="absolute inset-0 size-full object-cover"
+    />
+  ) : (
+    <video
+      ref={ref}
+      className="absolute inset-0 size-full object-cover"
+      autoPlay
+      muted
+      playsInline
+      loop
+      poster={`${asset}/home/plant.jpg`}
+      aria-label="AMC headquarters and manufacturing facility in Emmaus, PA"
+    >
+      <source src={`${asset}/home/plant.mp4`} type="video/mp4" />
+    </video>
+  )
+}
+
 function Locations() {
   return (
     <section className="bg-black text-white">
@@ -724,11 +768,7 @@ function Locations() {
         <div className="mt-8 grid grid-cols-1 gap-10 md:h-[min(62vh,620px)] md:grid-cols-12">
           <div className="flex min-h-0 flex-col gap-3 md:col-span-7">
             <div className="relative min-h-[220px] flex-1 overflow-hidden">
-              <img
-                src="/media/factory/e307e871_image.png"
-                alt="AMC headquarters and manufacturing facility in Emmaus, PA"
-                className="absolute inset-0 size-full object-cover"
-              />
+              <LocationsPlantMedia />
               <span className="absolute bottom-3 left-3 bg-black/60 px-2 py-1 text-caption-s uppercase tracking-wide backdrop-blur-sm">
                 Emmaus, PA · HQ &amp; shop
               </span>
