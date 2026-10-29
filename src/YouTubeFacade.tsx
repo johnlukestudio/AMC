@@ -6,7 +6,7 @@ export const AMC_FILM_POSTER = "/media/amc-film-poster.jpg"
 export function YouTubeFacade({
   videoId = AMC_FILM_ID,
   poster = AMC_FILM_POSTER,
-  title = "Inside American Millwork & Cabinetry: a film about our shop and our people",
+  title = "American Millwork: Who We Are",
   duration = "02:08",
 }: {
   videoId?: string

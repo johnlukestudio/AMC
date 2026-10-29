@@ -198,7 +198,7 @@ function syncVideoJsonLd(route: string) {
   script.textContent = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    name: "Inside American Millwork & Cabinetry",
+    name: "American Millwork: Who We Are",
     description:
       "A short film from the AMC shop in Emmaus, PA. See custom millwork built to field dimensions, vertical milling and QC at every step, then hear from employees about career growth and family values.",
     thumbnailUrl: "https://beta.amcmillwork.com/media/amc-film-poster.jpg",
