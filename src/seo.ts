@@ -178,4 +178,33 @@ export function applySeo(route: string) {
   upsertMeta("name", "twitter:description", description)
 
   ensureOrganizationJsonLd()
+  syncVideoJsonLd(route)
+}
+
+const VIDEO_ROUTES = new Set(["about", "careers"])
+
+/** VideoObject structured data for the employee film on About and Careers. */
+function syncVideoJsonLd(route: string) {
+  const id = "amc-video-jsonld"
+  const existing = document.getElementById(id)
+  if (!VIDEO_ROUTES.has(route)) {
+    existing?.remove()
+    return
+  }
+  if (existing) return
+  const script = document.createElement("script")
+  script.id = id
+  script.type = "application/ld+json"
+  script.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: "Inside American Millwork & Cabinetry",
+    description:
+      "A short film from the AMC shop in Emmaus, PA. See custom millwork built to field dimensions, vertical milling and QC at every step, then hear from employees about career growth and family values.",
+    thumbnailUrl: "https://beta.amcmillwork.com/media/amc-film-poster.jpg",
+    embedUrl: "https://www.youtube.com/embed/74eBYIORrts",
+    contentUrl: "https://www.youtube.com/watch?v=74eBYIORrts",
+    duration: "PT2M8S",
+  })
+  document.head.appendChild(script)
 }

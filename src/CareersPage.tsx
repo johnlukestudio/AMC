@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
+import { YouTubeFacade } from "./YouTubeFacade"
 
 const field =
   "w-full rounded-lg border border-black/20 bg-white px-4 py-3 text-body2-s text-black outline-none transition placeholder:text-black/30 hover:border-black/40 focus:border-dark-950 focus:ring-4 focus:ring-green-100"
@@ -95,6 +96,18 @@ export function CareersPage() {
             </a>
           </div>
         </div>
+      </section>
+
+      {/* Employee film */}
+      <section className="mx-auto max-w-[1750px] px-6 pt-20 md:px-10 md:pt-28">
+        <div className="mb-14 grid gap-10 md:grid-cols-2 md:items-end">
+          <Eyebrow>the film</Eyebrow>
+          <div className="md:justify-self-end md:text-right">
+            <h2 className="max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.15] text-dark-950">Hear it from the crew.</h2>
+            <p className="mt-4 text-body1-s leading-[1.6] text-black/60">Real people, real growth, straight from the shop floor.</p>
+          </div>
+        </div>
+        <YouTubeFacade />
       </section>
 
       {/* Culture */}
