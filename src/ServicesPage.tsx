@@ -198,10 +198,10 @@ export const SERVICE_DATA: Service[] = [
     slug: "surfaces",
     title: "Surfaces",
     kicker: "American Surfaces",
-    intro: "For first impressions, and lasting impressions. Custom commercial solid surfaces for office, retail, academic and healthcare spaces.",
+    intro: "For first impressions, and lasting impressions. Custom commercial solid surfaces for office, retail, academic, and other commercial spaces.",
     hero: `${asset}/2e51c.png`,
     overview:
-      "Solid surfaces such as Corian can be used in a variety of applications. Non-porous, durable, easy to maintain and able to be shaped to fit any design, they are a popular choice across residential and commercial settings, from countertops and seamless wall cladding to custom furniture, sinks and healthcare environments.",
+      "Solid surfaces such as Corian can be used in a variety of applications. Non-porous, durable, easy to maintain and able to be shaped to fit any design, they are a popular choice for commercial spaces, from countertops and seamless wall cladding to custom furniture and retail and hospitality fixtures.",
     overviewImg: `${asset}/6896d.png`,
     meta: [
       { label: "Spaces", value: "Office · Retail · Academic" },
@@ -209,7 +209,7 @@ export const SERVICE_DATA: Service[] = [
       { label: "Lead time", value: "Coordinated to project schedule" },
       { label: "Region", value: "PA · NY · NJ" },
     ],
-    tags: ["Solid surface · Corian", "Retail · Healthcare"],
+    tags: ["Solid surface · Corian", "Retail · Hospitality"],
     items: [
       {
         title: "Countertops",
@@ -227,19 +227,9 @@ export const SERVICE_DATA: Service[] = [
         body: "Custom tables, desks and shelves in a versatile material that can be shaped and formed into a variety of designs.",
       },
       {
-        title: "Sinks & Bathtubs",
-        img: `${asset}/825ea.png`,
-        body: "Seamless sinks and bathtubs that are easy to clean and custom-designed to fit any space and style.",
-      },
-      {
         title: "Retail & Hospitality",
         img: `${asset}/875eb.png`,
-        body: "Durable, attractive surfaces for countertops, bars and fixtures in hotels, restaurants and stores.",
-      },
-      {
-        title: "Healthcare Facilities",
-        img: `${asset}/197f8.png`,
-        body: "A non-porous material that is easy to sanitize and maintain, for countertops, wall cladding and more.",
+        body: "Durable, attractive surfaces for countertops, bars and fixtures in hotels and restaurants.",
       },
     ],
     steps: [
@@ -254,7 +244,7 @@ export const SERVICE_DATA: Service[] = [
     stepsImg: `${asset}/factory/bc70d6ea_image.png`,
     deliverables: [
       { title: "Non-porous", body: "Hygienic surfaces that resist stains and are easy to sanitize." },
-      { title: "Seamless", body: "Joints disappear for continuous countertops, walls and sinks." },
+      { title: "Seamless", body: "Joints disappear for continuous countertops, walls and fixtures." },
       { title: "Repairable", body: "Damage and stains can be professionally restored." },
       { title: "Any shape", body: "Thermoformed and fabricated to fit any design." },
     ],
