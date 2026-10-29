@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, type ReactNode } from "react"
 import { Eyebrow, OutlineButton } from "./App"
+import { YouTubeFacade } from "./YouTubeFacade"
 
 /* Full-bleed horizontal scroller: items peek past the page margins, while the
    custom progress bar stays aligned to the 1750px content grid.
@@ -654,8 +655,17 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Team video */}
-      <VideoFeature eyebrow="Team" title="Meet the craftspeople who build every AMC project." img={`${asset}/factory/2777aef6_image.png`} className="pb-24 md:pb-32" />
+      {/* Employee film */}
+      <section className="mx-auto max-w-[1750px] px-6 pb-24 md:px-10 md:pb-32">
+        <div className="mb-14 grid gap-10 md:grid-cols-2 md:items-end">
+          <Eyebrow>Our people</Eyebrow>
+          <div className="md:justify-self-end md:text-right">
+            <h2 className="max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1]">Inside the shop.</h2>
+            <p className="mt-4 text-body1-s leading-[1.6] text-black/70">Hear from the people who build it.</p>
+          </div>
+        </div>
+        <YouTubeFacade />
+      </section>
 
       {/* Careers / recruit */}
       <section className="mx-auto max-w-[1750px] px-6 md:px-10">
