@@ -524,10 +524,6 @@ function Hero() {
           </div>
 
           {/* Four zones: Acoustical top, Casework left, Millwork right, Surfaces bottom */}
-          <svg className="pointer-events-none absolute inset-0 size-full" preserveAspectRatio="none" viewBox="0 0 100 100">
-            <line x1="0" y1="0" x2="100" y2="100" stroke="rgba(0,0,0,0.25)" strokeWidth="1" strokeDasharray="6 6" vectorEffect="non-scaling-stroke" />
-            <line x1="100" y1="0" x2="0" y2="100" stroke="rgba(0,0,0,0.25)" strokeWidth="1" strokeDasharray="6 6" vectorEffect="non-scaling-stroke" />
-          </svg>
           {[
             { clip: "polygon(0 0,100% 0,50% 50%)", label: "left-1/2 top-[18%] -translate-x-1/2" },
             { clip: "polygon(0 0,50% 50%,0 100%)", label: "left-[max(1.5rem,calc(50%-875px+2.5rem))] top-1/2 -translate-y-1/2" },
