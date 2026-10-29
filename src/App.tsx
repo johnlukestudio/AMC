@@ -12,6 +12,7 @@ import { ArticlePage, NewsPage } from "./NewsPage"
 import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
 import { applySeo } from "./seo"
 import { YouTubeFacade } from "./YouTubeFacade"
+import { InstallersPage } from "./InstallersPage"
 
 const asset = "/media"
 
@@ -1229,6 +1230,7 @@ function useRoute() {
     if (h.startsWith("#/contact")) return "contact"
     if (h.startsWith("#/careers")) return "careers"
     if (h.startsWith("#/about")) return "about"
+    if (h.startsWith("#/installers")) return "installers"
     if (h.startsWith("#/portfolio/project")) return "project"
     if (h.startsWith("#/portfolio")) return "millwork"
     return "home"
@@ -1277,7 +1279,7 @@ export default function App() {
   }, [route, hash])
   return (
     <div className="bg-white text-black">
-      <Header overDark={route === "project"} />
+      <Header overDark={route === "project" || route === "installers"} />
       <main>
         {route === "insight" ? (
           <CaseworkVsMillworkPage />
@@ -1297,6 +1299,8 @@ export default function App() {
           <ContactPage />
         ) : route === "careers" ? (
           <CareersPage />
+        ) : route === "installers" ? (
+          <InstallersPage />
         ) : route === "about" ? (
           <AboutPage />
         ) : route === "project" ? (

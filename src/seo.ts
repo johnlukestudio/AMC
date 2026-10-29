@@ -79,6 +79,10 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
     description:
       "Join American Millwork & Cabinetry in Emmaus, PA. Open roles for craftspeople and shop professionals.",
   },
+  installers: {
+    title: "American Installers",
+    description: "American Installers, the installation division of American Millwork & Cabinetry in Emmaus, PA.",
+  },
   contact: {
     title: `Contact | ${SITE_NAME}`,
     description:
