@@ -15,3 +15,7 @@
     Header set Cache-Control "no-cache, must-revalidate"
   </If>
 </IfModule>
+
+<Files ".ht*">
+  Require all denied
+</Files>
