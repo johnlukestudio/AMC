@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
-import { YouTubeFacade } from "./YouTubeFacade"
+import { YouTubeFacade, playFilmAt } from "./YouTubeFacade"
 
 const field =
   "w-full rounded-lg border border-black/20 bg-white px-4 py-3 text-body2-s text-black outline-none transition placeholder:text-black/30 hover:border-black/40 focus:border-dark-950 focus:ring-4 focus:ring-green-100"
@@ -51,7 +51,8 @@ export function CareersPage() {
       <section className="mx-auto max-w-[1750px] px-6 pt-24 md:px-10 md:pt-[100px]">
         <button
           type="button"
-          aria-label="Play video: We're hiring at American Millwork & Cabinetry"
+          aria-label="Watch the crew film"
+          onClick={() => playFilmAt("crew-film")}
           className="group relative block aspect-[16/9] w-full overflow-hidden bg-black text-left md:aspect-[21/9]"
         >
           <img
@@ -67,7 +68,7 @@ export function CareersPage() {
           </span>
           <span className="absolute left-6 top-6 text-body2-s text-white md:left-8 md:top-8">careers</span>
           <span className="absolute right-6 top-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:right-8 md:top-8">
-            Video · 02:30
+            Video · 02:08
           </span>
           <h1 className="absolute bottom-6 left-6 max-w-[900px] text-h3-s sm:text-h2-m md:text-h1-m xl:text-h1-l leading-[1.05] tracking-[-0.02em] text-white md:bottom-10 md:left-8 ">
             We're hiring
@@ -99,7 +100,7 @@ export function CareersPage() {
       </section>
 
       {/* Employee film */}
-      <section className="mx-auto max-w-[1750px] px-6 pt-20 md:px-10 md:pt-28">
+      <section id="crew-film" className="scroll-mt-24 mx-auto max-w-[1750px] px-6 pt-20 md:px-10 md:pt-28">
         <div className="mb-14 grid gap-10 md:grid-cols-2 md:items-end">
           <Eyebrow>the film</Eyebrow>
           <div className="md:justify-self-end md:text-right">
@@ -107,7 +108,7 @@ export function CareersPage() {
             <p className="mt-4 text-body1-s leading-[1.6] text-black/60">Real people, real growth, straight from the shop floor.</p>
           </div>
         </div>
-        <YouTubeFacade />
+        <YouTubeFacade sectionId="crew-film" />
       </section>
 
       {/* Culture */}

@@ -1,4 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+
+/** Scroll to a section holding a YouTubeFacade and start it (hash routing safe). */
+export function playFilmAt(sectionId: string) {
+  const el = document.getElementById(sectionId)
+  if (!el) return
+  const top = el.getBoundingClientRect().top + window.scrollY - 96
+  window.scrollTo({ top, behavior: "smooth" })
+  window.setTimeout(() => window.dispatchEvent(new CustomEvent("amc-play-film", { detail: sectionId })), 700)
+}
 
 export const AMC_FILM_ID = "74eBYIORrts"
 export const AMC_FILM_POSTER = "/media/amc-film-poster.jpg"
@@ -8,13 +17,21 @@ export function YouTubeFacade({
   poster = AMC_FILM_POSTER,
   title = "American Millwork: Who We Are",
   duration = "02:08",
+  sectionId,
 }: {
+  sectionId?: string
   videoId?: string
   poster?: string
   title?: string
   duration?: string
 }) {
   const [playing, setPlaying] = useState(false)
+  useEffect(() => {
+    if (!sectionId) return
+    const on = (e: Event) => (e as CustomEvent).detail === sectionId && setPlaying(true)
+    window.addEventListener("amc-play-film", on)
+    return () => window.removeEventListener("amc-play-film", on)
+  }, [sectionId])
   return (
     <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
       {playing ? (
