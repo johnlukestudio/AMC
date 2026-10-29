@@ -439,10 +439,6 @@ function Hero() {
         <br />
         Millwork
       </h1>
-      <div className="mt-6 flex justify-between text-caption-s uppercase tracking-[0.04em]">
-        <span>Custom Millwork</span>
-        <span>since 2003</span>
-      </div>
       <div className="mt-8 grid grid-cols-2 gap-3">
         {HERO_CATEGORIES.map((c, i) => (
           <figure key={c.name}>
@@ -547,13 +543,6 @@ function Hero() {
             </div>
           ))}
 
-          {/* Side labels */}
-          <div className="pointer-events-none absolute left-[max(1.5rem,calc(50%-875px+2.5rem))] top-28 text-caption-s uppercase tracking-[0.04em] text-black">
-            Custom Millwork
-          </div>
-          <div className="pointer-events-none absolute right-[max(1.5rem,calc(50%-875px+2.5rem))] top-28 text-caption-s uppercase tracking-[0.04em] text-black">
-            since 2003
-          </div>
         </div>
 
         {/* Big headline - spans full width, edge to edge */}
