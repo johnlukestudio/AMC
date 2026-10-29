@@ -79,8 +79,8 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
     description:
       "Join American Millwork & Cabinetry in Emmaus, PA. Open roles for craftspeople and shop professionals.",
   },
-  installers: {
-    title: "American Installers",
+  division: {
+    title: "Divisions",
     description: "American Installers, the installation division of American Millwork & Cabinetry in Emmaus, PA.",
   },
   contact: {
@@ -126,6 +126,12 @@ function ensureOrganizationJsonLd() {
 
 function resolveSeo(route: string): SeoEntry {
   const hash = window.location.hash
+  if (route === "division") {
+    const names: Record<string, string> = { "american-installers": "American Installers", "amc-acoustical": "AMC Acoustical", "american-surfaces": "American Surfaces" }
+    const slug = hash.replace(/^#\/divisions\/?/, "").split(/[?/]/)[0]
+    const name = names[slug] ?? "Divisions"
+    return { title: `${name} | ${SITE_NAME}`, description: `${name}, a division of ${SITE_NAME} in Emmaus, PA.` }
+  }
 
   if (route === "service") {
     const slug = hash.replace(/^#\/services\//, "").split(/[?#]/)[0]
