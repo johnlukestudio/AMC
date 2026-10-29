@@ -215,7 +215,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
                         {item.href && (
                           <li>
                             <a href={item.href} className={`${rowCls} justify-between`}>
-                              All {item.label.toLowerCase()} <span aria-hidden>↗</span>
+                              All {item.label} <span aria-hidden>↗</span>
                             </a>
                           </li>
                         )}
@@ -408,126 +408,149 @@ function Header({ overDark = false }: { overDark?: boolean }) {
 }
 
 /* ---------- Hero ---------- */
-function HeroPlantInset() {
-  const ref = useRef<HTMLVideoElement>(null)
-  const [reduce, setReduce] = useState(false)
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const apply = () => {
-      const prefersReduce = mq.matches
-      setReduce(prefersReduce)
-      const v = ref.current
-      if (!v) return
-      if (prefersReduce) {
-        v.pause()
-      } else {
-        void v.play().catch(() => {})
-      }
-    }
-    apply()
-    mq.addEventListener("change", apply)
-    return () => mq.removeEventListener("change", apply)
-  }, [])
-
-  return reduce ? (
-    <img
-      src={`${asset}/home/plant.jpg`}
-      alt=""
-      className="absolute inset-0 size-full object-cover"
-      aria-hidden
-    />
-  ) : (
-    <video
-      ref={ref}
-      className="absolute inset-0 size-full object-cover"
-      autoPlay
-      muted
-      playsInline
-      loop
-      poster={`${asset}/home/plant.jpg`}
-      aria-hidden
-    >
-      <source src={`${asset}/home/plant.mp4`} type="video/mp4" />
-    </video>
-  )
-}
-
 function Hero() {
-  // Edge labels: Millwork left, Acoustical top, Casework right, Surfaces bottom.
-  const surfacesIdx = HERO_CATEGORIES.findIndex((c) => c.name === "Surfaces")
-  const [active, setActive] = useState(surfacesIdx >= 0 ? surfacesIdx : 0)
-  const [touched, setTouched] = useState(false)
-  // Touch devices have no hover: cycle categories until the user taps one.
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const [pos, setPos] = useState({ x: 0.5, y: 0.5 })
+  const [active, setActive] = useState(0)
+  // Touch devices have no hover: cycle categories automatically.
   useEffect(() => {
-    if (touched || !window.matchMedia("(hover: none)").matches) return
+    if (!window.matchMedia("(hover: none)").matches) return
     const id = setInterval(() => setActive((a) => (a + 1) % HERO_CATEGORIES.length), 2600)
     return () => clearInterval(id)
-  }, [touched])
-  const idx = (name: string) => HERO_CATEGORIES.findIndex((c) => c.name === name)
-  const label = (name: string, pos: string) => {
-    const i = idx(name)
-    const on = i === active
-    return (
-      <button
-        type="button"
-        onMouseEnter={() => setActive(i)}
-        onFocus={() => setActive(i)}
-        onClick={() => {
-          setTouched(true)
-          setActive(i)
-        }}
-        aria-pressed={on}
-        className={`absolute z-20 px-3 py-2 text-caption-m uppercase tracking-[0.18em] transition-colors duration-300 md:text-body2-s ${pos} ${
-          on ? "text-white" : "text-white/55 hover:text-white"
-        }`}
-      >
-        <span className={`border-b pb-1 transition-colors duration-300 ${on ? "border-white" : "border-transparent"}`}>{name}</span>
-      </button>
-    )
-  }
+  }, [])
   return (
-    <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-neutral-950 text-white">
-      {/* Background image swaps with the active category */}
-      {HERO_CATEGORIES.map((c, i) => (
-        <img
-          key={c.name}
-          src={c.img}
-          alt={i === active ? c.name : ""}
-          aria-hidden={i !== active}
-          className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ease-out ${
-            i === active ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      ))}
-      <div className="pointer-events-none absolute inset-0 bg-black/35" />
-
-      {/* Plant inset (from #21) */}
-      <div className="pointer-events-none absolute left-[58%] top-[38%] z-[5] hidden size-[220px] -translate-x-1/2 -translate-y-1/2 overflow-hidden [@media(hover:hover)_and_(min-width:768px)]:block xl:left-[56%] xl:size-[260px]">
-        <span className="absolute left-0 top-0 z-10 size-[10px] border-l border-t border-white/70" />
-        <span className="absolute right-0 top-0 z-10 size-[10px] border-r border-t border-white/70" />
-        <span className="absolute bottom-0 left-0 z-10 size-[10px] border-b border-l border-white/70" />
-        <span className="absolute bottom-0 right-0 z-10 size-[10px] border-b border-r border-white/70" />
-        <HeroPlantInset />
+    <>
+    <section className="bg-white px-6 pt-[150px] pb-16 md:hidden">
+      <h1 className="text-center font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[15vw]">
+        America's
+        <br />
+        Millwork
+      </h1>
+      <div className="mt-6 flex justify-between text-caption-s uppercase tracking-[0.04em]">
+        <span>Custom Millwork</span>
+        <span>since 2003</span>
       </div>
+      <div className="mt-8 grid grid-cols-2 gap-3">
+        {HERO_CATEGORIES.map((c, i) => (
+          <figure key={c.name}>
+            <div className="aspect-[4/5] overflow-hidden bg-neutral-100">
+              <img src={c.img} alt={c.name} className="size-full object-cover" />
+            </div>
+            <figcaption className="mt-2 flex justify-between text-caption-m">
+              <span>{c.name}</span>
+              <span className="text-black/50">0{i + 1}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+    <section className="relative hidden bg-white md:block">
+      <div className="sticky top-0 flex h-screen min-h-[640px] items-end overflow-hidden">
+        {/* Crosshair + interactive category layer */}
+        <div
+          ref={wrapRef}
+          className="absolute inset-0"
+          onMouseMove={(e) => {
+            const r = wrapRef.current?.getBoundingClientRect()
+            if (!r) return
+            setPos({
+              x: (e.clientX - r.left) / r.width,
+              y: (e.clientY - r.top) / r.height,
+            })
+          }}
+        >
+          {/* Crosshair guide lines */}
+          <div
+            className="pointer-events-none absolute left-0 right-0 border-t border-dashed border-black/30"
+            style={{ top: `${pos.y * 100}%` }}
+          />
+          <div
+            className="pointer-events-none absolute top-0 bottom-0 border-l border-dashed border-black/30"
+            style={{ left: `${pos.x * 100}%` }}
+          />
+          {/* Crosshair viewport - image swaps with active category */}
+          <div
+            className="pointer-events-none absolute hidden size-[220px] -translate-x-1/2 -translate-y-1/2 overflow-hidden [@media(hover:hover)_and_(min-width:768px)]:block"
+            style={{ left: `${pos.x * 100}%`, top: `${pos.y * 100}%` }}
+          >
+            <span className="absolute left-0 top-0 z-10 size-[10px] border-l border-t border-black/50" />
+            <span className="absolute right-0 top-0 z-10 size-[10px] border-r border-t border-black/50" />
+            <span className="absolute bottom-0 left-0 z-10 size-[10px] border-b border-l border-black/50" />
+            <span className="absolute bottom-0 right-0 z-10 size-[10px] border-b border-r border-black/50" />
+            {HERO_CATEGORIES.map((c, i) => (
+              <img
+                key={c.name}
+                src={c.img}
+                alt=""
+                className={`absolute inset-0 size-full object-cover transition-opacity duration-500 ${
+                  i === active ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+            {/* Category name overlaid on the image, top */}
+            <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/50 to-transparent pt-3 pb-6 text-center">
+              <span className="text-caption-m uppercase tracking-[0.18em] text-white">
+                {HERO_CATEGORIES[active].name}
+              </span>
+            </div>
+          </div>
 
-      {/* Headline */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-end px-14 pb-[110px] text-center md:pb-[120px]">
-        <h1 className="font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[11vw] md:whitespace-nowrap md:text-[min(8.7vw,152px)]">
-          America's <br className="md:hidden" />
-          Millwork
-        </h1>
-        <div className="mt-5 flex gap-6 text-caption-s uppercase tracking-[0.04em] text-white/80">
-          <span>Custom Millwork</span>
-          <span>since 2003</span>
+          {/* Touch / mobile: centered category card */}
+          <div className="pointer-events-none absolute left-1/2 top-[44%] aspect-[4/5] w-[min(56vw,300px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden [@media(hover:hover)_and_(min-width:768px)]:hidden">
+            {HERO_CATEGORIES.map((c, i) => (
+              <img
+                key={c.name}
+                src={c.img}
+                alt=""
+                className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${i === active ? "opacity-100" : "opacity-0"}`}
+              />
+            ))}
+            <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/50 to-transparent pt-3 pb-6 text-center">
+              <span className="text-caption-m uppercase tracking-[0.18em] text-white">{HERO_CATEGORIES[active].name}</span>
+            </div>
+          </div>
+
+          {/* Three category divider zones */}
+          <div className="absolute inset-0 flex">
+            {HERO_CATEGORIES.map((c, i) => (
+              <div
+                key={c.name}
+                onMouseEnter={() => setActive(i)}
+                onClick={() => setActive(i)}
+                className={`group relative flex flex-1 flex-col items-center px-6 pt-28 pb-32 transition-colors duration-300 md:px-8 ${
+                  i > 0 ? "border-l border-dashed border-black/25" : ""
+                }`}
+              >
+                <span
+                  className={`text-caption-m uppercase tracking-[0.16em] transition-colors duration-300 ${
+                    i === active ? "text-black" : "text-black/40"
+                  }`}
+                >
+                  0{i + 1}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Corner labels */}
+          <div className="pointer-events-none absolute left-[max(1.5rem,calc(50%-875px+1.5rem))] top-[22%] md:top-1/2 -translate-y-1/2 text-caption-s uppercase tracking-[0.04em] text-black md:left-[max(2.5rem,calc(50%-875px+2.5rem))]">
+            Custom Millwork
+          </div>
+          <div className="pointer-events-none absolute right-[max(1.5rem,calc(50%-875px+1.5rem))] top-[22%] md:top-1/2 -translate-y-1/2 text-caption-s uppercase tracking-[0.04em] text-black md:right-[max(2.5rem,calc(50%-875px+2.5rem))]">
+            since 2003
+          </div>
+        </div>
+
+        {/* Big headline - spans full width, edge to edge */}
+        <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[1750px] px-6 pb-8 md:px-10 md:pb-12">
+          <h1 className="w-full text-center font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[15vw] md:whitespace-nowrap md:text-[min(8.7vw,152px)]">
+            America's <br className="md:hidden" />
+            Millwork
+          </h1>
         </div>
       </div>
-
-      {label("Acoustical", "left-1/2 top-[150px] -translate-x-1/2 md:top-[96px]")}
-      {label("Millwork", "left-1 top-1/2 -translate-y-1/2 -rotate-90 md:left-6")}
-      {label("Casework", "right-1 top-1/2 -translate-y-1/2 rotate-90 md:right-6")}
-      {label("Surfaces", "bottom-6 left-1/2 -translate-x-1/2 md:bottom-10")}
     </section>
+    </>
   )
 }
 
@@ -1250,7 +1273,7 @@ export default function App() {
   }, [route, hash])
   return (
     <div className="bg-white text-black">
-      <Header overDark={route === "project" || route === "home"} />
+      <Header overDark={route === "project"} />
       <main>
         {route === "insight" ? (
           <CaseworkVsMillworkPage />
