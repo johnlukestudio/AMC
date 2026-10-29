@@ -42,9 +42,9 @@ const logo = `${asset}/73d6c.svg`
 
 /* Hero category images (AMC divisions) */
 const HERO_CATEGORIES = [
-  { name: "Millwork", img: `${asset}/cat-millwork.png` },
-  { name: "Casework", img: `${asset}/cat-casework.png` },
   { name: "Acoustical", img: `${asset}/cat-acoustics.png` },
+  { name: "Casework", img: `${asset}/cat-casework.png` },
+  { name: "Millwork", img: `${asset}/cat-millwork.png` },
   { name: "Surfaces", img: serviceImgs[2] },
 ]
 const arrowPrev = `${asset}/50a22.svg`
@@ -418,6 +418,19 @@ function Hero() {
     const id = setInterval(() => setActive((a) => (a + 1) % HERO_CATEGORIES.length), 2600)
     return () => clearInterval(id)
   }, [])
+  // Scrolling to the bottom of the pinned hero activates Surfaces.
+  const sectionRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const onScroll = () => {
+      const el = sectionRef.current
+      if (!el || el.offsetHeight === 0) return
+      const r = el.getBoundingClientRect()
+      const travel = el.offsetHeight - window.innerHeight
+      if (travel > 0 && -r.top >= travel * 0.85) setActive(3)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
   return (
     <>
     <section className="bg-white px-6 pt-[150px] pb-16 md:hidden">
@@ -444,7 +457,7 @@ function Hero() {
         ))}
       </div>
     </section>
-    <section className="relative hidden bg-white md:block">
+    <section ref={sectionRef} className="relative hidden h-[150vh] bg-white md:block">
       <div className="sticky top-0 flex h-screen min-h-[640px] items-end overflow-hidden">
         {/* Crosshair + interactive category layer */}
         <div
@@ -510,33 +523,39 @@ function Hero() {
             </div>
           </div>
 
-          {/* Three category divider zones */}
-          <div className="absolute inset-0 flex">
-            {HERO_CATEGORIES.map((c, i) => (
-              <div
-                key={c.name}
-                onMouseEnter={() => setActive(i)}
-                onClick={() => setActive(i)}
-                className={`group relative flex flex-1 flex-col items-center px-6 pt-28 pb-32 transition-colors duration-300 md:px-8 ${
-                  i > 0 ? "border-l border-dashed border-black/25" : ""
+          {/* Four zones: Acoustical top, Casework left, Millwork right, Surfaces bottom */}
+          <svg className="pointer-events-none absolute inset-0 size-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+            <line x1="0" y1="0" x2="100" y2="100" stroke="rgba(0,0,0,0.25)" strokeWidth="1" strokeDasharray="6 6" vectorEffect="non-scaling-stroke" />
+            <line x1="100" y1="0" x2="0" y2="100" stroke="rgba(0,0,0,0.25)" strokeWidth="1" strokeDasharray="6 6" vectorEffect="non-scaling-stroke" />
+          </svg>
+          {[
+            { clip: "polygon(0 0,100% 0,50% 50%)", label: "left-1/2 top-[18%] -translate-x-1/2" },
+            { clip: "polygon(0 0,50% 50%,0 100%)", label: "left-[max(1.5rem,calc(50%-875px+2.5rem))] top-1/2 -translate-y-1/2" },
+            { clip: "polygon(100% 0,100% 100%,50% 50%)", label: "right-[max(1.5rem,calc(50%-875px+2.5rem))] top-1/2 -translate-y-1/2 text-right" },
+            { clip: "polygon(0 100%,50% 50%,100% 100%)", label: "left-1/2 bottom-[30%] -translate-x-1/2" },
+          ].map((z, i) => (
+            <div
+              key={HERO_CATEGORIES[i].name}
+              onMouseEnter={() => setActive(i)}
+              onClick={() => setActive(i)}
+              className="absolute inset-0"
+              style={{ clipPath: z.clip }}
+            >
+              <span
+                className={`absolute ${z.label} text-caption-m uppercase tracking-[0.16em] transition-colors duration-300 ${
+                  i === active ? "text-black" : "text-black/40"
                 }`}
               >
-                <span
-                  className={`text-caption-m uppercase tracking-[0.16em] transition-colors duration-300 ${
-                    i === active ? "text-black" : "text-black/40"
-                  }`}
-                >
-                  0{i + 1}
-                </span>
-              </div>
-            ))}
-          </div>
+                0{i + 1} {HERO_CATEGORIES[i].name}
+              </span>
+            </div>
+          ))}
 
-          {/* Corner labels */}
-          <div className="pointer-events-none absolute left-[max(1.5rem,calc(50%-875px+1.5rem))] top-[22%] md:top-1/2 -translate-y-1/2 text-caption-s uppercase tracking-[0.04em] text-black md:left-[max(2.5rem,calc(50%-875px+2.5rem))]">
+          {/* Side labels */}
+          <div className="pointer-events-none absolute left-[max(1.5rem,calc(50%-875px+2.5rem))] top-28 text-caption-s uppercase tracking-[0.04em] text-black">
             Custom Millwork
           </div>
-          <div className="pointer-events-none absolute right-[max(1.5rem,calc(50%-875px+1.5rem))] top-[22%] md:top-1/2 -translate-y-1/2 text-caption-s uppercase tracking-[0.04em] text-black md:right-[max(2.5rem,calc(50%-875px+2.5rem))]">
+          <div className="pointer-events-none absolute right-[max(1.5rem,calc(50%-875px+2.5rem))] top-28 text-caption-s uppercase tracking-[0.04em] text-black">
             since 2003
           </div>
         </div>
