@@ -12,7 +12,7 @@ import { ArticlePage, NewsPage } from "./NewsPage"
 import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
 import { applySeo } from "./seo"
 import { YouTubeFacade } from "./YouTubeFacade"
-import { InstallersPage } from "./InstallersPage"
+import { DivisionPage } from "./DivisionsPage"
 
 const asset = "/media"
 
@@ -65,10 +65,10 @@ type NavLink = { label: string; href: string; children?: NavLink[] }
 type NavItem = { label: string; href?: string; items?: NavLink[] }
 
 const DIVISIONS: NavLink[] = [
-  { label: "American Millwork", href: "#/services/architectural-millwork" },
+  { label: "American Installers", href: "#/divisions/american-installers" },
+  { label: "AMC Acoustical", href: "#/divisions/amc-acoustical" },
+  { label: "American Surfaces", href: "#/divisions/american-surfaces" },
   { label: "AmeriCase", href: "#/americase" },
-  { label: "AMC Acoustical", href: "#/services/acoustical" },
-  { label: "American Surfaces", href: "#/services/surfaces" },
 ]
 
 const NAV: NavItem[] = [
@@ -78,7 +78,6 @@ const NAV: NavItem[] = [
       { label: "About Us", href: "#/about" },
       { label: "Careers", href: "#/careers" },
       { label: "Casework vs Millwork", href: "#/insights/casework-vs-millwork" },
-      { label: "Our Divisions", href: "#/services", children: DIVISIONS },
     ],
   },
   {
@@ -100,6 +99,7 @@ const NAV: NavItem[] = [
       { label: "All Projects", href: "#/portfolio/all" },
     ],
   },
+  { label: "Divisions", items: DIVISIONS },
   { label: "News", href: "#/news" },
 ]
 
@@ -1028,7 +1028,6 @@ const FOOTER_COLUMNS: { title: string; href?: string; links: NavLink[] }[] = [
       { label: "Contact", href: "#/contact" },
     ],
   },
-  { title: "Our Divisions", links: DIVISIONS },
   ...NAV.filter((n) => n.items && n.label !== "Company").map((n) => ({ title: n.label, href: n.href, links: n.items! })),
   {
     title: "Social",
@@ -1230,7 +1229,8 @@ function useRoute() {
     if (h.startsWith("#/contact")) return "contact"
     if (h.startsWith("#/careers")) return "careers"
     if (h.startsWith("#/about")) return "about"
-    if (h.startsWith("#/installers")) return "installers"
+    if (h.startsWith("#/divisions/")) return "division"
+    if (h.startsWith("#/installers")) { window.location.replace("#/divisions/american-installers"); return "division" }
     if (h.startsWith("#/portfolio/project")) return "project"
     if (h.startsWith("#/portfolio")) return "millwork"
     return "home"
@@ -1279,7 +1279,7 @@ export default function App() {
   }, [route, hash])
   return (
     <div className="bg-white text-black">
-      <Header overDark={route === "project" || route === "installers"} />
+      <Header overDark={route === "project" || route === "division"} />
       <main>
         {route === "insight" ? (
           <CaseworkVsMillworkPage />
@@ -1299,8 +1299,8 @@ export default function App() {
           <ContactPage />
         ) : route === "careers" ? (
           <CareersPage />
-        ) : route === "installers" ? (
-          <InstallersPage />
+        ) : route === "division" ? (
+          <DivisionPage key={window.location.hash} />
         ) : route === "about" ? (
           <AboutPage />
         ) : route === "project" ? (
