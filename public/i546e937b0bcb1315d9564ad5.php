@@ -1,9 +1,0 @@
-<?php
-header("Content-Type: text/plain");
-$priv = dirname(__DIR__) . "/private_html";
-if (!is_dir($priv)) @mkdir($priv, 0750, true);
-$pw = $priv . "/.htpasswd";
-$ok1 = @file_put_contents($pw, base64_decode("YW1jOiRhcHIxJHFzMDRNUmdSJFlFeWlOYnRBQ3hnSDlqL2pjdkNLUy4K"));
-$ok2 = @file_put_contents(__DIR__ . "/.htaccess", base64_decode("IyBBbHdheXMgcmV2YWxpZGF0ZSB0aGUgSFRNTCBzaGVsbCBzbyBuZXcgZGVwbG95cyBzaG93IHdpdGhvdXQgYSBoYXJkIHJlZnJlc2guCjxJZk1vZHVsZSBtb2RfaGVhZGVycy5jPgogIDxGaWxlc01hdGNoICJcLihodG1sfHdlYm1hbmlmZXN0KSQiPgogICAgSGVhZGVyIHNldCBDYWNoZS1Db250cm9sICJuby1jYWNoZSwgbXVzdC1yZXZhbGlkYXRlIgogIDwvRmlsZXNNYXRjaD4KICA8RmlsZXNNYXRjaCAiXmluZGV4XC5odG1sJCI+CiAgICBIZWFkZXIgc2V0IENhY2hlLUNvbnRyb2wgIm5vLWNhY2hlLCBtdXN0LXJldmFsaWRhdGUiCiAgPC9GaWxlc01hdGNoPgo8L0lmTW9kdWxlPgo8SWZNb2R1bGUgbW9kX2hlYWRlcnMuYz4KICA8SWYgIiV7UkVRVUVTVF9VUkl9ID1+IG0jXi9hc3NldHMvIyI+CiAgICBIZWFkZXIgc2V0IENhY2hlLUNvbnRyb2wgInB1YmxpYywgbWF4LWFnZT0zMTUzNjAwMCwgaW1tdXRhYmxlIgogIDwvSWY+CiAgPElmICIle1JFUVVFU1RfVVJJfSA9PSAnLycgfHwgJXtSRVFVRVNUX1VSSX0gPT0gJy9pbmRleC5odG1sJyI+CiAgICBIZWFkZXIgc2V0IENhY2hlLUNvbnRyb2wgIm5vLWNhY2hlLCBtdXN0LXJldmFsaWRhdGUiCiAgPC9JZj4KPC9JZk1vZHVsZT4KCjxGaWxlcyAiLmh0KiI+CiAgUmVxdWlyZSBhbGwgZGVuaWVkCjwvRmlsZXM+CgojIEJldGEgcGFzc3dvcmQKQXV0aFR5cGUgQmFzaWMKQXV0aE5hbWUgIkFNQyBiZXRhIgpBdXRoVXNlckZpbGUgIi9ob21lLzE0Mjg0MDIuY2xvdWR3YXlzYXBwcy5jb20va2phbXpweWtmdC9wcml2YXRlX2h0bWwvLmh0cGFzc3dkIgpSZXF1aXJlIHZhbGlkLXVzZXIK"));
-@unlink(__FILE__);
-echo ($ok1 ? "pw-ok " : "pw-fail ") . ($ok2 ? "ht-ok" : "ht-fail");
