@@ -6,7 +6,7 @@ export const AMC_FILM_POSTER = "/media/amc-film-poster.jpg"
 export function YouTubeFacade({
   videoId = AMC_FILM_ID,
   poster = AMC_FILM_POSTER,
-  title = "Inside American Millwork & Cabinetry: a film about our shop and our people",
+  title = "American Millwork: Who We Are",
   duration = "02:08",
 }: {
   videoId?: string
@@ -48,9 +48,9 @@ export function YouTubeFacade({
           <span className="absolute bottom-6 left-6 text-caption-s uppercase tracking-[0.16em] text-white md:bottom-8 md:left-8">
             Watch the film
           </span>
-          <span className="absolute bottom-6 right-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:bottom-8 md:right-8">
+          {duration && <span className="absolute bottom-6 right-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:bottom-8 md:right-8">
             {duration}
-          </span>
+          </span>}
         </button>
       )}
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { MillworkPortfolio } from "./MillworkPortfolio"
 import { ProjectPage } from "./ProjectPage"
-import { AboutPage, VideoFeature } from "./AboutPage"
+import { AboutPage } from "./AboutPage"
 import { CareersPage } from "./CareersPage"
 import {
   ArchitecturalMillworkPage,
@@ -11,6 +11,7 @@ import {
 import { ArticlePage, NewsPage } from "./NewsPage"
 import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
 import { applySeo } from "./seo"
+import { YouTubeFacade } from "./YouTubeFacade"
 
 const asset = "/media"
 
@@ -1338,11 +1339,16 @@ export default function App() {
           <>
             <Hero />
             <About />
-            <VideoFeature
-              eyebrow="Brand reveal"
-              title="Made in Emmaus. Watch the shop come to life."
-              img={`${asset}/9765d.png`}
-            />
+            <section className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
+              <div className="mb-14 grid gap-10 md:grid-cols-2 md:items-end">
+                <Eyebrow>Brand film</Eyebrow>
+                <div className="md:justify-self-end md:text-right">
+                  <h2 className="max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1]">See how we build.</h2>
+                  <p className="mt-4 text-body1-s leading-[1.6] text-black/70">From raw stock to finished install, all from one shop in Emmaus.</p>
+                </div>
+              </div>
+              <YouTubeFacade videoId="_sts_Vo9JZI" poster="/media/amc-brand-poster.jpg" title="American Millwork & Cabinetry brand film" duration="" />
+            </section>
             <Services />
             <Locations />
             <Testimonials />
