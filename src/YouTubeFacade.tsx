@@ -48,9 +48,9 @@ export function YouTubeFacade({
           <span className="absolute bottom-6 left-6 text-caption-s uppercase tracking-[0.16em] text-white md:bottom-8 md:left-8">
             Watch the film
           </span>
-          <span className="absolute bottom-6 right-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:bottom-8 md:right-8">
+          {duration && <span className="absolute bottom-6 right-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:bottom-8 md:right-8">
             {duration}
-          </span>
+          </span>}
         </button>
       )}
     </div>
