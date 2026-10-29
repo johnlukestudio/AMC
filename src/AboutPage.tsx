@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, type ReactNode } from "react"
 import { Eyebrow, OutlineButton } from "./App"
-import { YouTubeFacade } from "./YouTubeFacade"
+import { YouTubeFacade, playFilmAt } from "./YouTubeFacade"
 
 /* Full-bleed horizontal scroller: items peek past the page margins, while the
    custom progress bar stays aligned to the 1750px content grid.
@@ -498,7 +498,11 @@ export function VideoFeature({
   title,
   img,
   className = "py-24 md:py-32",
+  targetId,
+  cta = "Watch Who We Are",
 }: {
+  targetId?: string
+  cta?: string
   eyebrow: string
   title: string
   img: string
@@ -512,7 +516,8 @@ export function VideoFeature({
       </div>
       <button
         type="button"
-        aria-label={`Play video: ${title}`}
+        aria-label={targetId ? cta : `Play video: ${title}`}
+        onClick={targetId ? () => playFilmAt(targetId) : undefined}
         className="group relative block aspect-[16/9] w-full overflow-hidden bg-black md:aspect-[21/9]"
       >
         <img
@@ -526,10 +531,10 @@ export function VideoFeature({
           </svg>
         </span>
         <span className="absolute bottom-6 left-6 text-caption-s uppercase tracking-[0.16em] text-white md:bottom-8 md:left-8">
-          Video coming soon
+          {targetId ? cta : "Video coming soon"}
         </span>
         <span className="absolute bottom-6 right-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:bottom-8 md:right-8">
-          02:30
+          {targetId ? "02:08" : "02:30"}
         </span>
       </button>
     </section>
@@ -593,7 +598,7 @@ export function AboutPage() {
       </section>
 
       {/* Brand story video */}
-      <VideoFeature eyebrow="Brand story" title="Two decades in the making. The AMC story." img={`${asset}/factory/e307e871_image.png`} className="pb-24 md:pb-32" />
+      <VideoFeature eyebrow="Brand story" title="Two decades in the making. The AMC story." img={`${asset}/factory/e307e871_image.png`} className="pb-24 md:pb-32" targetId="who-we-are" />
 
       {/* Brand pillars (black) */}
       <section className="bg-black text-white">
@@ -656,15 +661,15 @@ export function AboutPage() {
       </section>
 
       {/* Employee film */}
-      <section className="mx-auto max-w-[1750px] px-6 pb-24 md:px-10 md:pb-32">
+      <section id="who-we-are" className="scroll-mt-24 mx-auto max-w-[1750px] px-6 pb-24 md:px-10 md:pb-32">
         <div className="mb-14 grid gap-10 md:grid-cols-2 md:items-end">
           <Eyebrow>Our people</Eyebrow>
           <div className="md:justify-self-end md:text-right">
-            <h2 className="max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1]">Inside the shop.</h2>
+            <h2 className="max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1]">Who We Are.</h2>
             <p className="mt-4 text-body1-s leading-[1.6] text-black/70">Hear from the people who build it.</p>
           </div>
         </div>
-        <YouTubeFacade />
+        <YouTubeFacade sectionId="who-we-are" />
       </section>
 
       {/* Careers / recruit */}
