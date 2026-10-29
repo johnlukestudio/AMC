@@ -23,5 +23,5 @@
 # Beta password
 AuthType Basic
 AuthName "AMC beta"
-AuthUserFile "/home/1428402.cloudwaysapps.com/kjamzpykft/public_html/.htpasswd"
+AuthUserFile "/home/1428402.cloudwaysapps.com/kjamzpykft/private_html/.htpasswd"
 Require valid-user
