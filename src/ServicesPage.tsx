@@ -1,3 +1,4 @@
+import { LoopVideo } from "./LoopVideo"
 import { useEffect, useRef, useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 
@@ -13,6 +14,7 @@ export type Service = {
   kicker: string
   intro: string
   hero: string
+  heroVideo?: string
   overview: string
   overviewImg: string
   meta: { label: string; value: string }[]
@@ -489,10 +491,10 @@ export function ServicesOverview() {
         </div>
         <div className="mt-14 grid gap-3 md:grid-cols-[1.6fr_1fr]">
           <div className="aspect-[16/10] overflow-hidden md:aspect-auto md:h-[560px]">
-            <img src={`${asset}/factory/bc70d6ea_image.png`} alt="AMC shop floor" className="size-full object-cover" />
+            <LoopVideo name="loop14" label="AMC shop floor" className="size-full" />
           </div>
           <div className="aspect-[4/3] overflow-hidden md:aspect-auto md:h-[560px]">
-            <img src={`${asset}/factory/11af8e22_image.png`} alt="AMC craftsman" className="size-full object-cover" />
+            <LoopVideo name="loop16" label="AMC craftsman" className="size-full" />
           </div>
         </div>
       </section>
@@ -625,7 +627,7 @@ export function ServiceDetail() {
           ))}
         </dl>
         <div className="mt-8 aspect-[16/10] overflow-hidden md:aspect-auto md:h-[620px]">
-          <img src={s.hero} alt={s.title} className="size-full object-cover" />
+          {s.heroVideo ? <LoopVideo name={s.heroVideo} label={s.title} className="size-full" /> : <img src={s.hero} alt={s.title} className="size-full object-cover" />}
         </div>
       </section>
 
