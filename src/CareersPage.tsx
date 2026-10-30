@@ -1,3 +1,4 @@
+import { LoopVideo } from "./LoopVideo"
 import { useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 import { YouTubeFacade, playFilmAt } from "./YouTubeFacade"
@@ -55,10 +56,10 @@ export function CareersPage() {
           onClick={() => playFilmAt("crew-film")}
           className="group relative block aspect-[16/9] w-full overflow-hidden bg-black text-left md:aspect-[21/9]"
         >
-          <img
-            src="/media/factory/e307e871_image.png"
-            alt="AMC Emmaus shop floor"
-            className="absolute inset-0 size-full object-cover opacity-70 transition duration-700 group-hover:scale-[1.02] group-hover:opacity-55"
+          <LoopVideo
+            name="loop23"
+            label="AMC Emmaus shop floor"
+            className="absolute inset-0 size-full opacity-70 transition duration-700 group-hover:scale-[1.02] group-hover:opacity-55"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
           <span className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white text-white backdrop-blur-sm transition-colors duration-300 group-hover:bg-white group-hover:text-black sm:size-24 md:size-32">

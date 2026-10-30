@@ -1,3 +1,4 @@
+import { LoopVideo } from "./LoopVideo"
 import { Eyebrow, OutlineButton } from "./App"
 
 const asset = "/media"
@@ -9,6 +10,7 @@ type Division = {
   headline: string
   intro: string[]
   hero: string
+  heroVideo?: string
   cardsTitle: string
   cards: Card[]
   steps?: { title: string; title2?: string; body: string }[]
@@ -29,6 +31,7 @@ export const DIVISION_PAGES: Division[] = [
       "AMC Installers LLC installs everything we manufacture, with open, prevailing or union crews.",
     ],
     hero: `${asset}/amc-film-poster.jpg`,
+    heroVideo: "loop03",
     cardsTitle: "What we install",
     cards: [
       { title: "Architectural millwork", img: `${asset}/cat-millwork.png`, body: "Our installation company installs millwork, casework and fixtures using open, prevailing or union craftsmen." },
@@ -71,6 +74,7 @@ export const DIVISION_PAGES: Division[] = [
       "AMC Acoustical offers you the following products which enables us to meet or exceed all NRC or SAA requirements for your project.",
     ],
     hero: `${asset}/cat-acoustics.png`,
+    heroVideo: "loop01",
     cardsTitle: "Products",
     cards: [
       { title: "Wood Veneer & P-Lam", img: `${asset}/36166.png`, body: "High Performance Acoustic Ceiling and Wall Panels Systems using MDF or FRP cores to Absorb sound and bring warmth & tranquility into your room. AMC offers a wide range of Wood Species, Finishes and Design options to create your own unique space." },
@@ -102,6 +106,7 @@ export const DIVISION_PAGES: Division[] = [
     headline: "For first impressions, and lasting impressions.",
     intro: ["Transform your interiors with solid surfaces.", "Custom commercial solid surfaces for office, retail, academic, and other commercial spaces."],
     hero: `${asset}/2e51c.png`,
+    heroVideo: "loop02",
     cardsTitle: "Solid surfaces such as Corian",
     cards: [
       { title: "Countertops", img: `${asset}/6b3df.png`, body: "Non-porous, easy to clean, and available in a wide variety of colors and patterns." },
@@ -125,7 +130,11 @@ export function DivisionPage() {
   return (
     <div className="bg-white">
       <section className="relative flex min-h-screen items-end overflow-hidden bg-[#1E1E1E] text-white">
-        <img src={d.hero} alt={d.name} className="absolute inset-0 size-full object-cover opacity-70" />
+        {d.heroVideo ? (
+          <LoopVideo name={d.heroVideo} label={d.name} className="absolute inset-0 size-full opacity-70" />
+        ) : (
+          <img src={d.hero} alt={d.name} className="absolute inset-0 size-full object-cover opacity-70" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
         <div className="relative mx-auto w-full max-w-[1750px] px-6 pb-16 md:px-10 md:pb-24">
           <p className="text-caption-m uppercase tracking-[0.16em] text-[#D9B547]">{d.name}</p>

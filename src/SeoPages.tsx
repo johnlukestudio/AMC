@@ -1,3 +1,4 @@
+import { LoopVideo } from "./LoopVideo"
 import { useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 
@@ -117,11 +118,7 @@ export function CaseworkVsMillworkPage() {
           </p>
         </div>
         <div className="mt-14 aspect-[16/10] overflow-hidden md:aspect-auto md:h-[520px]">
-          <img
-            src={`${asset}/cat-casework.png`}
-            alt="Commercial casework and custom millwork fabricated by American Millwork & Cabinetry"
-            className="size-full object-cover"
-          />
+          <LoopVideo name="loop08" label="Commercial casework and custom millwork fabricated by American Millwork & Cabinetry" className="size-full" />
         </div>
       </section>
 
@@ -266,11 +263,7 @@ export function CommercialCaseworkPage() {
           ))}
         </dl>
         <div className="mt-8 aspect-[16/10] overflow-hidden md:aspect-auto md:h-[560px]">
-          <img
-            src={`${asset}/6dc05.png`}
-            alt="AmeriCase commercial casework in production at AMC Emmaus"
-            className="size-full object-cover"
-          />
+          <LoopVideo name="loop24" label="AmeriCase commercial casework in production at AMC Emmaus" className="size-full" />
         </div>
       </section>
 
@@ -416,11 +409,7 @@ export function ArchitecturalMillworkPage() {
           ))}
         </dl>
         <div className="mt-8 aspect-[16/10] overflow-hidden md:aspect-auto md:h-[560px]">
-          <img
-            src={`${asset}/02cb0.png`}
-            alt="Architectural millwork fabricated at American Millwork & Cabinetry in Emmaus, PA"
-            className="size-full object-cover"
-          />
+          <LoopVideo name="loop19" label="Architectural millwork fabricated at American Millwork & Cabinetry in Emmaus, PA" className="size-full" />
         </div>
       </section>
 
