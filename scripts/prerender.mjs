@@ -86,7 +86,7 @@ function writeHtml(file, html) {
 
 try {
   const { render } = await vite.ssrLoadModule("/src/entry-server.tsx")
-  const { listIndexablePaths, absoluteUrl } =
+  const { listIndexablePaths, absoluteUrl, ALIASES, publicPath } =
     await vite.ssrLoadModule("/src/routes.ts")
   const { seoForPath, jsonLdForPath } = await vite.ssrLoadModule("/src/seo.ts")
 
@@ -127,7 +127,7 @@ try {
     const file =
       pathname === "/"
         ? path.join(dist, "index.html")
-        : path.join(dist, "prerender", `${pathname.slice(1)}.html`)
+        : path.join(dist, pathname.slice(1), "index.html")
     writeHtml(file, html)
   }
 
@@ -141,6 +141,24 @@ try {
   if (!notFoundHtml.includes("Page not found"))
     throw new Error("404 page is missing its heading")
   writeHtml(path.join(dist, "404.html"), notFoundHtml)
+
+  for (const [from, to] of Object.entries(ALIASES)) {
+    const dest = publicPath(to)
+    const stub = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="canonical" href="${absoluteUrl(to)}" />
+<meta http-equiv="refresh" content="0;url=${dest}" />
+<script>location.replace(${JSON.stringify(dest)})</script>
+<title>Redirecting…</title>
+</head>
+<body></body>
+</html>
+`
+    writeHtml(path.join(dist, from.slice(1), "index.html"), stub)
+  }
 
   const urls = paths
     .map((pathname) => `  <url><loc>${absoluteUrl(pathname)}</loc></url>`)

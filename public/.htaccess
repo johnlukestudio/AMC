@@ -26,28 +26,22 @@
   RewriteEngine On
   RewriteBase /
 
-  # Don't expose the prerender files as their own URLs.
-  RewriteCond %{THE_REQUEST} \s/prerender/(.+)\.html[\s?] [NC]
-  RewriteRule ^prerender/(.+)\.html$ /$1 [R=301,L]
-
-  # Aliases → one canonical path. Query strings are kept.
-  RewriteRule ^services/commercial-casework/?$ /americase [R=301,L,QSA]
-  RewriteRule ^services/casework/?$ /americase [R=301,L,QSA]
-  RewriteRule ^services/millwork/?$ /services/architectural-millwork [R=301,L,QSA]
-  RewriteRule ^installers/?$ /divisions/american-installers [R=301,L,QSA]
-  RewriteRule ^portfolio/?$ /portfolio/millwork [R=301,L,QSA]
-  RewriteRule ^portfolio/project/?$ /portfolio/project/ave-blue-bell [R=301,L,QSA]
+  # Each route is a real directory with index.html, which nginx can serve.
+  # These 301s run when the request reaches Apache (before that directory index).
+  RewriteRule ^services/commercial-casework/?$ /americase/ [R=301,L,QSA]
+  RewriteRule ^services/casework/?$ /americase/ [R=301,L,QSA]
+  RewriteRule ^services/millwork/?$ /services/architectural-millwork/ [R=301,L,QSA]
+  RewriteRule ^installers/?$ /divisions/american-installers/ [R=301,L,QSA]
+  RewriteRule ^portfolio/?$ /portfolio/millwork/ [R=301,L,QSA]
+  RewriteRule ^portfolio/project/?$ /portfolio/project/ave-blue-bell/ [R=301,L,QSA]
   RewriteRule ^index\.html$ / [R=301,L]
 
-  # /about/ → /about (real directories such as /media/ are left alone)
+  # /about (no slash) is a directory. Leave /about/ alone.
+  # Unknown /missing/ still drops the slash before the 404 below.
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(.+)/$ /$1 [R=301,L]
 
-  # Known routes: serve that route's HTML without changing the URL.
-  RewriteCond %{DOCUMENT_ROOT}/prerender%{REQUEST_URI}.html -f
-  RewriteRule ^(.+)$ /prerender/$1.html [END]
-
-  # Everything else that isn't a real file is a 404.
+  # Everything else that isn't a real file or directory is a 404.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^ - [R=404,L]
