@@ -617,7 +617,7 @@ export function AboutPage() {
               Cabinetmakers, CNC operators, finishers, installers and estimators. Come for a site visit, talk to
               the people who do the work, and see if this shop feels like home.
             </p>
-            <a href="/careers">
+            <a href="/careers/">
               <OutlineButton>View careers</OutlineButton>
             </a>
           </div>

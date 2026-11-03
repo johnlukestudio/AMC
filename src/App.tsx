@@ -56,52 +56,52 @@ const emailArrow = `${asset}/fa403.svg`
 const logoWhite = `${asset}/logo-white.svg`
 
 export const SERVICES = [
-  { title: "Millwork", href: "/services/architectural-millwork", img: serviceImgs[0] },
-  { title: "Casework", href: "/americase", img: serviceImgs[1] },
-  { title: "Acoustical", href: "/services/acoustical", img: `${asset}/cat-acoustics.png` },
-  { title: "Surfaces", href: "/services/surfaces", img: serviceImgs[2] },
+  { title: "Millwork", href: "/services/architectural-millwork/", img: serviceImgs[0] },
+  { title: "Casework", href: "/americase/", img: serviceImgs[1] },
+  { title: "Acoustical", href: "/services/acoustical/", img: `${asset}/cat-acoustics.png` },
+  { title: "Surfaces", href: "/services/surfaces/", img: serviceImgs[2] },
 ]
 
 type NavLink = { label: string; href: string; children?: NavLink[] }
 type NavItem = { label: string; href?: string; items?: NavLink[] }
 
 const DIVISIONS: NavLink[] = [
-  { label: "American Installers", href: "/divisions/american-installers" },
-  { label: "AMC Acoustical", href: "/divisions/amc-acoustical" },
-  { label: "American Surfaces", href: "/divisions/american-surfaces" },
-  { label: "AmeriCase", href: "/americase" },
+  { label: "American Installers", href: "/divisions/american-installers/" },
+  { label: "AMC Acoustical", href: "/divisions/amc-acoustical/" },
+  { label: "American Surfaces", href: "/divisions/american-surfaces/" },
+  { label: "AmeriCase", href: "/americase/" },
 ]
 
 const NAV: NavItem[] = [
   {
     label: "Company",
     items: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Casework vs Millwork", href: "/insights/casework-vs-millwork" },
+      { label: "About Us", href: "/about/" },
+      { label: "Careers", href: "/careers/" },
+      { label: "Casework vs Millwork", href: "/insights/casework-vs-millwork/" },
     ],
   },
   {
     label: "Services",
-    href: "/services",
+    href: "/services/",
     items: [
-      { label: "Architectural Millwork", href: "/services/architectural-millwork" },
-      { label: "Commercial Casework", href: "/americase" },
-      { label: "Acoustical", href: "/services/acoustical" },
-      { label: "Surfaces", href: "/services/surfaces" },
+      { label: "Architectural Millwork", href: "/services/architectural-millwork/" },
+      { label: "Commercial Casework", href: "/americase/" },
+      { label: "Acoustical", href: "/services/acoustical/" },
+      { label: "Surfaces", href: "/services/surfaces/" },
     ],
   },
   {
     label: "Portfolio",
     items: [
-      { label: "Millwork", href: "/portfolio/millwork" },
-      { label: "Casework", href: "/portfolio/casework" },
-      { label: "Acoustics", href: "/portfolio/acoustics" },
-      { label: "All Projects", href: "/portfolio/all" },
+      { label: "Millwork", href: "/portfolio/millwork/" },
+      { label: "Casework", href: "/portfolio/casework/" },
+      { label: "Acoustics", href: "/portfolio/acoustics/" },
+      { label: "All Projects", href: "/portfolio/all/" },
     ],
   },
   { label: "Divisions", items: DIVISIONS },
-  { label: "News", href: "/news" },
+  { label: "News", href: "/news/" },
 ]
 
 export function Eyebrow({ children }: { children: string }) {
@@ -275,7 +275,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
       </nav>
       <div className="border-t border-black/10 px-6 py-5 md:px-10">
         <a
-          href="/contact"
+          href="/contact/"
           className="flex h-12 w-full items-center justify-center rounded-full bg-black text-caption-m uppercase tracking-wide text-white transition-colors hover:bg-black/80"
         >
           Contact
@@ -388,7 +388,7 @@ function Header({ overDark = false }: { overDark?: boolean }) {
             )}
           </nav>
           <div className="flex items-center gap-3">
-            <a href="/contact" tabIndex={-1} className="hidden sm:block">
+            <a href="/contact/" tabIndex={-1} className="hidden sm:block">
               <OutlineButton dark={light}>Contact</OutlineButton>
             </a>
             <button
@@ -665,7 +665,7 @@ function Services() {
     <section className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
       <div className="flex items-center justify-between">
         <Eyebrow>services</Eyebrow>
-        <a href="/services" tabIndex={-1}>
+        <a href="/services/" tabIndex={-1}>
           <OutlineButton>All services</OutlineButton>
         </a>
       </div>
@@ -1024,11 +1024,11 @@ const FOOTER_COLUMNS: { title: string; href?: string; links: NavLink[] }[] = [
   {
     title: "Company",
     links: [
-      { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Casework vs Millwork", href: "/insights/casework-vs-millwork" },
-      { label: "News", href: "/news" },
-      { label: "Contact", href: "/contact" },
+      { label: "About Us", href: "/about/" },
+      { label: "Careers", href: "/careers/" },
+      { label: "Casework vs Millwork", href: "/insights/casework-vs-millwork/" },
+      { label: "News", href: "/news/" },
+      { label: "Contact", href: "/contact/" },
     ],
   },
   ...NAV.filter((n) => n.items && n.label !== "Company").map((n) => ({ title: n.label, href: n.href, links: n.items! })),
@@ -1056,7 +1056,7 @@ function Footer() {
               spaces.
             </p>
             <div className="mt-8">
-              <a href="/contact">
+              <a href="/contact/">
                 <OutlineButton dark>Contact us</OutlineButton>
               </a>
             </div>
@@ -1227,7 +1227,7 @@ function NotFoundPage() {
         <a href="/">
           <OutlineButton>Home</OutlineButton>
         </a>
-        <a href="/contact">
+        <a href="/contact/">
           <OutlineButton>Contact</OutlineButton>
         </a>
       </div>

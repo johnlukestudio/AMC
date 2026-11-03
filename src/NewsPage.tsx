@@ -260,7 +260,7 @@ function AwardPlate({ post, large = false }: { post: Post; large?: boolean }) {
 export function NewsCard({ post, className = "aspect-[4/5]" }: { post: Post; className?: string }) {
   if (!post.img)
     return (
-      <a href={`/news/${post.slug}`} className={`group relative block overflow-hidden bg-dark-100 ${className}`}>
+      <a href={`/news/${post.slug}/`} className={`group relative block overflow-hidden bg-dark-100 ${className}`}>
         <AwardPlate post={post} />
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 text-caption-s text-dark-950">
           <span>• {post.tag}</span>
@@ -273,7 +273,7 @@ export function NewsCard({ post, className = "aspect-[4/5]" }: { post: Post; cla
       </a>
     )
   return (
-    <a href={`/news/${post.slug}`} className={`group relative block overflow-hidden bg-black ${className}`}>
+    <a href={`/news/${post.slug}/`} className={`group relative block overflow-hidden bg-black ${className}`}>
       <img
         src={post.img}
         alt={post.title}
@@ -381,7 +381,7 @@ export function ArticlePage() {
   return (
     <>
       <article className="mx-auto max-w-[1750px] px-6 pt-32 md:px-10 md:pt-[140px]">
-        <a href="/news" className="text-body2-s text-black/50 transition-colors hover:text-black">
+        <a href="/news/" className="text-body2-s text-black/50 transition-colors hover:text-black">
           ← All news
         </a>
         <p className="mt-10 text-body2-s">• {post.tag}</p>
@@ -435,7 +435,7 @@ export function ArticlePage() {
           ))}
           {post.slug === "awi-award-of-excellence" && (
             <a
-              href="/portfolio/project/ave-blue-bell"
+              href="/portfolio/project/ave-blue-bell/"
               className="mt-14 flex items-center justify-between border-y border-black/10 py-6 text-body1-s transition-colors hover:text-black/60"
             >
               <span>
@@ -454,7 +454,7 @@ export function ArticlePage() {
             <Eyebrow>keep reading</Eyebrow>
             <h2 className="mt-6 text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] ">Recent news</h2>
           </div>
-          <a href="/news" className="text-body2-s text-black/60 transition-colors hover:text-black">
+          <a href="/news/" className="text-body2-s text-black/60 transition-colors hover:text-black">
             All news →
           </a>
         </div>
