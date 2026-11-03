@@ -6,7 +6,7 @@ import path from 'node:path'
 import type { ServerResponse } from 'node:http'
 
 import siteConfiguration from './.figma/make/site.json'
-import { ALIASES, aliasTarget, normalizePath } from './src/routes.ts'
+import { ALIASES, aliasTarget, normalizePath, publicPath } from './src/routes.ts'
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -78,7 +78,7 @@ function redirect(res: ServerResponse, location: string) {
 
 /** Dev/preview redirects for aliases, plus preview serving of prerendered HTML. */
 function amcRouting(): Plugin {
-  const hashScript = `<script data-amc-hash-redirect>(function(){var aliases=${JSON.stringify(ALIASES)};var h=location.hash||"";if(h.slice(0,2)!=="#/")return;var rest=h.slice(1),anchor="",cut=rest.indexOf("#");if(cut>=0){anchor=rest.slice(cut);rest=rest.slice(0,cut)}var q=rest.indexOf("?"),search=q>=0?rest.slice(q):"",path=q>=0?rest.slice(0,q):rest;if(!path||path.charAt(0)!=="/")path="/"+path;if(path.length>1)path=path.replace(/\\/+$/,"");if(aliases[path])path=aliases[path];location.replace(path+search+anchor)})();</script>`
+  const hashScript = `<script data-amc-hash-redirect>(function(){var aliases=${JSON.stringify(ALIASES)};var h=location.hash||"";if(h.slice(0,2)!=="#/")return;var rest=h.slice(1),anchor="",cut=rest.indexOf("#");if(cut>=0){anchor=rest.slice(cut);rest=rest.slice(0,cut)}var q=rest.indexOf("?"),search=q>=0?rest.slice(q):"",path=q>=0?rest.slice(0,q):rest;if(!path||path.charAt(0)!=="/")path="/"+path;if(path.length>1)path=path.replace(/\\/+$/,"");if(aliases[path])path=aliases[path];if(path.length>1&&path.charAt(path.length-1)!=="/")path+="/";location.replace(path+search+anchor)})();</script>`
 
   const onDev: Connect.NextHandleFunction = (req, res, next) => {
     const raw = req.url || '/'
@@ -87,8 +87,7 @@ function amcRouting(): Plugin {
     if (skipAsset(pathname)) return next()
     const normalized = normalizePath(pathname)
     const alias = aliasTarget(normalized)
-    if (alias) return redirect(res, alias + search)
-    if (pathname.length > 1 && pathname.endsWith('/')) return redirect(res, normalized + search)
+    if (alias) return redirect(res, publicPath(alias) + search)
     next()
   }
 
@@ -96,15 +95,13 @@ function amcRouting(): Plugin {
     const raw = req.url || '/'
     const { pathname, search } = splitUrl(raw)
     if (pathname === '/index.html') return redirect(res, `/${search}`)
-    const exposed = pathname.match(/^\/prerender\/(.+)\.html$/)
-    if (exposed) return redirect(res, `/${exposed[1]}${search}`)
     if (skipAsset(pathname)) return next()
     const normalized = normalizePath(pathname)
     const alias = aliasTarget(normalized)
-    if (alias) return redirect(res, alias + search)
-    if (pathname.length > 1 && pathname.endsWith('/')) return redirect(res, normalized + search)
+    if (alias) return redirect(res, publicPath(alias) + search)
+    if (normalized !== '/' && !pathname.endsWith('/')) return redirect(res, publicPath(normalized) + search)
     if (normalized === '/') return next()
-    const file = path.resolve(__dirname, 'dist/prerender', `${normalized.slice(1)}.html`)
+    const file = path.resolve(__dirname, 'dist', normalized.slice(1), 'index.html')
     if (fs.existsSync(file)) {
       res.statusCode = 200
       res.setHeader('Content-Type', 'text/html; charset=utf-8')

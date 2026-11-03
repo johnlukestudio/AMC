@@ -80,9 +80,16 @@ export function aliasTarget(pathname: string): string | null {
   return ALIASES[normalizePath(pathname)] ?? null
 }
 
+/** Nginx serves each route as a directory index, so the 200 URL has a trailing slash. */
+export function publicPath(pathname: string): string {
+  const path = normalizePath(pathname)
+  if (path === "/") return "/"
+  return `${path}/`
+}
+
 export function absoluteUrl(pathname: string): string {
-  if (pathname === "/") return `${SITE_ORIGIN}/`
-  return `${SITE_ORIGIN}${pathname}`
+  const path = publicPath(pathname)
+  return path === "/" ? `${SITE_ORIGIN}/` : `${SITE_ORIGIN}${path}`
 }
 
 function segment(pathname: string, prefix: string): string | null {
@@ -94,7 +101,7 @@ function segment(pathname: string, prefix: string): string | null {
 
 export function resolveRoute(input: string): ResolvedRoute {
   const normalized = normalizePath(input)
-  const pathname = ALIASES[normalized] ?? normalized
+  const pathname = normalizePath(ALIASES[normalized] ?? normalized)
 
   if (pathname === "/") return { id: "home", pathname, slug: "" }
   if (pathname === "/about") return { id: "about", pathname, slug: "" }
@@ -162,7 +169,7 @@ export function redirectLegacyHash(): boolean {
   const search = queryAt >= 0 ? rest.slice(queryAt) : ""
   let path = normalizePath(queryAt >= 0 ? rest.slice(0, queryAt) : rest)
   path = ALIASES[path] ?? path
-  const dest = path + search + anchor
+  const dest = publicPath(path) + search + anchor
   const current =
     window.location.pathname + window.location.search + window.location.hash
   if (dest === current) return false
@@ -174,7 +181,7 @@ export function redirectAlias(): boolean {
   if (typeof window === "undefined") return false
   const alias = aliasTarget(window.location.pathname)
   if (!alias) return false
-  window.location.replace(alias + window.location.search + window.location.hash)
+  window.location.replace(publicPath(alias) + window.location.search + window.location.hash)
   return true
 }
 
@@ -190,11 +197,9 @@ export function navigate(to: string, replace = false) {
     path = alias
     replace = true
   }
-  const next = path + url.search + url.hash
+  const next = publicPath(path) + url.search + url.hash
   const current =
-    normalizePath(window.location.pathname) +
-    window.location.search +
-    window.location.hash
+    publicPath(window.location.pathname) + window.location.search + window.location.hash
   if (next === current) return
   window.history[replace ? "replaceState" : "pushState"](null, "", next)
   window.dispatchEvent(new Event(NAVIGATE_EVENT))
