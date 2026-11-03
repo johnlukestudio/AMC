@@ -20,6 +20,41 @@
   Require all denied
 </Files>
 
+# Clean path URLs. Each route is a real HTML file under /prerender.
+# Fragments (#/about) never reach Apache; the app redirects those in the browser.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Don't expose the prerender files as their own URLs.
+  RewriteCond %{THE_REQUEST} \s/prerender/(.+)\.html[\s?] [NC]
+  RewriteRule ^prerender/(.+)\.html$ /$1 [R=301,L]
+
+  # Aliases → one canonical path. Query strings are kept.
+  RewriteRule ^services/commercial-casework/?$ /americase [R=301,L,QSA]
+  RewriteRule ^services/casework/?$ /americase [R=301,L,QSA]
+  RewriteRule ^services/millwork/?$ /services/architectural-millwork [R=301,L,QSA]
+  RewriteRule ^installers/?$ /divisions/american-installers [R=301,L,QSA]
+  RewriteRule ^portfolio/?$ /portfolio/millwork [R=301,L,QSA]
+  RewriteRule ^portfolio/project/?$ /portfolio/project/ave-blue-bell [R=301,L,QSA]
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  # /about/ → /about (real directories such as /media/ are left alone)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # Known routes: serve that route's HTML without changing the URL.
+  RewriteCond %{DOCUMENT_ROOT}/prerender%{REQUEST_URI}.html -f
+  RewriteRule ^(.+)$ /prerender/$1.html [END]
+
+  # Everything else that isn't a real file is a 404.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ - [R=404,L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
 # Beta password
 AuthType Basic
 AuthName "AMC beta"

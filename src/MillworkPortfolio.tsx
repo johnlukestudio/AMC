@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react"
+import { getPathname, resolveRoute } from "./routes"
 
 const asset = "/media"
 const corner = `${asset}/4a604.svg`
@@ -78,7 +79,7 @@ const OFF = -99999
    travelling along its last heading and slides out of the clipped frames. */
 export function MillworkPortfolio() {
   // All categories share this page for now; only the active filter changes.
-  const slug = window.location.hash.replace(/^#\/portfolio\/?/, "") || "millwork"
+  const slug = resolveRoute(getPathname()).slug || "millwork"
   const current = FILTERS.find((f) => f.slug === slug) ?? FILTERS[0]
   const gridRef = useRef<HTMLDivElement>(null)
   const frames = useRef<(HTMLDivElement | null)[]>([])
@@ -160,7 +161,7 @@ export function MillworkPortfolio() {
           return (
             <a
               key={f.slug}
-              href={`#/portfolio/${f.slug}`}
+              href={`/portfolio/${f.slug}`}
               aria-current={active ? "page" : undefined}
               className={`rounded-full border px-5 py-[8px] text-caption-s uppercase tracking-wide transition-colors duration-300 ${
                 active
@@ -183,7 +184,7 @@ export function MillworkPortfolio() {
         {PROJECTS.map((p, i) => (
           <a
             key={p.name}
-            href="#/portfolio/project/ave-blue-bell"
+            href="/portfolio/project/ave-blue-bell"
             className={`block self-start ${p.cls}`}
           >
             <div
