@@ -73,11 +73,11 @@ export function ProjectPage() {
             <p className="mb-3 text-caption-m uppercase tracking-[0.08em] text-black/50">More projects</p>
             <h2 className="text-h3-s md:text-h3-m xl:text-h3-l leading-[1.4] ">Mattison Estates</h2>
           </div>
-          <a href="/portfolio/millwork" className="pb-2 text-body2-s text-black/60 transition-colors hover:text-black">
+          <a href="/portfolio/millwork/" className="pb-2 text-body2-s text-black/60 transition-colors hover:text-black">
             All projects →
           </a>
         </div>
-        <a href="/portfolio/project/ave-blue-bell" className="group block h-[60vh] max-h-[548px] min-h-[360px] w-full overflow-hidden">
+        <a href="/portfolio/project/ave-blue-bell/" className="group block h-[60vh] max-h-[548px] min-h-[360px] w-full overflow-hidden">
           <img
             src={`${asset}/6896d.png`}
             alt="Mattison Estates clubhouse bar"

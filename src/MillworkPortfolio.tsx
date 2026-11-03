@@ -161,7 +161,7 @@ export function MillworkPortfolio() {
           return (
             <a
               key={f.slug}
-              href={`/portfolio/${f.slug}`}
+              href={`/portfolio/${f.slug}/`}
               aria-current={active ? "page" : undefined}
               className={`rounded-full border px-5 py-[8px] text-caption-s uppercase tracking-wide transition-colors duration-300 ${
                 active
@@ -184,7 +184,7 @@ export function MillworkPortfolio() {
         {PROJECTS.map((p, i) => (
           <a
             key={p.name}
-            href="/portfolio/project/ave-blue-bell"
+            href="/portfolio/project/ave-blue-bell/"
             className={`block self-start ${p.cls}`}
           >
             <div

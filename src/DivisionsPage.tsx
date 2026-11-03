@@ -233,7 +233,7 @@ export function DivisionPage() {
           </div>
           <div className="flex flex-wrap gap-4">
             {d.site && <a href={d.site.href} target="_blank" rel="noopener noreferrer"><OutlineButton dark>{d.site.label}</OutlineButton></a>}
-            <a href="/contact"><OutlineButton dark>Contact us</OutlineButton></a>
+            <a href="/contact/"><OutlineButton dark>Contact us</OutlineButton></a>
           </div>
         </div>
       </section>

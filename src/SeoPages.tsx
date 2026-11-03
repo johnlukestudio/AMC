@@ -51,7 +51,7 @@ function PageCta({ line1 = "Ready to talk", line2 = "about your", line3 = "proje
           <span className="block md:pl-[18%]">{line2}</span>
           <span className="flex flex-wrap items-end justify-between gap-6">
             {line3}
-            <a href="/contact" tabIndex={-1} className="mb-3">
+            <a href="/contact/" tabIndex={-1} className="mb-3">
               <OutlineButton>Contact us</OutlineButton>
             </a>
           </span>
@@ -153,7 +153,7 @@ export function CaseworkVsMillworkPage() {
               <li>Bid-day pricing and Microvellum detailing</li>
               <li>At AMC: AmeriCase™ division</li>
             </ul>
-            <a href="/americase" className="mt-8 inline-flex text-body2-s underline underline-offset-4 transition-colors hover:text-black/60">
+            <a href="/americase/" className="mt-8 inline-flex text-body2-s underline underline-offset-4 transition-colors hover:text-black/60">
               Commercial casework / AmeriCase →
             </a>
           </div>
@@ -167,7 +167,7 @@ export function CaseworkVsMillworkPage() {
               <li>Shop drawings, samples, field measure</li>
               <li>At AMC: American Millwork division</li>
             </ul>
-            <a href="/services/architectural-millwork" className="mt-8 inline-flex text-body2-s text-white underline underline-offset-4 transition-colors hover:text-white/70">
+            <a href="/services/architectural-millwork/" className="mt-8 inline-flex text-body2-s text-white underline underline-offset-4 transition-colors hover:text-white/70">
               Architectural millwork →
             </a>
           </div>
@@ -188,11 +188,11 @@ export function CaseworkVsMillworkPage() {
             </p>
             <p>
               See real work in the{" "}
-              <a href="/portfolio/casework" className="underline underline-offset-4">
+              <a href="/portfolio/casework/" className="underline underline-offset-4">
                 casework portfolio
               </a>{" "}
               and{" "}
-              <a href="/portfolio/millwork" className="underline underline-offset-4">
+              <a href="/portfolio/millwork/" className="underline underline-offset-4">
                 millwork portfolio
               </a>
               .
@@ -204,9 +204,9 @@ export function CaseworkVsMillworkPage() {
       <PageFaq items={VS_FAQ} n="03" />
       <RelatedLinks
         links={[
-          { href: "/americase", label: "Commercial casework / AmeriCase", note: "Hub" },
-          { href: "/services/architectural-millwork", label: "Architectural millwork", note: "PA & Mid-Atlantic" },
-          { href: "/contact", label: "Request a bid", note: "Contact" },
+          { href: "/americase/", label: "Commercial casework / AmeriCase", note: "Hub" },
+          { href: "/services/architectural-millwork/", label: "Architectural millwork", note: "PA & Mid-Atlantic" },
+          { href: "/contact/", label: "Request a bid", note: "Contact" },
         ]}
       />
       <PageCta />
@@ -238,7 +238,7 @@ export function CommercialCaseworkPage() {
   return (
     <>
       <section className="mx-auto max-w-[1750px] px-6 pt-32 md:px-10 md:pt-[160px]">
-        <a href="/services" className="text-caption-m text-black/60 transition-colors hover:text-black">
+        <a href="/services/" className="text-caption-m text-black/60 transition-colors hover:text-black">
           ← AmeriCase™ division
         </a>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
@@ -281,7 +281,7 @@ export function CommercialCaseworkPage() {
             </p>
             <p>
               Need the difference between casework and millwork spelled out? Read the{" "}
-              <a href="/insights/casework-vs-millwork" className="underline underline-offset-4">
+              <a href="/insights/casework-vs-millwork/" className="underline underline-offset-4">
                 casework vs millwork
               </a>{" "}
               guide.
@@ -336,11 +336,11 @@ export function CommercialCaseworkPage() {
         </div>
         <p className="mt-10 max-w-[720px] text-body2-s leading-[1.6] text-black/60">
           AWI and QCP certified. Family business in the Lehigh Valley since 2003. Browse the{" "}
-          <a href="/portfolio/casework" className="underline underline-offset-4 text-black">
+          <a href="/portfolio/casework/" className="underline underline-offset-4 text-black">
             casework portfolio
           </a>{" "}
           or the full{" "}
-          <a href="/americase" className="underline underline-offset-4 text-black">
+          <a href="/americase/" className="underline underline-offset-4 text-black">
             AmeriCase commercial casework hub
           </a>
           .
@@ -350,9 +350,9 @@ export function CommercialCaseworkPage() {
       <PageFaq items={CASE_FAQ} n="03" />
       <RelatedLinks
         links={[
-          { href: "/insights/casework-vs-millwork", label: "Casework vs millwork", note: "Explainer" },
-          { href: "/services/architectural-millwork", label: "Architectural millwork", note: "Custom woodwork" },
-          { href: "/about", label: "About AMC", note: "Emmaus plant" },
+          { href: "/insights/casework-vs-millwork/", label: "Casework vs millwork", note: "Explainer" },
+          { href: "/services/architectural-millwork/", label: "Architectural millwork", note: "Custom woodwork" },
+          { href: "/about/", label: "About AMC", note: "Emmaus plant" },
         ]}
       />
       <PageCta line1="Need casework" line2="numbers for" line3="bid day?" />
@@ -384,7 +384,7 @@ export function ArchitecturalMillworkPage() {
   return (
     <>
       <section className="mx-auto max-w-[1750px] px-6 pt-32 md:px-10 md:pt-[160px]">
-        <a href="/services" className="text-caption-m text-black/60 transition-colors hover:text-black">
+        <a href="/services/" className="text-caption-m text-black/60 transition-colors hover:text-black">
           ← Architectural woodwork
         </a>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
@@ -427,7 +427,7 @@ export function ArchitecturalMillworkPage() {
             </p>
             <p>
               Not sure if your scope is millwork or casework? Start with{" "}
-              <a href="/insights/casework-vs-millwork" className="underline underline-offset-4">
+              <a href="/insights/casework-vs-millwork/" className="underline underline-offset-4">
                 casework vs millwork
               </a>
               .
@@ -458,7 +458,7 @@ export function ArchitecturalMillworkPage() {
               Our Locations
             </a>{" "}
             on the home page, or{" "}
-            <a href="/about" className="underline underline-offset-4 text-white">
+            <a href="/about/" className="underline underline-offset-4 text-white">
               About
             </a>{" "}
             for the plant story.
@@ -487,15 +487,15 @@ export function ArchitecturalMillworkPage() {
         </div>
         <p className="mt-12 max-w-[720px] text-body2-s leading-[1.6] text-black/60">
           Explore the{" "}
-          <a href="/portfolio/millwork" className="underline underline-offset-4 text-black">
+          <a href="/portfolio/millwork/" className="underline underline-offset-4 text-black">
             millwork portfolio
           </a>{" "}
           or the{" "}
-          <a href="/services/architectural-millwork" className="underline underline-offset-4 text-black">
+          <a href="/services/architectural-millwork/" className="underline underline-offset-4 text-black">
             Architectural millwork hub
           </a>
           . For commercial cabinets and storage, see{" "}
-          <a href="/americase" className="underline underline-offset-4 text-black">
+          <a href="/americase/" className="underline underline-offset-4 text-black">
             AmeriCase commercial casework
           </a>
           .
@@ -505,9 +505,9 @@ export function ArchitecturalMillworkPage() {
       <PageFaq items={MILL_FAQ} n="03" />
       <RelatedLinks
         links={[
-          { href: "/insights/casework-vs-millwork", label: "Casework vs millwork", note: "Explainer" },
-          { href: "/americase", label: "Commercial casework", note: "AmeriCase" },
-          { href: "/contact", label: "Visit the shop", note: "840 Broad St, Emmaus" },
+          { href: "/insights/casework-vs-millwork/", label: "Casework vs millwork", note: "Explainer" },
+          { href: "/americase/", label: "Commercial casework", note: "AmeriCase" },
+          { href: "/contact/", label: "Visit the shop", note: "840 Broad St, Emmaus" },
         ]}
       />
       <PageCta line1="Let's build" line2="something" line3="lasting." />

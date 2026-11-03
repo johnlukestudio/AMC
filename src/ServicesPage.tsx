@@ -51,7 +51,7 @@ const STEPS_DEFAULT: Step[] = [
 export const SERVICE_DATA: Service[] = [
   {
     slug: "millwork",
-    hubHref: "/services/architectural-millwork",
+    hubHref: "/services/architectural-millwork/",
     title: "Architectural millwork",
     kicker: "Architectural woodwork",
     intro: "Custom architectural millwork engineered, built and installed by one team, from lobby walls to reception desks.",
@@ -84,7 +84,7 @@ export const SERVICE_DATA: Service[] = [
   },
   {
     slug: "casework",
-    hubHref: "/americase",
+    hubHref: "/americase/",
     title: "Commercial casework",
     kicker: "AmeriCase™ division",
     intro: "Standard and semi-custom casework for virtually any application, in plastic laminate, veneer or solid wood.",
@@ -462,7 +462,7 @@ function Cta() {
           <span className="block md:pl-[18%]">something</span>
           <span className="flex flex-wrap items-end justify-between gap-6">
             lasting.
-            <a href="/contact" tabIndex={-1} className="mb-3">
+            <a href="/contact/" tabIndex={-1} className="mb-3">
               <OutlineButton>Get a quote</OutlineButton>
             </a>
           </span>
@@ -527,7 +527,7 @@ export function ServicesOverview() {
                     ))}
                   </ul>
                   <a
-                    href={s.hubHref ?? `/services/${s.slug}`}
+                    href={s.hubHref ?? `/services/${s.slug}/`}
                     className="flex items-center justify-center gap-2 bg-black py-3 text-caption-s uppercase tracking-wide text-white transition-colors hover:bg-black/80"
                   >
                     View {s.title} <span aria-hidden>↗</span>
@@ -612,7 +612,7 @@ export function ServiceDetail() {
   return (
     <>
       <section className="mx-auto max-w-[1750px] px-6 pt-32 md:px-10 md:pt-[160px]">
-        <a href="/services" className="text-caption-m text-black/60 transition-colors hover:text-black">
+        <a href="/services/" className="text-caption-m text-black/60 transition-colors hover:text-black">
           ← {s.kicker}
         </a>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
@@ -697,7 +697,7 @@ export function ServiceDetail() {
       <Faq />
 
       <section className="mx-auto max-w-[1750px] px-6 pb-24 md:px-10 md:pb-32">
-        <a href={`/services/${next.slug}`} className="group flex items-end justify-between gap-6 border-y border-black/15 py-12">
+        <a href={`/services/${next.slug}/`} className="group flex items-end justify-between gap-6 border-y border-black/15 py-12">
           <div>
             <span className="text-caption-s text-black/50">Next service</span>
             <span className="mt-2 block text-h2-s md:text-h2-m xl:text-h2-l leading-[1] tracking-[-0.03em] ">{next.title}</span>
