@@ -93,7 +93,7 @@ export function CareersPage() {
               George&apos;s advice to applicants is simple: walk the shop, meet the team face to face, and see
               whether this is a place you want to be part of. Then apply below.
             </p>
-            <a href="#/contact">
+            <a href="/contact">
               <OutlineButton>Request a site visit</OutlineButton>
             </a>
           </div>

@@ -1,5 +1,6 @@
 import { LoopVideo } from "./LoopVideo"
 import { Eyebrow, OutlineButton } from "./App"
+import { getPathname, resolveRoute } from "./routes"
 
 const asset = "/media"
 
@@ -125,7 +126,7 @@ export const DIVISION_PAGES: Division[] = [
 ]
 
 export function DivisionPage() {
-  const slug = window.location.hash.replace(/^#\/divisions\/?/, "").split(/[?/]/)[0]
+  const slug = resolveRoute(getPathname()).slug
   const d = DIVISION_PAGES.find((x) => x.slug === slug) ?? DIVISION_PAGES[0]
   return (
     <div className="bg-white">
@@ -232,7 +233,7 @@ export function DivisionPage() {
           </div>
           <div className="flex flex-wrap gap-4">
             {d.site && <a href={d.site.href} target="_blank" rel="noopener noreferrer"><OutlineButton dark>{d.site.label}</OutlineButton></a>}
-            <a href="#/contact"><OutlineButton dark>Contact us</OutlineButton></a>
+            <a href="/contact"><OutlineButton dark>Contact us</OutlineButton></a>
           </div>
         </div>
       </section>

@@ -13,6 +13,7 @@ import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
 import { applySeo } from "./seo"
 import { YouTubeFacade } from "./YouTubeFacade"
 import { DivisionPage } from "./DivisionsPage"
+import { getPathname, NAVIGATE_EVENT, resolveRoute } from "./routes"
 
 const asset = "/media"
 
@@ -55,52 +56,52 @@ const emailArrow = `${asset}/fa403.svg`
 const logoWhite = `${asset}/logo-white.svg`
 
 export const SERVICES = [
-  { title: "Millwork", href: "#/services/architectural-millwork", img: serviceImgs[0] },
-  { title: "Casework", href: "#/americase", img: serviceImgs[1] },
-  { title: "Acoustical", href: "#/services/acoustical", img: `${asset}/cat-acoustics.png` },
-  { title: "Surfaces", href: "#/services/surfaces", img: serviceImgs[2] },
+  { title: "Millwork", href: "/services/architectural-millwork", img: serviceImgs[0] },
+  { title: "Casework", href: "/americase", img: serviceImgs[1] },
+  { title: "Acoustical", href: "/services/acoustical", img: `${asset}/cat-acoustics.png` },
+  { title: "Surfaces", href: "/services/surfaces", img: serviceImgs[2] },
 ]
 
 type NavLink = { label: string; href: string; children?: NavLink[] }
 type NavItem = { label: string; href?: string; items?: NavLink[] }
 
 const DIVISIONS: NavLink[] = [
-  { label: "American Installers", href: "#/divisions/american-installers" },
-  { label: "AMC Acoustical", href: "#/divisions/amc-acoustical" },
-  { label: "American Surfaces", href: "#/divisions/american-surfaces" },
-  { label: "AmeriCase", href: "#/americase" },
+  { label: "American Installers", href: "/divisions/american-installers" },
+  { label: "AMC Acoustical", href: "/divisions/amc-acoustical" },
+  { label: "American Surfaces", href: "/divisions/american-surfaces" },
+  { label: "AmeriCase", href: "/americase" },
 ]
 
 const NAV: NavItem[] = [
   {
     label: "Company",
     items: [
-      { label: "About Us", href: "#/about" },
-      { label: "Careers", href: "#/careers" },
-      { label: "Casework vs Millwork", href: "#/insights/casework-vs-millwork" },
+      { label: "About Us", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Casework vs Millwork", href: "/insights/casework-vs-millwork" },
     ],
   },
   {
     label: "Services",
-    href: "#/services",
+    href: "/services",
     items: [
-      { label: "Architectural Millwork", href: "#/services/architectural-millwork" },
-      { label: "Commercial Casework", href: "#/americase" },
-      { label: "Acoustical", href: "#/services/acoustical" },
-      { label: "Surfaces", href: "#/services/surfaces" },
+      { label: "Architectural Millwork", href: "/services/architectural-millwork" },
+      { label: "Commercial Casework", href: "/americase" },
+      { label: "Acoustical", href: "/services/acoustical" },
+      { label: "Surfaces", href: "/services/surfaces" },
     ],
   },
   {
     label: "Portfolio",
     items: [
-      { label: "Millwork", href: "#/portfolio/millwork" },
-      { label: "Casework", href: "#/portfolio/casework" },
-      { label: "Acoustics", href: "#/portfolio/acoustics" },
-      { label: "All Projects", href: "#/portfolio/all" },
+      { label: "Millwork", href: "/portfolio/millwork" },
+      { label: "Casework", href: "/portfolio/casework" },
+      { label: "Acoustics", href: "/portfolio/acoustics" },
+      { label: "All Projects", href: "/portfolio/all" },
     ],
   },
   { label: "Divisions", items: DIVISIONS },
-  { label: "News", href: "#/news" },
+  { label: "News", href: "/news" },
 ]
 
 export function Eyebrow({ children }: { children: string }) {
@@ -169,7 +170,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
       inert={!open}
     >
       <div className="flex items-center justify-between border-b border-black/10 px-6 py-5 max-md:pt-[64px] md:px-10">
-        <a href="#/" aria-label="American Millwork & Cabinetry">
+        <a href="/" aria-label="American Millwork & Cabinetry">
           <img src={logo} alt="American Millwork & Cabinetry" className="h-[26px] w-auto md:h-[31px]" />
         </a>
         <button
@@ -274,7 +275,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
       </nav>
       <div className="border-t border-black/10 px-6 py-5 md:px-10">
         <a
-          href="#/contact"
+          href="/contact"
           className="flex h-12 w-full items-center justify-center rounded-full bg-black text-caption-m uppercase tracking-wide text-white transition-colors hover:bg-black/80"
         >
           Contact
@@ -291,16 +292,18 @@ function Header({ overDark = false }: { overDark?: boolean }) {
   // Closes dropdowns after navigating until the pointer leaves the menu.
   const [closed, setClosed] = useState(false)
   useEffect(() => {
-    const onHash = () => {
+    const onNav = () => {
       ;(document.activeElement as HTMLElement | null)?.blur()
       setClosed(true)
       setMenuOpen(false)
     }
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false)
-    window.addEventListener("hashchange", onHash)
+    window.addEventListener(NAVIGATE_EVENT, onNav)
+    window.addEventListener("popstate", onNav)
     window.addEventListener("keydown", onKey)
     return () => {
-      window.removeEventListener("hashchange", onHash)
+      window.removeEventListener(NAVIGATE_EVENT, onNav)
+      window.removeEventListener("popstate", onNav)
       window.removeEventListener("keydown", onKey)
     }
   }, [])
@@ -322,7 +325,7 @@ function Header({ overDark = false }: { overDark?: boolean }) {
         }`}
       >
         <div className="mx-auto flex max-w-[1750px] items-center justify-between px-6 py-4 md:px-10 lg:py-5">
-          <a href="#/" className="flex items-center" aria-label="American Millwork & Cabinetry">
+          <a href="/" className="flex items-center" aria-label="American Millwork & Cabinetry">
             <img
               src={light ? logoWhite : logo}
               alt="American Millwork & Cabinetry"
@@ -385,7 +388,7 @@ function Header({ overDark = false }: { overDark?: boolean }) {
             )}
           </nav>
           <div className="flex items-center gap-3">
-            <a href="#/contact" tabIndex={-1} className="hidden sm:block">
+            <a href="/contact" tabIndex={-1} className="hidden sm:block">
               <OutlineButton dark={light}>Contact</OutlineButton>
             </a>
             <button
@@ -662,7 +665,7 @@ function Services() {
     <section className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
       <div className="flex items-center justify-between">
         <Eyebrow>services</Eyebrow>
-        <a href="#/services" tabIndex={-1}>
+        <a href="/services" tabIndex={-1}>
           <OutlineButton>All services</OutlineButton>
         </a>
       </div>
@@ -1021,11 +1024,11 @@ const FOOTER_COLUMNS: { title: string; href?: string; links: NavLink[] }[] = [
   {
     title: "Company",
     links: [
-      { label: "About Us", href: "#/about" },
-      { label: "Careers", href: "#/careers" },
-      { label: "Casework vs Millwork", href: "#/insights/casework-vs-millwork" },
-      { label: "News", href: "#/news" },
-      { label: "Contact", href: "#/contact" },
+      { label: "About Us", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Casework vs Millwork", href: "/insights/casework-vs-millwork" },
+      { label: "News", href: "/news" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   ...NAV.filter((n) => n.items && n.label !== "Company").map((n) => ({ title: n.label, href: n.href, links: n.items! })),
@@ -1053,7 +1056,7 @@ function Footer() {
               spaces.
             </p>
             <div className="mt-8">
-              <a href="#/contact">
+              <a href="/contact">
                 <OutlineButton dark>Contact us</OutlineButton>
               </a>
             </div>
@@ -1212,101 +1215,94 @@ function ContactPage() {
   )
 }
 
+function NotFoundPage() {
+  return (
+    <section className="mx-auto flex min-h-[70vh] max-w-[1750px] flex-col justify-center px-6 py-32 md:px-10">
+      <Eyebrow>404</Eyebrow>
+      <h1 className="mt-6 text-h3-s md:text-h3-m xl:text-h3-l capitalize leading-[1.1] text-dark-950">Page not found</h1>
+      <p className="mt-6 max-w-[520px] text-body1-s leading-[1.6] text-black/70">
+        That page is not on this site. Head back home or get in touch with the shop.
+      </p>
+      <div className="mt-10 flex flex-wrap gap-4">
+        <a href="/">
+          <OutlineButton>Home</OutlineButton>
+        </a>
+        <a href="/contact">
+          <OutlineButton>Contact</OutlineButton>
+        </a>
+      </div>
+    </section>
+  )
+}
+
 function useRoute() {
-  const get = () => {
-    const h = window.location.hash
-    if (h.startsWith("#/insights/")) return "insight"
-    if (h === "#/americase" || h.startsWith("#/americase?")) return "americase"
-    if (h.startsWith("#/services/architectural-millwork")) return "architectural-millwork"
-    if (h.startsWith("#/services/commercial-casework")) return "americase"
-    // Plain millwork / casework detail pages fold into the SEO hubs.
-    if (h.startsWith("#/services/millwork")) return "architectural-millwork"
-    if (h.startsWith("#/services/casework")) return "americase"
-    if (h.startsWith("#/services/")) return "service"
-    if (h.startsWith("#/services")) return "services"
-    if (h.startsWith("#/news/")) return "article"
-    if (h.startsWith("#/news")) return "news"
-    if (h.startsWith("#/contact")) return "contact"
-    if (h.startsWith("#/careers")) return "careers"
-    if (h.startsWith("#/about")) return "about"
-    if (h.startsWith("#/divisions/")) return "division"
-    if (h.startsWith("#/installers")) { window.location.replace("#/divisions/american-installers"); return "division" }
-    if (h.startsWith("#/portfolio/project")) return "project"
-    if (h.startsWith("#/portfolio")) return "millwork"
-    return "home"
-  }
-  const [route, setRoute] = useState(get)
-  const [hash, setHash] = useState(window.location.hash)
+  const [route, setRoute] = useState(() => resolveRoute(getPathname()))
   useEffect(() => {
-    if ("scrollRestoration" in history) history.scrollRestoration = "manual"
-    const rewriteServiceAliases = () => {
-      const h = window.location.hash
-      if (h.startsWith("#/services/millwork")) {
-        const next = "#/services/architectural-millwork"
-        if (h !== next) window.location.replace(next)
-        return true
-      }
-      if (h.startsWith("#/services/casework")) {
-        const next = "#/americase"
-        if (h !== next) window.location.replace(next)
-        return true
-      }
-      return false
+    const sync = () => setRoute(resolveRoute(getPathname()))
+    sync()
+    window.addEventListener("popstate", sync)
+    window.addEventListener(NAVIGATE_EVENT, sync)
+    return () => {
+      window.removeEventListener("popstate", sync)
+      window.removeEventListener(NAVIGATE_EVENT, sync)
     }
-    rewriteServiceAliases()
-    const onHash = () => {
-      if (rewriteServiceAliases()) return
-      setRoute(get())
-      setHash(window.location.hash)
-    }
-    window.addEventListener("hashchange", onHash)
-    return () => window.removeEventListener("hashchange", onHash)
   }, [])
   // Reset after the new page has rendered; "instant" bypasses the global smooth
   // scroll, which otherwise gets interrupted mid-animation by the layout change.
+  // In-page anchors (#who-we-are) still scroll to their target.
   useLayoutEffect(() => {
+    const hash = window.location.hash
+    if (hash && !hash.startsWith("#/")) {
+      const el = document.getElementById(decodeURIComponent(hash.slice(1)))
+      if (el) {
+        el.scrollIntoView({ behavior: "instant", block: "start" })
+        return
+      }
+    }
     window.scrollTo({ top: 0, left: 0, behavior: "instant" })
     const id = requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "instant" }))
     return () => cancelAnimationFrame(id)
-  }, [hash])
-  return { route, hash }
+  }, [route.pathname])
+  return route
 }
 
 export default function App() {
-  const { route, hash } = useRoute()
+  const route = useRoute()
   useEffect(() => {
-    applySeo(route)
-  }, [route, hash])
+    applySeo(route.pathname)
+  }, [route.pathname])
   return (
     <div className="bg-white text-black">
-      <Header overDark={route === "project" || route === "division"} />
+      <Header overDark={route.id === "project" || route.id === "division"} />
       <main>
-        {route === "insight" ? (
+        {route.id === "not-found" ? (
+          <NotFoundPage />
+        ) : route.id === "insight" ? (
           <CaseworkVsMillworkPage />
-        ) : route === "americase" ? (
+        ) : route.id === "americase" ? (
           <CommercialCaseworkPage />
-        ) : route === "architectural-millwork" ? (
+        ) : route.id === "architectural-millwork" ? (
           <ArchitecturalMillworkPage />
-        ) : route === "services" ? (
+        ) : route.id === "services" ? (
           <ServicesOverview />
-        ) : route === "service" ? (
-          <ServiceDetail key={window.location.hash} />
-        ) : route === "news" ? (
+        ) : route.id === "service" ? (
+          <ServiceDetail key={route.pathname} />
+        ) : route.id === "news" ? (
           <NewsPage />
-        ) : route === "article" ? (
-          <ArticlePage />
-        ) : route === "contact" ? (
+        ) : route.id === "article" ? (
+          <ArticlePage key={route.pathname} />
+        ) : route.id === "contact" ? (
           <ContactPage />
-        ) : route === "careers" ? (
+        ) : route.id === "careers" ? (
           <CareersPage />
-        ) : route === "division" ? (
-          <DivisionPage key={window.location.hash} />
-        ) : route === "about" ? (
+        ) : route.id === "division" ? (
+          <DivisionPage key={route.pathname} />
+        ) : route.id === "about" ? (
           <AboutPage />
-        ) : route === "project" ? (
+        ) : route.id === "project" ? (
           <ProjectPage />
-        ) : route === "millwork" ? (
-          <MillworkPortfolio key={window.location.hash} />
+        ) : route.id === "portfolio" ? (
+          <MillworkPortfolio key={route.pathname} />
         ) : (
           <>
             <Hero />
