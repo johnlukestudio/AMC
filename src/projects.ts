@@ -2,12 +2,16 @@
 
 export type ProjectImage = { src: string; alt: string; ratio?: string }
 
+export type PortfolioCategory = "millwork" | "casework" | "acoustics"
+
 export type Project = {
   slug: string
   name: string
   year: string
   place?: string
   type?: string
+  /** Portfolio filters. A project can appear in more than one. */
+  categories: PortfolioCategory[]
   image: string
   alt: string
   summary?: string
@@ -22,6 +26,7 @@ export const PROJECTS: Project[] = [
     slug: "cheston-elementary-school",
     name: "Cheston Elementary School",
     year: "2026",
+    categories: ["millwork", "casework"],
     image: "30adf.png",
     alt: "Cheston Elementary School",
     gallery: [{ src: "803d7.png", alt: "Cheston Elementary School interior" }],
@@ -34,6 +39,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     place: "Blue Bell, Pennsylvania",
     type: "Multifamily Residential",
+    categories: ["millwork", "casework"],
     image: "9765d.png",
     alt: "AVE Blue Bell exterior",
     summary:
@@ -75,6 +81,7 @@ export const PROJECTS: Project[] = [
     slug: "mattison-estates",
     name: "Mattison Estates",
     year: "2026",
+    categories: ["millwork"],
     image: "6896d.png",
     alt: "Mattison Estates lounge",
     gallery: [{ src: "d7b6e.png", alt: "Mattison Estates library" }],
@@ -85,6 +92,7 @@ export const PROJECTS: Project[] = [
     slug: "kalahari-resort",
     name: "Kalahari Resort",
     year: "2025",
+    categories: ["millwork"],
     image: "940fb.png",
     alt: "Kalahari Resort entrance",
     gallery: [{ src: "4440b.png", alt: "Kalahari Resort interior" }],
@@ -95,6 +103,7 @@ export const PROJECTS: Project[] = [
     slug: "milford-village",
     name: "Milford Village",
     year: "2022",
+    categories: ["casework"],
     image: "0688e.png",
     alt: "Milford Village",
     gallery: [{ src: "6b3df.png", alt: "Milford Village residences" }],
@@ -105,6 +114,7 @@ export const PROJECTS: Project[] = [
     slug: "waugh-chapel-monarch-clubhouse",
     name: "Waugh Chapel Monarch Clubhouse",
     year: "2023",
+    categories: ["millwork"],
     image: "b6a68.png",
     alt: "Waugh Chapel Monarch Clubhouse",
     gallery: [
@@ -117,6 +127,7 @@ export const PROJECTS: Project[] = [
     slug: "washington-crossing",
     name: "Washington Crossing",
     year: "2025",
+    categories: ["millwork"],
     image: "96354.png",
     alt: "Washington Crossing hall",
     gallery: [
@@ -131,6 +142,13 @@ export const PROJECTS: Project[] = [
 
 export function projectBySlug(slug: string): Project | undefined {
   return PROJECTS.find((project) => project.slug === slug)
+}
+
+export function projectsInCategory(slug: string): Project[] {
+  if (slug === "all" || slug === "") return PROJECTS
+  return PROJECTS.filter((project) =>
+    project.categories.includes(slug as PortfolioCategory),
+  )
 }
 
 export function projectPathnames(): string[] {
