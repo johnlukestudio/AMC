@@ -1,14 +1,25 @@
 import { LoopVideo } from "./LoopVideo"
 import { Eyebrow, OutlineButton } from "./App"
+import { acousticalPhoto, CARD_SIZES } from "./photos"
 import { getPathname, resolveRoute } from "./routes"
 
 const asset = "/media"
 
-type Card = { title: string; body: string; img?: string }
+type Card = {
+  title: string
+  body: string
+  img?: string
+  srcSet?: string
+  sizes?: string
+  width?: number
+  height?: number
+}
 type Division = {
   slug: string
   name: string
   headline: string
+  /** Caps the hero h1 so a long line wraps instead of orphaning a word. */
+  headlineClass?: string
   intro: string[]
   hero: string
   heroVideo?: string
@@ -23,11 +34,23 @@ type Division = {
   site?: { label: string; href: string }
 }
 
+function acousticCard(name: string) {
+  const photo = acousticalPhoto(name)
+  return {
+    img: photo.src,
+    srcSet: photo.srcSet,
+    sizes: CARD_SIZES,
+    width: photo.width,
+    height: photo.height,
+  }
+}
+
 export const DIVISION_PAGES: Division[] = [
   {
     slug: "american-installers",
     name: "American Installers",
     headline: "Installed right. By the people who built it.",
+    headlineClass: "max-w-[8.6em] text-[9vw] md:text-[min(6.4vw,112px)]",
     intro: [
       "AMC Installers LLC installs everything we manufacture, with open, prevailing or union crews.",
     ],
@@ -78,14 +101,14 @@ export const DIVISION_PAGES: Division[] = [
     heroVideo: "loop01",
     cardsTitle: "Products",
     cards: [
-      { title: "Wood Veneer & P-Lam", img: `${asset}/36166.png`, body: "High Performance Acoustic Ceiling and Wall Panels Systems using MDF or FRP cores to Absorb sound and bring warmth & tranquility into your room. AMC offers a wide range of Wood Species, Finishes and Design options to create your own unique space." },
-      { title: "Fabric Ceiling & Wall", img: `${asset}/4440b.png`, body: "AMC Acoustical can match any specified fabric. Our Fabric Panels offer High Performance Sound Absorption and add a “Softer Look” to your space." },
-      { title: "Custom Acoustical Linear Wood Ceiling & Wall Systems", img: `${asset}/4e931.png`, body: "Bring us your design and let AMC Acoustical bring it to reality. Linear Wood Systems add Design & Texture to your ceilings and walls while offering superior sound absorption to your room." },
-      { title: "Panelized Acoustical Panels", img: `${asset}/5b70d.png`, body: "Panelized Acoustical panels to fit your existing Ceiling grids. AMC Acoustical offers standard size acoustical panels that will fit your preexisting ceiling grid for ease of installation and less down time." },
-      { title: "Coffered Acoustic Panels", img: `${asset}/67697.png`, body: "Coffered Acoustic Panels will add Texture & Detail while reducing Reverberation in your space. AMC Acoustical can retrofit Panels to your existing Coffered Ceiling or Design Fabricate and Install a Custom Designed ceiling to meet your unique requirements." },
-      { title: "Reflective Ceiling Panels", body: "Reflective Ceiling Panels, to direct sound to your audience." },
-      { title: "Ceiling Sound Baffles", body: "Ceiling Sound Baffles & Blades, to absorb reverberation." },
-      { title: "Diffusers & Ceiling Clouds", body: "Diffusers & Ceiling Clouds to manage background noise." },
+      { title: "Wood Veneer & P-Lam", ...acousticCard("wood-veneer"), body: "High Performance Acoustic Ceiling and Wall Panels Systems using MDF or FRP cores to Absorb sound and bring warmth & tranquility into your room. AMC offers a wide range of Wood Species, Finishes and Design options to create your own unique space." },
+      { title: "Fabric Ceiling & Wall", ...acousticCard("fabric"), body: "AMC Acoustical can match any specified fabric. Our Fabric Panels offer High Performance Sound Absorption and add a “Softer Look” to your space." },
+      { title: "Custom Acoustical Linear Wood Ceiling & Wall Systems", ...acousticCard("linear"), body: "Bring us your design and let AMC Acoustical bring it to reality. Linear Wood Systems add Design & Texture to your ceilings and walls while offering superior sound absorption to your room." },
+      { title: "Panelized Acoustical Panels", ...acousticCard("panelized"), body: "Panelized Acoustical panels to fit your existing Ceiling grids. AMC Acoustical offers standard size acoustical panels that will fit your preexisting ceiling grid for ease of installation and less down time." },
+      { title: "Coffered Acoustic Panels", ...acousticCard("coffered"), body: "Coffered Acoustic Panels will add Texture & Detail while reducing Reverberation in your space. AMC Acoustical can retrofit Panels to your existing Coffered Ceiling or Design Fabricate and Install a Custom Designed ceiling to meet your unique requirements." },
+      { title: "Reflective Ceiling Panels", ...acousticCard("reflective"), body: "Reflective Ceiling Panels, to direct sound to your audience." },
+      { title: "Ceiling Sound Baffles", ...acousticCard("baffles"), body: "Ceiling Sound Baffles & Blades, to absorb reverberation." },
+      { title: "Diffusers & Ceiling Clouds", ...acousticCard("clouds"), body: "Diffusers & Ceiling Clouds to manage background noise." },
     ],
     stepsTitle: "Services",
     steps: [
@@ -139,7 +162,7 @@ export function DivisionPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
         <div className="relative mx-auto w-full max-w-[1750px] px-6 pb-16 md:px-10 md:pb-24">
           <p className="text-caption-m uppercase tracking-[0.16em] text-[#D9B547]">{d.name}</p>
-          <h1 className="mt-5 max-w-[1150px] text-[11vw] font-normal uppercase leading-[0.92] tracking-[-0.03em] md:text-[min(6.4vw,112px)]">{d.headline}</h1>
+          <h1 className={`mt-5 font-normal uppercase leading-[0.92] tracking-[-0.03em] ${d.headlineClass ?? "max-w-[1150px] text-[11vw] md:text-[min(6.4vw,112px)]"}`}>{d.headline}</h1>
           {d.intro.map((p) => (
             <p key={p} className="mt-5 max-w-[720px] text-body1-s leading-[1.6] text-white/85">{p}</p>
           ))}
@@ -158,7 +181,15 @@ export function DivisionPage() {
             <article key={c.title} className="border-t border-dashed border-black/30 pt-6">
               {c.img && (
                 <div className="mb-5 aspect-[4/5] overflow-hidden bg-neutral-100">
-                  <img src={c.img} alt={c.title} className="size-full object-cover" />
+                  <img
+                    src={c.img}
+                    srcSet={c.srcSet}
+                    sizes={c.sizes}
+                    width={c.width}
+                    height={c.height}
+                    alt={c.title}
+                    className="size-full object-cover"
+                  />
                 </div>
               )}
               <h3 className="text-h4-m leading-[1.25]">{c.title}</h3>

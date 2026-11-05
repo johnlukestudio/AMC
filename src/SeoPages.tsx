@@ -69,7 +69,7 @@ function RelatedLinks({ links }: { links: { href: string; label: string; note: s
         <ul className="mt-10 grid gap-0 border-t border-black/15 sm:grid-cols-3">
           {links.map((l) => (
             <li key={l.href} className="border-b border-black/15 sm:border-b-0 sm:border-r sm:last:border-r-0">
-              <a href={l.href} className="group flex h-full flex-col justify-between gap-8 px-0 py-10 sm:px-8 sm:first:pl-0 sm:last:pr-0">
+              <a href={l.href} className="group flex h-full flex-col justify-between gap-8 px-6 py-10 sm:px-8">
                 <div>
                   <span className="text-caption-s text-black/50">{l.note}</span>
                   <span className="mt-2 block text-h4-m leading-snug ">{l.label}</span>

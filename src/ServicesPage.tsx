@@ -1,11 +1,21 @@
 import { LoopVideo } from "./LoopVideo"
 import { useEffect, useRef, useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
+import { acousticalPhoto, CARD_SIZES_3, HERO_SIZES, serviceHero } from "./photos"
 import { getPathname, resolveRoute } from "./routes"
 
 const asset = "/media"
 
-type Item = { label?: string; title: string; img: string; body?: string }
+type Item = {
+  label?: string
+  title: string
+  img: string
+  srcSet?: string
+  sizes?: string
+  width?: number
+  height?: number
+  body?: string
+}
 type Step = { title: string; body: string }
 export type Service = {
   slug: string
@@ -15,6 +25,9 @@ export type Service = {
   kicker: string
   intro: string
   hero: string
+  heroSrcSet?: string
+  heroWidth?: number
+  heroHeight?: number
   heroVideo?: string
   overview: string
   overviewImg: string
@@ -27,6 +40,13 @@ export type Service = {
   stepsImg: string
   deliverables: { title: string; body: string }[]
   deliverablesImg: string
+}
+
+const acousticalHero = serviceHero("acoustical")
+const surfacesHero = serviceHero("surfaces")
+const acoustic = (name: string) => {
+  const photo = acousticalPhoto(name)
+  return { img: photo.src, srcSet: photo.srcSet, sizes: CARD_SIZES_3, width: photo.width, height: photo.height }
 }
 
 const STEPS_DEFAULT: Step[] = [
@@ -137,7 +157,10 @@ export const SERVICE_DATA: Service[] = [
     title: "Acoustical",
     kicker: "AMC Acoustical",
     intro: "Let's keep things quiet. High-performance sound absorption panels that capture and reduce reverberation in any space.",
-    hero: `${asset}/cat-acoustics.png`,
+    hero: acousticalHero.src,
+    heroSrcSet: acousticalHero.srcSet,
+    heroWidth: acousticalHero.width,
+    heroHeight: acousticalHero.height,
     overview:
       "Let's face it: we can all use less noise and distraction in our lives. AMC Acoustical's High Performance Sound Absorption Panels capture and reduce sound reverberation, creating quieter, less distracting work and office spaces, common areas, restaurants, libraries, lecture halls, auditoriums, theaters, studios and concert halls, while meeting or exceeding all NRC or SAA requirements for your project.",
     overviewImg: `${asset}/2c527.png`,
@@ -151,33 +174,33 @@ export const SERVICE_DATA: Service[] = [
     items: [
       {
         title: "Wood Veneer & P-Lam",
-        img: `${asset}/36166.png`,
+        ...acoustic("wood-veneer"),
         body: "High performance acoustic ceiling and wall panel systems using MDF or FRP cores, in a wide range of wood species and finishes.",
       },
       {
         title: "Fabric Ceiling & Wall",
-        img: `${asset}/4440b.png`,
+        ...acoustic("fabric"),
         body: "Fabric panels matched to any specified fabric, offering high performance sound absorption and a softer look.",
       },
       {
         title: "Linear Wood Ceiling & Wall Systems",
-        img: `${asset}/4e931.png`,
+        ...acoustic("linear"),
         body: "Custom linear systems that add design and texture to ceilings and walls with superior sound absorption.",
       },
       {
         title: "Panelized Acoustical Panels",
-        img: `${asset}/5b70d.png`,
+        ...acoustic("panelized"),
         body: "Standard-size panels that fit your existing ceiling grid for easier installation and less down time.",
       },
       {
         title: "Coffered Acoustic Panels",
-        img: `${asset}/67697.png`,
+        ...acoustic("coffered"),
         body: "Texture and detail that reduce reverberation; retrofit existing coffers or design a custom ceiling.",
       },
-      { title: "Reflective Ceiling Panels", img: `${asset}/6896d.png`, body: "Reflective panels that direct sound to your audience." },
-      { title: "Ceiling Sound Baffles", img: `${asset}/6b3df.png`, body: "Ceiling baffles and blades that absorb reverberation." },
-      { title: "Diffusers & Ceiling Clouds", img: `${asset}/74e34.png`, body: "Diffusers and clouds that manage background noise." },
-      { title: "Custom Design Solutions", img: `${asset}/803d7.png`, body: "Bring us your design and we'll engineer, fabricate and install it." },
+      { title: "Reflective Ceiling Panels", ...acoustic("reflective"), body: "Reflective panels that direct sound to your audience." },
+      { title: "Ceiling Sound Baffles", ...acoustic("baffles"), body: "Ceiling baffles and blades that absorb reverberation." },
+      { title: "Diffusers & Ceiling Clouds", ...acoustic("clouds"), body: "Diffusers and clouds that manage background noise." },
+      { title: "Custom Design Solutions", ...acoustic("custom"), body: "Bring us your design and we'll engineer, fabricate and install it." },
     ],
     steps: [
       { title: "Acoustical consulting", body: "Our experts provide personalized consultations to assess your space and recommend the best acoustical solutions." },
@@ -202,7 +225,10 @@ export const SERVICE_DATA: Service[] = [
     title: "Surfaces",
     kicker: "American Surfaces",
     intro: "For first impressions, and lasting impressions. Custom commercial solid surfaces for office, retail, academic, and other commercial spaces.",
-    hero: `${asset}/2e51c.png`,
+    hero: surfacesHero.src,
+    heroSrcSet: surfacesHero.srcSet,
+    heroWidth: surfacesHero.width,
+    heroHeight: surfacesHero.height,
     overview:
       "Solid surfaces such as Corian can be used in a variety of applications. Non-porous, durable, easy to maintain and able to be shaped to fit any design, they are a popular choice for commercial spaces, from countertops and seamless wall cladding to custom furniture and retail and hospitality fixtures.",
     overviewImg: `${asset}/6896d.png`,
@@ -405,6 +431,10 @@ function ItemCard({ item, compact = false }: { item: Item; compact?: boolean }) 
       <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
         <img
           src={item.img}
+          srcSet={item.srcSet}
+          sizes={item.sizes}
+          width={item.width}
+          height={item.height}
           alt={item.title}
           className="size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
         />
@@ -628,7 +658,19 @@ export function ServiceDetail() {
           ))}
         </dl>
         <div className="mt-8 aspect-[16/10] overflow-hidden md:aspect-auto md:h-[620px]">
-          {s.heroVideo ? <LoopVideo name={s.heroVideo} label={s.title} className="size-full" /> : <img src={s.hero} alt={s.title} className="size-full object-cover" />}
+          {s.heroVideo ? (
+            <LoopVideo name={s.heroVideo} label={s.title} className="size-full" />
+          ) : (
+            <img
+              src={s.hero}
+              srcSet={s.heroSrcSet}
+              sizes={HERO_SIZES}
+              width={s.heroWidth}
+              height={s.heroHeight}
+              alt={s.title}
+              className="size-full object-cover"
+            />
+          )}
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import { media, PROJECTS } from "./projects"
+import { media, projectsInCategory } from "./projects"
 import { getPathname, resolveRoute } from "./routes"
 
 const asset = "/media"
@@ -20,9 +20,10 @@ const OFF = -99999
    project frame, so it reads as one square passing over the grid. On leave it keeps
    travelling along its last heading and slides out of the clipped frames. */
 export function MillworkPortfolio() {
-  // All categories share this page for now; only the active filter changes.
   const slug = resolveRoute(getPathname()).slug || "millwork"
   const current = FILTERS.find((f) => f.slug === slug) ?? FILTERS[0]
+  const projects = projectsInCategory(current.slug)
+  const composed = current.slug === "all"
   const gridRef = useRef<HTMLDivElement>(null)
   const frames = useRef<(HTMLDivElement | null)[]>([])
   const cubes = useRef<(HTMLDivElement | null)[]>([])
@@ -119,15 +120,20 @@ export function MillworkPortfolio() {
       <span className="text-body2-s leading-none capitalize">
         {current.slug === "all" ? "All projects" : `${current.label} projects`}
       </span>
+      {projects.length === 0 ? (
+        <p className="mt-12 max-w-[520px] text-body1-s leading-[1.6] text-black/60">
+          No {current.label.toLowerCase()} projects are published yet.
+        </p>
+      ) : (
       <div
         ref={gridRef}
         className="mt-12 grid grid-cols-1 gap-x-10 gap-y-16 md:cursor-none md:grid-cols-12 md:gap-y-[8vw]"
       >
-        {PROJECTS.map((p, i) => (
+        {projects.map((p, i) => (
           <a
             key={p.slug}
             href={`/portfolio/project/${p.slug}/`}
-            className={`block self-start ${p.cls}`}
+            className={`block self-start ${composed ? p.cls : "md:col-span-6"}`}
           >
             <div
               ref={(el) => {
@@ -193,6 +199,7 @@ export function MillworkPortfolio() {
           </a>
         ))}
       </div>
+      )}
     </section>
   )
 }

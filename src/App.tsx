@@ -414,8 +414,10 @@ function Header({ overDark = false }: { overDark?: boolean }) {
 /* ---------- Hero ---------- */
 function Hero() {
   const wrapRef = useRef<HTMLDivElement>(null)
+  const labelRefs = useRef<(HTMLSpanElement | null)[]>([])
   const [pos, setPos] = useState({ x: 0.5, y: 0.5 })
   const [active, setActive] = useState(0)
+  const [covered, setCovered] = useState<boolean[]>(() => HERO_CATEGORIES.map(() => false))
   // Touch devices have no hover: cycle categories automatically.
   useEffect(() => {
     if (!window.matchMedia("(hover: none)").matches) return
@@ -470,7 +472,18 @@ function Hero() {
               x: (e.clientX - r.left) / r.width,
               y: (e.clientY - r.top) / r.height,
             })
+            // The cursor preview is 220px, centered on the pointer. Fade a label when that square covers it.
+            const size = 220
+            const left = e.clientX - size / 2
+            const top = e.clientY - size / 2
+            const next = labelRefs.current.map((el) => {
+              if (!el) return false
+              const box = el.getBoundingClientRect()
+              return left < box.right && left + size > box.left && top < box.bottom && top + size > box.top
+            })
+            setCovered((prev) => (prev.every((v, i) => v === next[i]) ? prev : next))
           }}
+          onMouseLeave={() => setCovered(HERO_CATEGORIES.map(() => false))}
         >
           {/* Crosshair guide lines */}
           <div
@@ -538,9 +551,13 @@ function Hero() {
               style={{ clipPath: z.clip }}
             >
               <span
-                className={`absolute ${z.label} text-caption-m uppercase tracking-[0.16em] transition-colors duration-300 ${
+                ref={(el) => {
+                  labelRefs.current[i] = el
+                }}
+                className={`absolute ${z.label} select-none text-caption-m uppercase tracking-[0.16em] transition-[color,opacity] duration-300 ${
                   i === active ? "text-black" : "text-black/40"
                 }`}
+                style={{ opacity: covered[i] ? 0 : 1 }}
               >
                 0{i + 1} {HERO_CATEGORIES[i].name}
               </span>
@@ -923,7 +940,7 @@ function Memberships() {
             <img
               src={m.logo}
               alt={m.name}
-              className="mx-auto h-16 w-auto max-w-[70%] object-contain mix-blend-multiply grayscale opacity-70 transition duration-300 group-hover:opacity-100"
+              className="mx-auto h-[70px] w-auto max-w-[77%] object-contain mix-blend-multiply grayscale opacity-70 transition duration-300 group-hover:opacity-100"
             />
             <span className="flex h-[34px] items-center justify-center whitespace-pre-line text-center text-caption-s leading-snug text-black/50">
               {m.name}
