@@ -1,4 +1,5 @@
 import { NEWS } from "./NewsPage"
+import { projectBySlug } from "./projects"
 import { absoluteUrl, resolveRoute, type RouteId } from "./routes"
 
 const SITE_NAME = "American Millwork & Cabinetry"
@@ -152,6 +153,15 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
     return {
       title: `${label} | ${SITE_NAME}`,
       description: ROUTE_SEO.millwork.description,
+    }
+  }
+
+  if (id === "project") {
+    const project = projectBySlug(slug)
+    if (!project) return ROUTE_SEO.project
+    return {
+      title: `${project.name} | ${SITE_NAME}`,
+      description: `${project.name}. Custom millwork by American Millwork & Cabinetry, fabricated in Emmaus, PA.`,
     }
   }
 

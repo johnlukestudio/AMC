@@ -56,9 +56,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Header over a dark full-bleed hero: white nav text until scroll/hover */
+/* Header over a dark full-bleed hero: white nav text until scroll/hover.
+   Dropdown triggers sit in nav > div > a, so they share News's light color. */
 header[data-light] nav button,
-header[data-light] nav > a {
+header[data-light] nav > a,
+header[data-light] nav > div > a {
   color: rgb(245 245 245 / 0.8);
 }
 

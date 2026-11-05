@@ -1,5 +1,7 @@
 /** Path routing for the beta site. Hash URLs (#/about) never reach the server. */
 
+import { projectPathnames, PROJECTS } from "./projects"
+
 export const SITE_ORIGIN = "https://beta.amcmillwork.com"
 
 export const NAVIGATE_EVENT = "amc-navigate"
@@ -21,7 +23,7 @@ const DIVISION_SLUGS = new Set([
   "american-surfaces",
 ])
 const PORTFOLIO_SLUGS = new Set(["millwork", "casework", "acoustics", "all"])
-const PROJECT_SLUG = "ave-blue-bell"
+const PROJECT_SLUGS = new Set(PROJECTS.map((project) => project.slug))
 
 const newsSlugs: string[] = []
 
@@ -50,7 +52,7 @@ export const STATIC_PATHS = [
   "/portfolio/casework",
   "/portfolio/acoustics",
   "/portfolio/all",
-  "/portfolio/project/ave-blue-bell",
+  ...projectPathnames(),
   "/divisions/american-installers",
   "/divisions/amc-acoustical",
   "/divisions/american-surfaces",
@@ -131,8 +133,9 @@ export function resolveRoute(input: string): ResolvedRoute {
   if (division && DIVISION_SLUGS.has(division))
     return { id: "division", pathname, slug: division }
 
-  if (pathname === `/portfolio/project/${PROJECT_SLUG}`)
-    return { id: "project", pathname, slug: PROJECT_SLUG }
+  const project = segment(pathname, "/portfolio/project/")
+  if (project && PROJECT_SLUGS.has(project))
+    return { id: "project", pathname, slug: project }
 
   const portfolio = segment(pathname, "/portfolio/")
   if (portfolio && PORTFOLIO_SLUGS.has(portfolio))
