@@ -63,13 +63,13 @@ function PageCta({ line1 = "Ready to talk", line2 = "about your", line3 = "proje
 
 function RelatedLinks({ links }: { links: { href: string; label: string; note: string }[] }) {
   return (
-    <section className="mx-auto max-w-[1750px] px-6 pb-8 md:px-10">
-      <div className="border-t border-black/15 pt-12">
+    <section className="mx-auto max-w-[1750px] px-6 pb-24 md:px-10 md:pb-32">
+      <div className="border-t border-black/15 pt-16 md:pt-20">
         <Eyebrow>keep reading</Eyebrow>
-        <ul className="mt-8 grid gap-0 border-t border-black/15 sm:grid-cols-3">
+        <ul className="mt-10 grid gap-0 border-t border-black/15 sm:grid-cols-3">
           {links.map((l) => (
             <li key={l.href} className="border-b border-black/15 sm:border-b-0 sm:border-r sm:last:border-r-0">
-              <a href={l.href} className="group flex h-full flex-col justify-between gap-6 px-6 py-8 sm:px-8">
+              <a href={l.href} className="group flex h-full flex-col justify-between gap-8 px-6 py-10 sm:px-8">
                 <div>
                   <span className="text-caption-s text-black/50">{l.note}</span>
                   <span className="mt-2 block text-h4-m leading-snug ">{l.label}</span>
@@ -414,8 +414,8 @@ export function ArchitecturalMillworkPage() {
       </section>
 
       <section className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
-        <div className="grid gap-10 md:grid-cols-[35%_1fr]">
-          <h2 className="text-h2-s md:text-h2-m xl:text-h2-l leading-[1] tracking-[-0.03em] ">
+        <div className="grid items-start gap-y-10 gap-x-8 md:grid-cols-[minmax(0,42%)_minmax(0,1fr)] md:gap-x-14 lg:gap-x-20 xl:gap-x-24">
+          <h2 className="min-w-0 text-balance text-h2-s leading-[1] tracking-[-0.03em] md:text-h2-m xl:text-h2-l">
             Built in Pennsylvania<sup className="ml-2 align-super text-caption-s tracking-normal text-black/50">[01]</sup>
           </h2>
           <div className="max-w-[720px] space-y-6 text-body1-s leading-[1.7] text-black/80">
