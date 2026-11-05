@@ -1300,7 +1300,7 @@ export default function App() {
         ) : route.id === "about" ? (
           <AboutPage />
         ) : route.id === "project" ? (
-          <ProjectPage />
+          <ProjectPage key={route.pathname} slug={route.slug} />
         ) : route.id === "portfolio" ? (
           <MillworkPortfolio key={route.pathname} />
         ) : (

@@ -1,67 +1,9 @@
 import { useEffect, useRef } from "react"
+import { media, PROJECTS } from "./projects"
 import { getPathname, resolveRoute } from "./routes"
 
 const asset = "/media"
 const corner = `${asset}/4a604.svg`
-
-const PROJECTS = [
-  {
-    name: "Cheston Elementary School",
-    year: "2026",
-    img: "30adf.png",
-    thumb: "803d7.png",
-    cls: "md:col-span-6",
-    ratio: "aspect-[610/650]",
-  },
-  {
-    name: "AVE Blue Bell",
-    year: "2026",
-    img: "9765d.png",
-    thumb: "825ea.png",
-    cls: "md:col-span-5 md:col-start-8 md:mt-[18vw]",
-    ratio: "aspect-[610/433]",
-  },
-  {
-    name: "Mattison Estates",
-    year: "2026",
-    img: "6896d.png",
-    thumb: "d7b6e.png",
-    cls: "md:col-span-6",
-    ratio: "aspect-[610/433]",
-  },
-  {
-    name: "Kalahari Resort",
-    year: "2025",
-    img: "940fb.png",
-    thumb: "4440b.png",
-    cls: "md:col-span-6 md:col-start-7 md:mt-[8vw]",
-    ratio: "aspect-[610/433]",
-  },
-  {
-    name: "Milford Village",
-    year: "2022",
-    img: "6b3df.png",
-    thumb: "0688e.png",
-    cls: "md:col-span-6 md:col-start-4",
-    ratio: "aspect-[690/488]",
-  },
-  {
-    name: "Waugh Chapel Monarch Clubhouse",
-    year: "2023",
-    img: "b6a68.png",
-    thumb: "1735b.png",
-    cls: "md:col-span-6",
-    ratio: "aspect-[650/487]",
-  },
-  {
-    name: "Washington Crossing",
-    year: "2025",
-    img: "96354.png",
-    thumb: "cf03d.png",
-    cls: "md:col-span-6 md:col-start-7 md:mt-[5vw]",
-    ratio: "aspect-[650/460]",
-  },
-]
 
 const FILTERS = [
   { label: "Millwork", slug: "millwork" },
@@ -183,8 +125,8 @@ export function MillworkPortfolio() {
       >
         {PROJECTS.map((p, i) => (
           <a
-            key={p.name}
-            href="/portfolio/project/ave-blue-bell/"
+            key={p.slug}
+            href={`/portfolio/project/${p.slug}/`}
             className={`block self-start ${p.cls}`}
           >
             <div
@@ -194,8 +136,8 @@ export function MillworkPortfolio() {
               className={`relative overflow-hidden ${p.ratio}`}
             >
               <img
-                src={`${asset}/${p.img}`}
-                alt={p.name}
+                src={media(p.image)}
+                alt={p.alt}
                 className="absolute inset-0 size-full object-cover"
               />
               <div
@@ -210,7 +152,7 @@ export function MillworkPortfolio() {
                 }}
               >
                 <img
-                  src={`${asset}/${p.thumb}`}
+                  src={media(p.image)}
                   alt=""
                   className="absolute inset-0 size-full object-cover"
                 />
