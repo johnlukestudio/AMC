@@ -116,7 +116,7 @@ export function CareersPage() {
       <section className="mx-auto max-w-[1750px] px-6 py-20 md:px-10 md:py-28">
         <div className="grid gap-10 md:grid-cols-2 md:items-end">
           <Eyebrow>how we work</Eyebrow>
-          <h2 className="max-w-[520px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.15] md:text-right ">
+          <h2 className="w-full max-w-[520px] text-h3-s leading-[1.15] md:ml-auto md:text-right md:text-h3-m xl:text-h3-l">
             Lean habits. Real handoffs. Room to grow.
           </h2>
         </div>

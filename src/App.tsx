@@ -627,8 +627,8 @@ function About() {
       <div className="relative mx-auto grid max-w-[1750px] gap-16 px-6 py-24 md:grid-cols-2 md:px-10 md:py-32">
         <div>
           <Eyebrow>About us</Eyebrow>
-          <h2 className="mt-14 text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] ">
-            Two decades of custom millwork, made in-house.
+          <h2 className="mt-14 text-balance text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] ">
+            Two decades of custom millwork, made&nbsp;in&#8209;house.
           </h2>
           <p className="mt-6 max-w-md text-body1-s leading-[1.6] text-white/70">
             American Millwork &amp; Cabinetry and our subsidiaries provide
@@ -1020,6 +1020,14 @@ function Testimonials() {
 }
 
 /* ---------- Footer ---------- */
+// Social profiles aren't live yet. Flip this on and replace the hrefs to show the column again.
+const SHOW_FOOTER_SOCIAL = false
+const SOCIAL_LINKS: NavLink[] = [
+  { label: "Instagram", href: "#" },
+  { label: "LinkedIn", href: "#" },
+  { label: "Facebook", href: "#" },
+]
+
 const FOOTER_COLUMNS: { title: string; href?: string; links: NavLink[] }[] = [
   {
     title: "Company",
@@ -1032,10 +1040,7 @@ const FOOTER_COLUMNS: { title: string; href?: string; links: NavLink[] }[] = [
     ],
   },
   ...NAV.filter((n) => n.items && n.label !== "Company").map((n) => ({ title: n.label, href: n.href, links: n.items! })),
-  {
-    title: "Social",
-    links: ["Instagram", "LinkedIn", "Facebook"].map((l) => ({ label: l, href: "#" })),
-  },
+  ...(SHOW_FOOTER_SOCIAL ? [{ title: "Social", links: SOCIAL_LINKS }] : []),
 ]
 
 function Footer() {
@@ -1084,8 +1089,12 @@ function Footer() {
           </div>
         </div>
 
-        {/* Sitemap: every dropdown destination is reachable directly from the footer */}
-        <nav aria-label="Footer" className="mt-16 grid grid-cols-2 gap-x-6 gap-y-12 border-t border-white/25 pt-12 sm:grid-cols-3 lg:grid-cols-5">
+        {/* Sitemap: every dropdown destination is reachable directly from the footer.
+            Social is omitted while SHOW_FOOTER_SOCIAL is false, so this is 4 columns. */}
+        <nav
+          aria-label="Footer"
+          className={`mt-16 grid grid-cols-2 gap-x-6 gap-y-12 border-t border-white/25 pt-12 ${SHOW_FOOTER_SOCIAL ? "sm:grid-cols-3 lg:grid-cols-5" : "lg:grid-cols-4"}`}
+        >
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.title}>
               {col.href ? (
