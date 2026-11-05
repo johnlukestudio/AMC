@@ -371,19 +371,19 @@ const STATS = [
 const PILLARS = [
   {
     title: "Your expectations are our goals",
-    body: "A team of skilled technicians, trained craftsmen and business professionals who know how to get the job done and deliver it on time, flexing to changes in process or schedule.",
+    body: "A team of skilled technicians, trained craftsmen and business professionals who know how to get the job done and deliver it on time, flexing to changes in process or\u00A0schedule.",
   },
   {
     title: "Continual improvement",
-    body: "Lean is not a slogan here. The main idea we buy into is continual improvement: better processes, cross-training, and people who can move where the work needs them.",
+    body: "Lean is not a slogan here. The main idea we buy into is continual improvement: better processes, cross\u2011training, and people who can move where the work needs\u00A0them.",
   },
   {
     title: "QC at every handoff",
-    body: "We do not wait until the truck is loaded. The next station is the customer. An edge-bander can push bad parts back. Quality is checked at every step of the way.",
+    body: "We do not wait until the truck is loaded. The next station is the customer. An edge\u2011bander can push bad parts back. Quality is checked at every step of the\u00A0way.",
   },
   {
     title: "Our pride is our work",
-    body: "We keep an open-shop policy. Visit Emmaus and see old-world craftsmanship running on the latest technology, tools and dedicated people.",
+    body: "We keep an open\u2011shop policy. Visit Emmaus and see old\u2011world craftsmanship running on the latest technology, tools and dedicated\u00A0people.",
   },
 ]
 
@@ -448,7 +448,7 @@ export function VideoFeature({
     <section className={`mx-auto max-w-[1750px] px-6 md:px-10 ${className}`}>
       <div className="mb-14 grid gap-10 md:grid-cols-2">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] ">{title}</h2>
+        <h2 className="w-full max-w-[560px] text-h3-s leading-[1.1] md:ml-auto md:text-right md:text-h3-m xl:text-h3-l">{title}</h2>
       </div>
       <button
         type="button"
@@ -524,10 +524,10 @@ export function AboutPage() {
 
         <div className="mx-auto mt-20 grid max-w-[1750px] grid-cols-2 gap-x-6 gap-y-12 px-6 md:mt-24 md:grid-cols-4 md:px-10">
           {STATS.map((s, i) => (
-            <div key={s.title} className="border-t border-black/20 pt-6">
+            <div key={s.title} className="min-w-0 border-t border-black/20 pt-6">
               <span className="block text-h2-s md:text-h2-m xl:text-h2-l leading-none tracking-tight "><CountUpStat value={s.n} delay={i * 150} /></span>
               <p className="mt-6 text-h4-s">{s.title}</p>
-              <p className="mt-2 max-w-[260px] text-body2-s leading-[1.5] text-black/60">{s.body}</p>
+              <p className="mt-2 text-pretty text-body2-s leading-[1.5] text-black/60">{s.body}</p>
             </div>
           ))}
         </div>
@@ -551,7 +551,7 @@ export function AboutPage() {
               <div key={p.title} className="border-l border-white/25 pl-5">
                 <span className="text-caption-s text-white/50">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-6 text-h4-m xl:text-h4-l leading-[1.25]">{p.title}</h3>
-                <p className="mt-4 text-body2-s leading-[1.6] text-white/65">{p.body}</p>
+                <p className="mt-4 text-pretty text-body2-s leading-[1.6] text-white/65">{p.body}</p>
               </div>
             ))}
           </div>
