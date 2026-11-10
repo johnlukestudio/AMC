@@ -11,14 +11,15 @@ export const ALIASES: Record<string, string> = {
   "/services/commercial-casework": "/americase",
   "/services/casework": "/americase",
   "/services/millwork": "/services/architectural-millwork",
-  "/installers": "/divisions/american-installers",
+  "/installers": "/divisions/amc-installers",
+  "/divisions/american-installers": "/divisions/amc-installers",
   "/portfolio": "/portfolio/millwork",
   "/portfolio/project": "/portfolio/project/ave-blue-bell",
 }
 
 const SERVICE_SLUGS = new Set(["acoustical", "surfaces"])
 const DIVISION_SLUGS = new Set([
-  "american-installers",
+  "amc-installers",
   "amc-acoustical",
   "american-surfaces",
 ])
@@ -53,7 +54,7 @@ export const STATIC_PATHS = [
   "/portfolio/acoustics",
   "/portfolio/all",
   ...projectPathnames(),
-  "/divisions/american-installers",
+  "/divisions/amc-installers",
   "/divisions/amc-acoustical",
   "/divisions/american-surfaces",
 ] as const

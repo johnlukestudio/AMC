@@ -47,8 +47,8 @@ function acousticCard(name: string) {
 
 export const DIVISION_PAGES: Division[] = [
   {
-    slug: "american-installers",
-    name: "American Installers",
+    slug: "amc-installers",
+    name: "AMC Installers",
     headline: "Installed right. By the people who built it.",
     headlineClass: "max-w-[8.6em] text-[9vw] md:text-[min(6.4vw,112px)]",
     intro: [
