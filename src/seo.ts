@@ -205,12 +205,25 @@ const VIDEO_JSON_LD = {
   duration: "PT2M8S",
 }
 
+/** Recruiting film. Title from oEmbed; uploadDate from the watch page ("Nov 10, 2026"). */
+const RECRUITING_VIDEO_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "AMC \u2014 Recruiting",
+  thumbnailUrl: "https://i.ytimg.com/vi/isCjg7Zgrjs/maxresdefault.jpg",
+  embedUrl: "https://www.youtube.com/embed/isCjg7Zgrjs",
+  contentUrl: "https://www.youtube.com/watch?v=isCjg7Zgrjs",
+  uploadDate: "2026-11-10",
+}
+
 const VIDEO_ROUTES = new Set<RouteId>(["about", "careers"])
+const RECRUITING_VIDEO_JSON_ID = "amc-recruiting-video-jsonld"
 
 export function jsonLdForPath(pathname: string): { id: string; data: object }[] {
   const route = resolveRoute(pathname)
   const blocks: { id: string; data: object }[] = [{ id: "amc-organization-jsonld", data: ORGANIZATION_JSON_LD }]
   if (VIDEO_ROUTES.has(route.id)) blocks.push({ id: "amc-video-jsonld", data: VIDEO_JSON_LD })
+  if (route.id === "careers") blocks.push({ id: RECRUITING_VIDEO_JSON_ID, data: RECRUITING_VIDEO_JSON_LD })
   return blocks
 }
 
@@ -260,11 +273,9 @@ export function applySeo(pathname: string) {
   syncVideoJsonLd(route.id)
 }
 
-/** VideoObject structured data for the employee film on About and Careers. */
-function syncVideoJsonLd(route: RouteId) {
-  const id = "amc-video-jsonld"
+function upsertJsonLd(id: string, data: object | null) {
   const existing = document.getElementById(id)
-  if (!VIDEO_ROUTES.has(route)) {
+  if (!data) {
     existing?.remove()
     return
   }
@@ -272,6 +283,12 @@ function syncVideoJsonLd(route: RouteId) {
   const script = document.createElement("script")
   script.id = id
   script.type = "application/ld+json"
-  script.textContent = JSON.stringify(VIDEO_JSON_LD)
+  script.textContent = JSON.stringify(data)
   document.head.appendChild(script)
+}
+
+/** VideoObject structured data for films on About and Careers. */
+function syncVideoJsonLd(route: RouteId) {
+  upsertJsonLd("amc-video-jsonld", VIDEO_ROUTES.has(route) ? VIDEO_JSON_LD : null)
+  upsertJsonLd(RECRUITING_VIDEO_JSON_ID, route === "careers" ? RECRUITING_VIDEO_JSON_LD : null)
 }
