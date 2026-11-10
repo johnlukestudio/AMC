@@ -8,6 +8,10 @@ const field =
 
 const MAX_BYTES = 50 * 1024 * 1024
 
+const RECRUITING_VIDEO_ID = "isCjg7Zgrjs"
+const RECRUITING_VIDEO_TITLE = "AMC \u2014 Recruiting"
+const RECRUITING_VIDEO_POSTER = `https://i.ytimg.com/vi/${RECRUITING_VIDEO_ID}/maxresdefault.jpg`
+
 const GROWTH = [
   {
     name: "Tyler Ferrell",
@@ -77,6 +81,17 @@ export function CareersPage() {
             in Emmaus.
           </h1>
         </button>
+      </section>
+
+      <section id="recruiting-film" aria-label="Watch: AMC Recruiting" className="scroll-mt-24 mx-auto max-w-[1750px] px-6 pt-12 md:px-10 md:pt-16">
+        <YouTubeFacade
+          sectionId="recruiting-film"
+          videoId={RECRUITING_VIDEO_ID}
+          poster={RECRUITING_VIDEO_POSTER}
+          title={RECRUITING_VIDEO_TITLE}
+          duration=""
+          label="Watch: AMC Recruiting"
+        />
       </section>
 
       {/* Site visit CTA (George's applicant advice) */}
