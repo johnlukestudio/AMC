@@ -1,6 +1,8 @@
 import { LoopVideo } from "./LoopVideo"
 import { useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
+import { PortfolioImage } from "./PortfolioImage"
+import { CARD_SIZES } from "./photos"
 
 const asset = "/media"
 
@@ -295,14 +297,24 @@ export function CommercialCaseworkPage() {
         <h2 className="mt-4 text-h2-s md:text-h2-m xl:text-h2-l leading-[1] tracking-[-0.03em] ">Casework that ships on schedule</h2>
         <div className="mt-14 grid gap-x-3 gap-y-10 grid-cols-2 lg:grid-cols-4">
           {[
-            { title: "Plastic laminate", body: "Durable, cleanable finishes for high-traffic rooms.", img: `${asset}/f291a.png` },
+            { title: "Plastic laminate", body: "Durable, cleanable finishes for high-traffic rooms.", photo: "washington-reception" as const },
             { title: "Veneer casework", body: "Wood face when the spec calls for a warmer look.", img: `${asset}/40490.png` },
             { title: "Medical & education", body: "Nurse stations, labs, classrooms and support rooms.", img: `${asset}/197f8.png` },
             { title: "Industrial & modular", body: "Heavy-duty storage and semi-custom layouts.", img: `${asset}/b1ab7.png` },
           ].map((it) => (
             <div key={it.title}>
               <div className="aspect-[4/5] overflow-hidden">
-                <img src={it.img} alt={it.title} className="size-full object-cover" />
+                {"photo" in it && it.photo ? (
+                  <PortfolioImage
+                    id={it.photo}
+                    alt={it.title}
+                    sizes={CARD_SIZES}
+                    pictureClassName="block size-full"
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  <img src={it.img} alt={it.title} className="size-full object-cover" />
+                )}
               </div>
               <h3 className="mt-4 text-h4-m leading-tight">{it.title}</h3>
               <p className="mt-2 text-body2-s leading-[1.6] text-black/60">{it.body}</p>
@@ -471,14 +483,24 @@ export function ArchitecturalMillworkPage() {
         <h2 className="mt-4 text-h2-s md:text-h2-m xl:text-h2-l leading-[1] tracking-[-0.03em] ">From lobby walls to reception desks</h2>
         <div className="mt-14 grid gap-x-3 gap-y-10 grid-cols-2 lg:grid-cols-4">
           {[
-            { title: "Wall paneling", img: `${asset}/e5b5d.png`, body: "Feature walls with continuous grain matching." },
+            { title: "Wall paneling", photo: "washington-interior" as const, body: "Feature walls with continuous grain matching." },
             { title: "Reception desks", img: `${asset}/8b3b0.png`, body: "First-impression pieces built to the drawings." },
             { title: "Trim & moldings", img: `${asset}/6f79e.png`, body: "Finish details that close the room." },
             { title: "Custom fixtures", img: `${asset}/185d7.png`, body: "Shared-space millwork for hospitality and institutions." },
           ].map((it) => (
             <div key={it.title}>
               <div className="aspect-[4/5] overflow-hidden">
-                <img src={it.img} alt={it.title} className="size-full object-cover" />
+                {"photo" in it && it.photo ? (
+                  <PortfolioImage
+                    id={it.photo}
+                    alt={it.title}
+                    sizes={CARD_SIZES}
+                    pictureClassName="block size-full"
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  <img src={it.img} alt={it.title} className="size-full object-cover" />
+                )}
               </div>
               <h3 className="mt-4 text-h4-m leading-tight">{it.title}</h3>
               <p className="mt-2 text-body2-s leading-[1.6] text-black/60">{it.body}</p>

@@ -1,6 +1,8 @@
 import { LoopVideo } from "./LoopVideo"
 import { useEffect, useRef, useState } from "react"
 import { Eyebrow, OutlineButton } from "./App"
+import { PortfolioImage } from "./PortfolioImage"
+import type { PortfolioPhotoId } from "./portfolio-photos"
 import { acousticalPhoto, CARD_SIZES_3, HERO_SIZES, serviceHero } from "./photos"
 import { getPathname, resolveRoute } from "./routes"
 
@@ -10,6 +12,7 @@ type Item = {
   label?: string
   title: string
   img: string
+  photo?: PortfolioPhotoId
   srcSet?: string
   sizes?: string
   width?: number
@@ -31,6 +34,7 @@ export type Service = {
   heroVideo?: string
   overview: string
   overviewImg: string
+  overviewPhoto?: PortfolioPhotoId
   meta: { label: string; value: string }[]
   tags: string[]
   items: Item[]
@@ -40,6 +44,7 @@ export type Service = {
   stepsImg: string
   deliverables: { title: string; body: string }[]
   deliverablesImg: string
+  deliverablesPhoto?: PortfolioPhotoId
 }
 
 const acousticalHero = serviceHero("acoustical")
@@ -87,7 +92,7 @@ export const SERVICE_DATA: Service[] = [
     ],
     tags: ["Commercial · Hospitality", "Custom · Premium grade"],
     items: [
-      { label: "Feature walls", title: "Wall Paneling", img: `${asset}/e5b5d.png` },
+      { label: "Feature walls", title: "Wall Paneling", img: `${asset}/portfolio/washington-interior-3840.jpg`, photo: "washington-interior", sizes: CARD_SIZES_3 },
       { label: "First impressions", title: "Reception Desks", img: `${asset}/8b3b0.png` },
       { label: "Finish details", title: "Trim & Moldings", img: `${asset}/6f79e.png` },
       { label: "Shared spaces", title: "Custom Fixtures", img: `${asset}/185d7.png` },
@@ -100,7 +105,8 @@ export const SERVICE_DATA: Service[] = [
       { title: "Fabricated millwork", body: "Cabinets, tops, trim and panels built in dedicated shop zones, labeled and ready for install." },
       { title: "Installed & punched", body: "AMC Installers puts it in place and closes the punch list with the same team that built it." },
     ],
-    deliverablesImg: `${asset}/9765d.png`,
+    deliverablesImg: `${asset}/portfolio/ave-blue-bell-3840.jpg`,
+    deliverablesPhoto: "ave-blue-bell",
   },
   {
     slug: "casework",
@@ -122,7 +128,7 @@ export const SERVICE_DATA: Service[] = [
     items: [
       { label: "Heavy duty", title: "Industrial", img: `${asset}/b1ab7.png` },
       { label: "Healthcare", title: "Medical", img: `${asset}/197f8.png` },
-      { label: "Durable finish", title: "Plastic Laminate", img: `${asset}/f291a.png` },
+      { label: "Durable finish", title: "Plastic Laminate", img: `${asset}/portfolio/washington-reception-3840.jpg`, photo: "washington-reception", sizes: CARD_SIZES_3 },
       { label: "Made to fit", title: "Semi-Custom", img: `${asset}/40490.png` },
     ],
     steps: [
@@ -218,7 +224,8 @@ export const SERVICE_DATA: Service[] = [
       { title: "LEED guidance", body: "In-house LEED accredited experts guide your project to completion with a Green Advantage." },
       { title: "FSC® certified", body: "Ask us about the availability of FSC® certified products." },
     ],
-    deliverablesImg: `${asset}/9765d.png`,
+    deliverablesImg: `${asset}/portfolio/ave-blue-bell-3840.jpg`,
+    deliverablesPhoto: "ave-blue-bell",
   },
   {
     slug: "surfaces",
@@ -231,7 +238,8 @@ export const SERVICE_DATA: Service[] = [
     heroHeight: surfacesHero.height,
     overview:
       "Solid surfaces such as Corian can be used in a variety of applications. Non-porous, durable, easy to maintain and able to be shaped to fit any design, they are a popular choice for commercial spaces, from countertops and seamless wall cladding to custom furniture and retail and hospitality fixtures.",
-    overviewImg: `${asset}/6896d.png`,
+    overviewImg: `${asset}/portfolio/mattison-lounge-3840.jpg`,
+    overviewPhoto: "mattison-lounge",
     meta: [
       { label: "Spaces", value: "Office · Retail · Academic" },
       { label: "Material", value: "Solid surface · Corian" },
@@ -242,7 +250,9 @@ export const SERVICE_DATA: Service[] = [
     items: [
       {
         title: "Countertops",
-        img: `${asset}/6b3df.png`,
+        img: `${asset}/portfolio/milford-residences-3840.jpg`,
+        photo: "milford-residences",
+        sizes: CARD_SIZES_3,
         body: "A popular choice for kitchen and bath because it is non-porous, easy to clean and comes in a wide variety of colors and patterns.",
       },
       {
@@ -252,7 +262,9 @@ export const SERVICE_DATA: Service[] = [
       },
       {
         title: "Furniture",
-        img: `${asset}/803d7.png`,
+        img: `${asset}/portfolio/cheston-interior-3840.jpg`,
+        photo: "cheston-interior",
+        sizes: CARD_SIZES_3,
         body: "Custom tables, desks and shelves in a versatile material that can be shaped and formed into a variety of designs.",
       },
       {
@@ -425,19 +437,30 @@ function SectionHead({ title, n, aside }: { title: string; n: string; aside?: st
 }
 
 function ItemCard({ item, compact = false }: { item: Item; compact?: boolean }) {
-  if (compact) item = { title: item.title, img: item.img }
+  if (compact) item = { title: item.title, img: item.img, photo: item.photo, sizes: item.sizes }
   return (
     <figure className="group">
       <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
-        <img
-          src={item.img}
-          srcSet={item.srcSet}
-          sizes={item.sizes}
-          width={item.width}
-          height={item.height}
-          alt={item.title}
-          className="size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
-        />
+        {item.photo ? (
+          <PortfolioImage
+            id={item.photo}
+            alt={item.title}
+            sizes={item.sizes ?? CARD_SIZES_3}
+            pictureClassName="block size-full"
+            className="size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
+          />
+        ) : (
+          <img
+            src={item.img}
+            srcSet={item.srcSet}
+            sizes={item.sizes}
+            width={item.width}
+            height={item.height}
+            alt={item.title}
+            loading="lazy"
+            className="size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
+          />
+        )}
       </div>
       <figcaption className="mt-3">
         {item.label && <span className="block text-caption-s text-black/50">{item.label}</span>}
@@ -682,7 +705,18 @@ export function ServiceDetail() {
           <p className="max-w-[720px] text-h3-s xl:text-h3-m leading-[1.45] tracking-[-0.01em] ">{s.overview}</p>
         </div>
         <div ref={ref(0)} className="mt-16 aspect-[16/9] overflow-hidden md:aspect-auto md:h-[680px]" style={reveal.clip}>
-          <img src={s.overviewImg} alt={`${s.title} overview`} className="size-full object-cover" style={reveal.img} />
+          {s.overviewPhoto ? (
+            <PortfolioImage
+              id={s.overviewPhoto}
+              alt={`${s.title} overview`}
+              sizes={HERO_SIZES}
+              pictureClassName="block size-full"
+              className="size-full object-cover"
+              style={reveal.img}
+            />
+          ) : (
+            <img src={s.overviewImg} alt={`${s.title} overview`} className="size-full object-cover" style={reveal.img} />
+          )}
         </div>
       </section>
 
@@ -723,7 +757,17 @@ export function ServiceDetail() {
       <section className="mx-auto max-w-[1750px] px-6 md:px-10">
         <SectionHead title="What you get" n="04" aside="Drawings, samples, fabricated product and install, handled by one team." />
         <div className="mt-14 aspect-[16/9] overflow-hidden md:aspect-auto md:h-[560px]">
-          <img src={s.deliverablesImg} alt={`${s.title} deliverables`} className="size-full object-cover" />
+          {s.deliverablesPhoto ? (
+            <PortfolioImage
+              id={s.deliverablesPhoto}
+              alt={`${s.title} deliverables`}
+              sizes={HERO_SIZES}
+              pictureClassName="block size-full"
+              className="size-full object-cover"
+            />
+          ) : (
+            <img src={s.deliverablesImg} alt={`${s.title} deliverables`} className="size-full object-cover" />
+          )}
         </div>
         <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
           {s.deliverables.map((d, i) => (

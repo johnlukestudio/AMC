@@ -1,6 +1,8 @@
+import type { PortfolioPhotoId } from "./portfolio-photos"
+
 /** Portfolio projects. `image` is the featured photo: portfolio card, hover thumbnail, and project hero. */
 
-export type ProjectImage = { src: string; alt: string; ratio?: string }
+export type ProjectImage = { src: PortfolioPhotoId; alt: string; ratio?: string }
 
 export type PortfolioCategory = "millwork" | "casework" | "acoustics"
 
@@ -12,7 +14,7 @@ export type Project = {
   type?: string
   /** Portfolio filters. A project can appear in more than one. */
   categories: PortfolioCategory[]
-  image: string
+  image: PortfolioPhotoId
   alt: string
   summary?: string
   details?: { label: string; value: string }[]
@@ -27,9 +29,11 @@ export const PROJECTS: Project[] = [
     name: "Cheston Elementary School",
     year: "2026",
     categories: ["millwork", "casework"],
-    image: "30adf.png",
+    image: "cheston-school",
     alt: "Cheston Elementary School",
-    gallery: [{ src: "803d7.png", alt: "Cheston Elementary School interior" }],
+    gallery: [
+      { src: "cheston-interior", alt: "Cheston Elementary School interior" },
+    ],
     cls: "md:col-span-6",
     ratio: "aspect-[610/650]",
   },
@@ -40,7 +44,7 @@ export const PROJECTS: Project[] = [
     place: "Blue Bell, Pennsylvania",
     type: "Multifamily Residential",
     categories: ["millwork", "casework"],
-    image: "9765d.png",
+    image: "ave-blue-bell",
     alt: "AVE Blue Bell exterior",
     summary:
       "A 400-plus residence luxury rental community in Montgomery County, where AMC fabricated and installed the interior millwork for every shared space, from the double-height lobby and fireplace lounge to the co-working suite, fitness center and resident clubroom bar. Built in our Emmaus shop, delivered on a phased schedule while units stayed open for move-ins.",
@@ -54,22 +58,22 @@ export const PROJECTS: Project[] = [
     ],
     gallery: [
       {
-        src: "825ea.png",
+        src: "ave-lobby",
         alt: "AVE Blue Bell lobby lounge",
         ratio: "aspect-square",
       },
       {
-        src: "e52e8.png",
+        src: "ave-lounge",
         alt: "AVE Blue Bell lounge and dining area",
         ratio: "aspect-[4/5]",
       },
       {
-        src: "4e931.png",
+        src: "ave-dining",
         alt: "AVE Blue Bell dining room",
         ratio: "aspect-[4/5]",
       },
       {
-        src: "10b28.png",
+        src: "ave-clubroom",
         alt: "AVE Blue Bell clubroom",
         ratio: "aspect-[4/5]",
       },
@@ -82,9 +86,9 @@ export const PROJECTS: Project[] = [
     name: "Mattison Estates",
     year: "2026",
     categories: ["millwork"],
-    image: "6896d.png",
+    image: "mattison-lounge",
     alt: "Mattison Estates lounge",
-    gallery: [{ src: "d7b6e.png", alt: "Mattison Estates library" }],
+    gallery: [{ src: "mattison-library", alt: "Mattison Estates library" }],
     cls: "md:col-span-6",
     ratio: "aspect-[610/433]",
   },
@@ -93,9 +97,9 @@ export const PROJECTS: Project[] = [
     name: "Kalahari Resort",
     year: "2025",
     categories: ["millwork"],
-    image: "940fb.png",
+    image: "kalahari-entrance",
     alt: "Kalahari Resort entrance",
-    gallery: [{ src: "4440b.png", alt: "Kalahari Resort interior" }],
+    gallery: [{ src: "kalahari-interior", alt: "Kalahari Resort interior" }],
     cls: "md:col-span-6 md:col-start-7 md:mt-[8vw]",
     ratio: "aspect-[610/433]",
   },
@@ -104,9 +108,9 @@ export const PROJECTS: Project[] = [
     name: "Milford Village",
     year: "2022",
     categories: ["casework"],
-    image: "0688e.png",
+    image: "milford-village",
     alt: "Milford Village",
-    gallery: [{ src: "6b3df.png", alt: "Milford Village residences" }],
+    gallery: [{ src: "milford-residences", alt: "Milford Village residences" }],
     cls: "md:col-span-6 md:col-start-4",
     ratio: "aspect-[690/488]",
   },
@@ -115,10 +119,10 @@ export const PROJECTS: Project[] = [
     name: "Waugh Chapel Monarch Clubhouse",
     year: "2023",
     categories: ["millwork"],
-    image: "b6a68.png",
+    image: "waugh-chapel",
     alt: "Waugh Chapel Monarch Clubhouse",
     gallery: [
-      { src: "1735b.png", alt: "Waugh Chapel Monarch Clubhouse atrium" },
+      { src: "waugh-atrium", alt: "Waugh Chapel Monarch Clubhouse atrium" },
     ],
     cls: "md:col-span-6",
     ratio: "aspect-[650/487]",
@@ -128,12 +132,15 @@ export const PROJECTS: Project[] = [
     name: "Washington Crossing",
     year: "2025",
     categories: ["millwork"],
-    image: "96354.png",
+    image: "washington-hall",
     alt: "Washington Crossing hall",
     gallery: [
-      { src: "cf03d.png", alt: "Washington Crossing wood wall" },
-      { src: "e5b5d.png", alt: "Washington Crossing interior" },
-      { src: "f291a.png", alt: "Washington Crossing reception desk" },
+      { src: "washington-wall", alt: "Washington Crossing wood wall" },
+      { src: "washington-interior", alt: "Washington Crossing interior" },
+      {
+        src: "washington-reception",
+        alt: "Washington Crossing reception desk",
+      },
     ],
     cls: "md:col-span-6 md:col-start-7 md:mt-[5vw]",
     ratio: "aspect-[650/460]",
@@ -153,8 +160,4 @@ export function projectsInCategory(slug: string): Project[] {
 
 export function projectPathnames(): string[] {
   return PROJECTS.map((project) => `/portfolio/project/${project.slug}`)
-}
-
-export function media(file: string): string {
-  return `/media/${file}`
 }

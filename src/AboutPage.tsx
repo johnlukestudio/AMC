@@ -2,6 +2,9 @@ import { LoopVideo } from "./LoopVideo"
 import React, { useEffect, useRef, useState, type ReactNode } from "react"
 import { Eyebrow, OutlineButton } from "./App"
 import { YouTubeFacade, playFilmAt } from "./YouTubeFacade"
+import { PortfolioImage } from "./PortfolioImage"
+import type { PortfolioPhotoId } from "./portfolio-photos"
+import { PORTFOLIO_MARQUEE_SIZES, PORTFOLIO_THUMB_SIZES } from "./photos"
 
 /* Full-bleed horizontal scroller: items peek past the page margins, while the
    custom progress bar stays aligned to the 1750px content grid.
@@ -13,6 +16,7 @@ type Milestone = {
   title: string
   body: string
   img: string
+  photo?: PortfolioPhotoId
   sqft?: number
 }
 
@@ -256,12 +260,23 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
                   }`}
                 >
                   <div className="aspect-[3/2] w-full max-w-[190px] overflow-hidden bg-neutral-100">
-                    <img
-                      src={t.img}
-                      alt={`${t.year} ${t.title}`}
-                      draggable={false}
-                      className="size-full object-contain object-center grayscale transition duration-500 hover:grayscale-0"
-                    />
+                    {t.photo ? (
+                      <PortfolioImage
+                        id={t.photo}
+                        alt={`${t.year} ${t.title}`}
+                        sizes={PORTFOLIO_THUMB_SIZES}
+                        pictureClassName="block size-full"
+                        className="size-full object-contain object-center grayscale transition duration-500 hover:grayscale-0"
+                        draggable={false}
+                      />
+                    ) : (
+                      <img
+                        src={t.img}
+                        alt={`${t.year} ${t.title}`}
+                        draggable={false}
+                        className="size-full object-contain object-center grayscale transition duration-500 hover:grayscale-0"
+                      />
+                    )}
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     <span
@@ -308,9 +323,18 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
 
 const asset = "/media"
 
-const CAROUSEL = [
-  "9765d", "30adf", "e52e8", "6896d", "940fb", "825ea", "6b3df", "b6a68", "10b28", "96354",
-].map((n) => `${asset}/${n}.png`)
+const CAROUSEL: PortfolioPhotoId[] = [
+  "ave-blue-bell",
+  "cheston-school",
+  "ave-lounge",
+  "mattison-lounge",
+  "kalahari-entrance",
+  "ave-lobby",
+  "milford-residences",
+  "waugh-chapel",
+  "ave-clubroom",
+  "washington-hall",
+]
 
 function CountUpStat({ value, delay = 0 }: { value: string; delay?: number }) {
   const m = value.match(/^(\D*)(\d+)(\D*)$/)
@@ -406,7 +430,7 @@ const TIMELINE: Milestone[] = [
   { year: "2021", kind: "Award", title: "AWI Award of Excellence", body: "February 2021: AWI Award of Excellence for AVE Blue Bell luxury apartments, featured in Design Solutions Magazine.", img: `${asset}/about/awards/ave-blue-bell.jpg` },
   { year: "2021", kind: "Quality", title: "NJ Public Works", body: "State of New Jersey Public Works Contractor Registration #663358. Registration date March 12, 2021. George Reitz, President.", img: `${asset}/about/awards/nj-public-works.jpg` },
   { year: "2021", kind: "Award", title: "Zero Lost Time again", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/step-2020.jpg` },
-  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/f291a.png` },
+  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/portfolio/washington-reception-3840.jpg`, photo: "washington-reception" },
   { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/awi-2022.jpg` },
   { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/cf31d.png` },
 ]
@@ -510,13 +534,15 @@ export function AboutPage() {
 
         <div className="mt-20 overflow-hidden md:mt-24">
           <div className="flex w-max animate-[marquee_80s_linear_infinite] gap-5 hover:[animation-play-state:paused]">
-            {[...CAROUSEL, ...CAROUSEL].map((src, i) => (
-              <img
-                key={i}
-                src={src}
+            {[...CAROUSEL, ...CAROUSEL].map((id, i) => (
+              <PortfolioImage
+                key={`${id}-${i}`}
+                id={id}
                 alt={i >= CAROUSEL.length ? "" : "Custom millwork project by American Millwork & Cabinetry"}
-                aria-hidden={i >= CAROUSEL.length}
-                className="aspect-[4/5] w-[260px] shrink-0 object-cover md:w-[330px]"
+                hidden={i >= CAROUSEL.length}
+                sizes={PORTFOLIO_MARQUEE_SIZES}
+                pictureClassName="block shrink-0"
+                className="aspect-[4/5] w-[260px] object-cover md:w-[330px]"
               />
             ))}
           </div>

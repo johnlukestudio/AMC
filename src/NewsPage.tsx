@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react"
 import { Eyebrow } from "./App"
+import { PortfolioImage } from "./PortfolioImage"
+import type { PortfolioPhotoId } from "./portfolio-photos"
+import { CARD_SIZES_3, HERO_SIZES } from "./photos"
 import { getPathname, registerNewsSlugs, resolveRoute } from "./routes"
 
 const asset = "/media"
@@ -12,6 +15,7 @@ export type Post = {
   tag: string
   /** Optional: posts without photography (e.g. awards) render a typographic award plate. */
   img?: string
+  photo?: PortfolioPhotoId
   award?: { org: string; name: string; year: string }
   excerpt: string
   body: Block[]
@@ -23,7 +27,8 @@ export const NEWS: Post[] = [
     title: "AMC Featured in Design Solutions Magazine as an AWI Award of Excellence Recipient",
     date: "February 24, 2021",
     tag: "Awards",
-    img: `${asset}/9765d.png`,
+    img: `${asset}/portfolio/ave-blue-bell-3840.jpg`,
+    photo: "ave-blue-bell",
     excerpt:
       "American Millwork & Cabinetry is proud to have been chosen as a recipient of the prestigious AWI “Award of Excellence” for our work on AVE Blue Bell.",
     body: [
@@ -257,7 +262,7 @@ function AwardPlate({ post, large = false }: { post: Post; large?: boolean }) {
 }
 
 /* Image card with overlaid tag, date and title */
-export function NewsCard({ post, className = "aspect-[4/5]" }: { post: Post; className?: string }) {
+export function NewsCard({ post, className = "aspect-[4/5]", sizes = CARD_SIZES_3 }: { post: Post; className?: string; sizes?: string }) {
   if (!post.img)
     return (
       <a href={`/news/${post.slug}/`} className={`group relative block overflow-hidden bg-dark-100 ${className}`}>
@@ -274,11 +279,21 @@ export function NewsCard({ post, className = "aspect-[4/5]" }: { post: Post; cla
     )
   return (
     <a href={`/news/${post.slug}/`} className={`group relative block overflow-hidden bg-black ${className}`}>
-      <img
-        src={post.img}
-        alt={post.title}
-        className="absolute inset-0 size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
-      />
+      {post.photo ? (
+        <PortfolioImage
+          id={post.photo}
+          alt={post.title}
+          sizes={sizes}
+          pictureClassName="absolute inset-0 block size-full"
+          className="size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
+        />
+      ) : (
+        <img
+          src={post.img}
+          alt={post.title}
+          className="absolute inset-0 size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
+        />
+      )}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
       <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 text-caption-s text-white">
         <span>• {post.tag}</span>
@@ -322,7 +337,7 @@ export function NewsPage() {
       </div>
 
       <div className="mt-10">
-        <NewsCard post={featured} className="aspect-[4/5] md:aspect-[21/9]" />
+        <NewsCard post={featured} className="aspect-[4/5] md:aspect-[21/9]" sizes={HERO_SIZES} />
       </div>
 
       {/* Search + filters */}
@@ -411,7 +426,17 @@ export function ArticlePage() {
 
         <div className="relative mt-10 aspect-[4/3] w-full overflow-hidden md:aspect-[21/9]">
           {post.img ? (
-            <img src={post.img} alt={post.title} className="size-full object-cover" />
+            post.photo ? (
+              <PortfolioImage
+                id={post.photo}
+                alt={post.title}
+                sizes={HERO_SIZES}
+                pictureClassName="block size-full"
+                className="size-full object-cover"
+              />
+            ) : (
+              <img src={post.img} alt={post.title} className="size-full object-cover" />
+            )
           ) : (
             <AwardPlate post={post} large />
           )}

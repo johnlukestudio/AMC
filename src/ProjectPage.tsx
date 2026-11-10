@@ -1,30 +1,55 @@
-import { media, projectBySlug, PROJECTS, type ProjectImage } from "./projects"
+import { PortfolioImage } from "./PortfolioImage"
+import {
+  PORTFOLIO_GALLERY_FULL_SIZES,
+  PORTFOLIO_GALLERY_HALF_SIZES,
+  PORTFOLIO_HERO_SIZES,
+} from "./photos"
+import { projectBySlug, PROJECTS, type ProjectImage } from "./projects"
+
+function GalleryPhoto({
+  item,
+  className,
+  sizes,
+}: {
+  item: ProjectImage
+  className: string
+  sizes: string
+}) {
+  return (
+    <PortfolioImage
+      id={item.src}
+      alt={item.alt}
+      sizes={sizes}
+      className={className}
+    />
+  )
+}
 
 function Gallery({ items }: { items: ProjectImage[] }) {
   if (items.length === 4 && items.every((item) => item.ratio)) {
     return (
       <div className="mt-20 grid gap-2.5 md:mt-28 md:grid-cols-2">
         <div className="flex flex-col gap-2.5">
-          <img
-            src={media(items[0].src)}
-            alt={items[0].alt}
+          <GalleryPhoto
+            item={items[0]}
+            sizes={PORTFOLIO_GALLERY_HALF_SIZES}
             className={`${items[0].ratio} w-full object-cover`}
           />
-          <img
-            src={media(items[2].src)}
-            alt={items[2].alt}
+          <GalleryPhoto
+            item={items[2]}
+            sizes={PORTFOLIO_GALLERY_HALF_SIZES}
             className={`${items[2].ratio} w-full object-cover`}
           />
         </div>
         <div className="flex flex-col gap-2.5">
-          <img
-            src={media(items[1].src)}
-            alt={items[1].alt}
+          <GalleryPhoto
+            item={items[1]}
+            sizes={PORTFOLIO_GALLERY_HALF_SIZES}
             className={`${items[1].ratio} w-full object-cover`}
           />
-          <img
-            src={media(items[3].src)}
-            alt={items[3].alt}
+          <GalleryPhoto
+            item={items[3]}
+            sizes={PORTFOLIO_GALLERY_HALF_SIZES}
             className={`${items[3].ratio} w-full object-cover`}
           />
         </div>
@@ -32,6 +57,10 @@ function Gallery({ items }: { items: ProjectImage[] }) {
     )
   }
 
+  const sizes =
+    items.length > 1
+      ? PORTFOLIO_GALLERY_HALF_SIZES
+      : PORTFOLIO_GALLERY_FULL_SIZES
   return (
     <div
       className={`mt-20 grid gap-2.5 md:mt-28 ${
@@ -39,10 +68,10 @@ function Gallery({ items }: { items: ProjectImage[] }) {
       }`}
     >
       {items.map((item) => (
-        <img
+        <GalleryPhoto
           key={item.src}
-          src={media(item.src)}
-          alt={item.alt}
+          item={item}
+          sizes={sizes}
           className={`${
             items.length === 1 ? "aspect-[16/9]" : "aspect-[4/5]"
           } w-full object-cover`}
@@ -64,10 +93,14 @@ export function ProjectPage({ slug }: { slug: string }) {
   return (
     <>
       <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden text-white">
-        <img
-          src={media(project.image)}
+        <PortfolioImage
+          id={project.image}
           alt={project.alt}
-          className="absolute inset-0 size-full object-cover"
+          sizes={PORTFOLIO_HERO_SIZES}
+          pictureClassName="absolute inset-0 block size-full"
+          className="size-full object-cover"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-x-0 top-[58%] h-px bg-white/50" />
@@ -141,9 +174,11 @@ export function ProjectPage({ slug }: { slug: string }) {
           href={`/portfolio/project/${next.slug}/`}
           className="group block h-[60vh] max-h-[548px] min-h-[360px] w-full overflow-hidden"
         >
-          <img
-            src={media(next.image)}
+          <PortfolioImage
+            id={next.image}
             alt={next.alt}
+            sizes={PORTFOLIO_HERO_SIZES}
+            pictureClassName="block size-full"
             className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
           />
         </a>
