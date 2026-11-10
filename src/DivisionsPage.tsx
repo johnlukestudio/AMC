@@ -1,5 +1,7 @@
 import { LoopVideo } from "./LoopVideo"
 import { Eyebrow, OutlineButton } from "./App"
+import { PortfolioImage } from "./PortfolioImage"
+import type { PortfolioPhotoId } from "./portfolio-photos"
 import { acousticalPhoto, CARD_SIZES } from "./photos"
 import { getPathname, resolveRoute } from "./routes"
 
@@ -9,6 +11,7 @@ type Card = {
   title: string
   body: string
   img?: string
+  photo?: PortfolioPhotoId
   srcSet?: string
   sizes?: string
   width?: number
@@ -133,8 +136,8 @@ export const DIVISION_PAGES: Division[] = [
     heroVideo: "loop02",
     cardsTitle: "Solid surfaces such as Corian",
     cards: [
-      { title: "Countertops", img: `${asset}/6b3df.png`, body: "Non-porous, easy to clean, and available in a wide variety of colors and patterns." },
-      { title: "Furniture", img: `${asset}/803d7.png`, body: "Custom tables, desks and shelves. Can be shaped and formed into a variety of designs." },
+      { title: "Countertops", img: `${asset}/portfolio/milford-residences-3840.jpg`, photo: "milford-residences", sizes: CARD_SIZES, body: "Non-porous, easy to clean, and available in a wide variety of colors and patterns." },
+      { title: "Furniture", img: `${asset}/portfolio/cheston-interior-3840.jpg`, photo: "cheston-interior", sizes: CARD_SIZES, body: "Custom tables, desks and shelves. Can be shaped and formed into a variety of designs." },
       { title: "Wall Cladding", img: `${asset}/74e34.png`, body: "Seamless, durable, easy to maintain, and shaped to fit any design." },
       { title: "Retail & Hospitality", img: `${asset}/875eb.png`, body: "Hotels and restaurants: countertops, bars and other fixtures." },
     ],
@@ -181,15 +184,26 @@ export function DivisionPage() {
             <article key={c.title} className="border-t border-dashed border-black/30 pt-6">
               {c.img && (
                 <div className="mb-5 aspect-[4/5] overflow-hidden bg-neutral-100">
-                  <img
-                    src={c.img}
-                    srcSet={c.srcSet}
-                    sizes={c.sizes}
-                    width={c.width}
-                    height={c.height}
-                    alt={c.title}
-                    className="size-full object-cover"
-                  />
+                  {c.photo ? (
+                    <PortfolioImage
+                      id={c.photo}
+                      alt={c.title}
+                      sizes={c.sizes ?? CARD_SIZES}
+                      pictureClassName="block size-full"
+                      className="size-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={c.img}
+                      srcSet={c.srcSet}
+                      sizes={c.sizes}
+                      width={c.width}
+                      height={c.height}
+                      alt={c.title}
+                      loading="lazy"
+                      className="size-full object-cover"
+                    />
+                  )}
                 </div>
               )}
               <h3 className="text-h4-m leading-[1.25]">{c.title}</h3>

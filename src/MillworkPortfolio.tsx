@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react"
-import { media, projectsInCategory } from "./projects"
+import { PortfolioImage } from "./PortfolioImage"
+import { PORTFOLIO_CARD_SIZES } from "./photos"
+import { projectsInCategory } from "./projects"
 import { getPathname, resolveRoute } from "./routes"
 
 const asset = "/media"
@@ -98,7 +100,10 @@ export function MillworkPortfolio() {
 
   return (
     <section className="mx-auto max-w-[1750px] px-6 pt-32 pb-24 md:px-10 md:pt-[140px] md:pb-32">
-      <nav aria-label="Portfolio categories" className="mb-10 flex flex-wrap gap-2">
+      <nav
+        aria-label="Portfolio categories"
+        className="mb-10 flex flex-wrap gap-2"
+      >
         {FILTERS.map((f) => {
           const active = f.slug === current.slug
           return (
@@ -125,80 +130,88 @@ export function MillworkPortfolio() {
           No {current.label.toLowerCase()} projects are published yet.
         </p>
       ) : (
-      <div
-        ref={gridRef}
-        className="mt-12 grid grid-cols-1 gap-x-10 gap-y-16 md:cursor-none md:grid-cols-12 md:gap-y-[8vw]"
-      >
-        {projects.map((p, i) => (
-          <a
-            key={p.slug}
-            href={`/portfolio/project/${p.slug}/`}
-            className={`block self-start ${composed ? p.cls : "md:col-span-6"}`}
-          >
-            <div
-              ref={(el) => {
-                frames.current[i] = el
-              }}
-              className={`relative overflow-hidden ${p.ratio}`}
+        <div
+          ref={gridRef}
+          className="mt-12 grid grid-cols-1 gap-x-10 gap-y-16 md:cursor-none md:grid-cols-12 md:gap-y-[8vw]"
+        >
+          {projects.map((p, i) => (
+            <a
+              key={p.slug}
+              href={`/portfolio/project/${p.slug}/`}
+              className={`block self-start ${
+                composed ? p.cls : "md:col-span-6"
+              }`}
             >
-              <img
-                src={media(p.image)}
-                alt={p.alt}
-                className="absolute inset-0 size-full object-cover"
-              />
               <div
                 ref={(el) => {
-                  cubes.current[i] = el
+                  frames.current[i] = el
                 }}
-                className="pointer-events-none absolute left-0 top-0 hidden will-change-transform md:block"
-                style={{
-                  width: CUBE_W,
-                  height: CUBE_H,
-                  transform: `translate3d(${OFF}px, ${OFF}px, 0)`,
-                }}
+                className={`relative overflow-hidden ${p.ratio}`}
               >
-                <img
-                  src={media(p.image)}
-                  alt=""
-                  className="absolute inset-0 size-full object-cover"
+                <PortfolioImage
+                  id={p.image}
+                  alt={p.alt}
+                  sizes={PORTFOLIO_CARD_SIZES}
+                  pictureClassName="absolute inset-0 block size-full"
+                  className="size-full object-cover"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  fetchPriority={i === 0 ? "high" : undefined}
                 />
-                <img
-                  src={corner}
-                  alt=""
-                  width={19.5}
-                  height={19.5}
-                  className="absolute -left-[5px] -top-[6px]"
-                />
-                <img
-                  src={corner}
-                  alt=""
-                  width={19.5}
-                  height={19.5}
-                  className="absolute -right-[5px] -top-[6px] rotate-90"
-                />
-                <img
-                  src={corner}
-                  alt=""
-                  width={19.5}
-                  height={19.5}
-                  className="absolute -bottom-[6px] -right-[5px] rotate-180"
-                />
-                <img
-                  src={corner}
-                  alt=""
-                  width={19.5}
-                  height={19.5}
-                  className="absolute -bottom-[6px] -left-[5px] -rotate-90"
-                />
+                <div
+                  ref={(el) => {
+                    cubes.current[i] = el
+                  }}
+                  className="pointer-events-none absolute left-0 top-0 hidden will-change-transform md:block"
+                  style={{
+                    width: CUBE_W,
+                    height: CUBE_H,
+                    transform: `translate3d(${OFF}px, ${OFF}px, 0)`,
+                  }}
+                >
+                  <PortfolioImage
+                    id={p.image}
+                    alt=""
+                    sizes={PORTFOLIO_CARD_SIZES}
+                    pictureClassName="absolute inset-0 block size-full"
+                    className="size-full object-cover"
+                  />
+                  <img
+                    src={corner}
+                    alt=""
+                    width={19.5}
+                    height={19.5}
+                    className="absolute -left-[5px] -top-[6px]"
+                  />
+                  <img
+                    src={corner}
+                    alt=""
+                    width={19.5}
+                    height={19.5}
+                    className="absolute -right-[5px] -top-[6px] rotate-90"
+                  />
+                  <img
+                    src={corner}
+                    alt=""
+                    width={19.5}
+                    height={19.5}
+                    className="absolute -bottom-[6px] -right-[5px] rotate-180"
+                  />
+                  <img
+                    src={corner}
+                    alt=""
+                    width={19.5}
+                    height={19.5}
+                    className="absolute -bottom-[6px] -left-[5px] -rotate-90"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="mt-3 flex items-center justify-between text-body2-s">
-              <span className="capitalize">{p.name}</span>
-              <span className="text-black/50">{p.year}</span>
-            </div>
-          </a>
-        ))}
-      </div>
+              <div className="mt-3 flex items-center justify-between text-body2-s">
+                <span className="capitalize">{p.name}</span>
+                <span className="text-black/50">{p.year}</span>
+              </div>
+            </a>
+          ))}
+        </div>
       )}
     </section>
   )

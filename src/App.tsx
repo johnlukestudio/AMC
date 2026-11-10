@@ -14,6 +14,8 @@ import { applySeo } from "./seo"
 import { YouTubeFacade } from "./YouTubeFacade"
 import { DivisionPage } from "./DivisionsPage"
 import { getPathname, NAVIGATE_EVENT, resolveRoute } from "./routes"
+import { PortfolioImage } from "./PortfolioImage"
+import { PORTFOLIO_CARD_SIZES } from "./photos"
 
 const asset = "/media"
 
@@ -28,10 +30,10 @@ const serviceImgs = [
   `${asset}/02cb0.png`, // Architectural Millwork
   `${asset}/6dc05.png`, // Casework & Cabinetry
   `${asset}/2e51c.png`, // Solid Surface & Stone
-  `${asset}/f291a.png`, // Plastic Laminate Fabrication
+  `${asset}/portfolio/washington-reception-3840.jpg`, // Plastic Laminate Fabrication
 ]
 const projectImgs = [
-  `${asset}/e5b5d.png`,
+  `${asset}/portfolio/washington-interior-3840.jpg`,
   `${asset}/8b3b0.png`,
   `${asset}/6f79e.png`,
   `${asset}/185d7.png`,
@@ -1144,7 +1146,7 @@ function Footer() {
 }
 
 /* ---------- Contact page ---------- */
-const contactImg = `${asset}/9765d.png`
+const contactPhoto = "ave-blue-bell" as const
 
 function ContactPage() {
   const [sent, setSent] = useState(false)
@@ -1191,10 +1193,12 @@ function ContactPage() {
           </div>
         </div>
         <div className="-mr-6 overflow-hidden md:-mr-10 md:ml-[20%]">
-          <img
-            src={contactImg}
+          <PortfolioImage
+            id={contactPhoto}
             alt="AMC millwork project exterior"
-            className="aspect-[4/5] size-full object-cover"
+            sizes={PORTFOLIO_CARD_SIZES}
+            className="aspect-[4/5] w-full object-cover"
+            loading="eager"
           />
         </div>
       </section>
