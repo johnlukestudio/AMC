@@ -66,7 +66,7 @@ type NavLink = { label: string; href: string; children?: NavLink[] }
 type NavItem = { label: string; href?: string; items?: NavLink[] }
 
 const DIVISIONS: NavLink[] = [
-  { label: "American Installers", href: "/divisions/american-installers/" },
+  { label: "AMC Installers", href: "/divisions/amc-installers/" },
   { label: "AMC Acoustical", href: "/divisions/amc-acoustical/" },
   { label: "American Surfaces", href: "/divisions/american-surfaces/" },
   { label: "AmeriCase", href: "/americase/" },

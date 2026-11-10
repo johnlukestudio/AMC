@@ -85,7 +85,7 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
   },
   division: {
     title: "Divisions",
-    description: "American Installers, the installation division of American Millwork & Cabinetry in Emmaus, PA.",
+    description: "AMC Installers, the installation division of American Millwork & Cabinetry in Emmaus, PA.",
   },
   contact: {
     title: `Contact | ${SITE_NAME}`,
@@ -125,7 +125,7 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
   }
 
   if (id === "division") {
-    const names: Record<string, string> = { "american-installers": "American Installers", "amc-acoustical": "AMC Acoustical", "american-surfaces": "American Surfaces" }
+    const names: Record<string, string> = { "amc-installers": "AMC Installers", "amc-acoustical": "AMC Acoustical", "american-surfaces": "American Surfaces" }
     const name = names[slug] ?? "Divisions"
     return { title: `${name} | ${SITE_NAME}`, description: `${name}, a division of ${SITE_NAME} in Emmaus, PA.` }
   }
