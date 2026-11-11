@@ -196,20 +196,20 @@ const ORGANIZATION_JSON_LD = {
 const VIDEO_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "VideoObject",
-  name: "American Millwork: Who We Are",
+  name: "Who We Are | American Millwork & Cabinetry, Custom Millwork Since 2003",
   description:
-    "A short film from the AMC shop in Emmaus, PA. See custom millwork built to field dimensions, vertical milling and QC at every step, then hear from employees about career growth and family values.",
+    "A short film from the AMC shop in the Lehigh Valley, PA. See custom millwork built to field dimensions, vertical milling and QC at every step, then hear from employees about career growth and family values.",
   thumbnailUrl: "https://beta.amcmillwork.com/media/amc-film-poster.jpg",
   embedUrl: "https://www.youtube.com/embed/74eBYIORrts",
   contentUrl: "https://www.youtube.com/watch?v=74eBYIORrts",
-  duration: "PT2M8S",
+  duration: "PT2M9S",
 }
 
 /** Recruiting film. Title from oEmbed; uploadDate from the watch page ("Nov 10, 2026"). */
 const RECRUITING_VIDEO_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "VideoObject",
-  name: "AMC \u2014 Recruiting",
+  name: "Careers at American Millwork & Cabinetry | Now Hiring in Lehigh Valley, PA",
   thumbnailUrl: "https://i.ytimg.com/vi/isCjg7Zgrjs/maxresdefault.jpg",
   embedUrl: "https://www.youtube.com/embed/isCjg7Zgrjs",
   contentUrl: "https://www.youtube.com/watch?v=isCjg7Zgrjs",
