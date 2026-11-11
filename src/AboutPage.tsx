@@ -388,7 +388,7 @@ function CountUpStat({ value, delay = 0 }: { value: string; delay?: number }) {
 const STATS = [
   { n: "23+", title: "Years experience", body: "Building custom millwork in-house since 2003" },
   { n: "~83", title: "People across the shop", body: "About 50 on the floor, ~22 in the office, 9 to 11 on install, six in estimating, five in project management" },
-  { n: "80k", title: "Sq. ft. facility", body: "Our Emmaus, PA plant houses every operation" },
+  { n: "80k", title: "Sq. ft. facility", body: "Our Lehigh Valley, PA plant houses every operation" },
   { n: "AWI", title: "QCP certified", body: "Products meet or exceed Quality Certification Program standards" },
 ]
 
@@ -407,7 +407,7 @@ const PILLARS = [
   },
   {
     title: "Our pride is our work",
-    body: "We keep an open\u2011shop policy. Visit Emmaus and see old\u2011world craftsmanship running on the latest technology, tools and dedicated\u00A0people.",
+    body: "We keep an open\u2011shop policy. Visit the Lehigh Valley shop and see old\u2011world craftsmanship running on the latest technology, tools and dedicated\u00A0people.",
   },
 ]
 
@@ -418,8 +418,8 @@ const TIMELINE: Milestone[] = [
   { year: "2003", kind: "Growth", sqft: 8000, title: "First shop", body: "Opens in an 8,000 sq ft shop. First product ships April 2003 - $735,000 in year one.", img: `${asset}/factory/11af8e22_image.png` },
   { year: "2004", kind: "Growth", sqft: 15000, title: "Taking more of the building", body: "Adds another 5,000 sq ft of the leased space - about 14-15,000 sq ft in all.", img: `${asset}/factory/2777aef6_image.png` },
   { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/about/fire.jpg` },
-  { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring Emmaus shop. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/02cb0.png` },
-  { year: "2006", kind: "Growth", sqft: 14000, title: "Emmaus", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/factory/e307e871_image.png` },
+  { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring shop in the Lehigh Valley. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/02cb0.png` },
+  { year: "2006", kind: "Growth", sqft: 14000, title: "Lehigh Valley", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/factory/e307e871_image.png` },
   { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/factory/bc70d6ea_image.png` },
   { year: "2011", kind: "Growth", sqft: 50000, title: "Americas production", body: "2010-2011: another 20,000 sq ft for the Americas production division.", img: `${asset}/factory/6cf042d6_image.png` },
   { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/08f78.png` },
@@ -509,11 +509,11 @@ export function AboutPage() {
         <p className="max-w-[760px] text-h4-m xl:text-h4-l leading-[1.6] tracking-[-0.02em] ">
           Shipping since 2003, the AMC group of companies manufactures and installs high-quality millwork and cabinetry:
           custom profiles, solid wood and veneer cabinets, surfaces and every aspect of architectural millwork, all
-          from one shop in Emmaus, PA.
+          from one shop in the Lehigh Valley, PA.
         </p>
         <h1 className="text-h2-s xl:text-h2-m leading-[1.1] tracking-[-0.02em] ">About AMC</h1>
       </section>
-      <LoopVideo name="loop06" label="Aerial view of the American Millwork & Cabinetry plant in Emmaus" className="h-[60vh] max-h-[640px] min-h-[320px] w-full" />
+      <LoopVideo name="loop06" label="Aerial view of the American Millwork & Cabinetry plant in the Lehigh Valley, PA" className="h-[60vh] max-h-[640px] min-h-[320px] w-full" />
 
       {/* Story + slow carousel + stats */}
       <section className="py-24 md:py-32">
@@ -637,7 +637,7 @@ export function AboutPage() {
       {/* Careers / recruit */}
       <section className="mx-auto max-w-[1750px] px-6 md:px-10">
         <div className="grid gap-10 border-y border-black/15 py-16 md:grid-cols-2 md:items-center md:py-20">
-          <h2 className="text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] ">Build with us. We're hiring craftspeople in Emmaus.</h2>
+          <h2 className="text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] ">Build with us. We're hiring craftspeople in the Lehigh Valley, PA.</h2>
           <div className="flex flex-col items-start gap-8 md:items-end">
             <p className="max-w-md text-body1-s leading-[1.6] text-black/70 md:text-right">
               Cabinetmakers, CNC operators, finishers, installers and estimators. Come for a site visit, talk to

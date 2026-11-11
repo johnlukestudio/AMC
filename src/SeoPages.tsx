@@ -98,7 +98,7 @@ const VS_FAQ: FaqItem[] = [
   },
   {
     q: "Can one shop supply both?",
-    a: "Yes. At AMC, AmeriCase handles commercial casework while American Millwork builds the custom architectural package. One plant in Emmaus, PA. One install team.",
+    a: "Yes. At AMC, AmeriCase handles commercial casework while American Millwork builds the custom architectural package. One plant in the Lehigh Valley, PA. One install team.",
   },
   {
     q: "Which should go on the bid?",
@@ -186,7 +186,7 @@ export function CaseworkVsMillworkPage() {
               Specs often put casework and millwork in different sections. Estimators need clear scope. Fabrication runs on different machines and schedules. Install still has to land as one package.
             </p>
             <p>
-              We keep both under one roof in Emmaus, PA. About 80,000 sq ft. AWI members with QCP certification for AMC, AMC Installers and AmeriCase. That keeps the grain, the finish and the punch list aligned.
+              We keep both under one roof in the Lehigh Valley, PA. About 80,000 sq ft. AWI members with QCP certification for AMC, AMC Installers and AmeriCase. That keeps the grain, the finish and the punch list aligned.
             </p>
             <p>
               See real work in the{" "}
@@ -256,7 +256,7 @@ export function CommercialCaseworkPage() {
             { label: "Division", value: "AmeriCase™" },
             { label: "Materials", value: "Laminate · Veneer · Solid wood" },
             { label: "Markets", value: "Medical · Education · Industrial" },
-            { label: "Plant", value: "Emmaus, PA · ~80k sq ft" },
+            { label: "Plant", value: "Lehigh Valley, PA · ~80k sq ft" },
           ].map((m) => (
             <div key={m.label}>
               <dt className="text-caption-s text-black/50">{m.label}</dt>
@@ -265,7 +265,7 @@ export function CommercialCaseworkPage() {
           ))}
         </dl>
         <div className="mt-8 aspect-[16/10] overflow-hidden md:aspect-auto md:h-[560px]">
-          <LoopVideo name="loop24" label="AmeriCase commercial casework in production at AMC Emmaus" className="size-full" />
+          <LoopVideo name="loop24" label="AmeriCase commercial casework in production at AMC in the Lehigh Valley, PA" className="size-full" />
         </div>
       </section>
 
@@ -279,7 +279,7 @@ export function CommercialCaseworkPage() {
               AmeriCase is the commercial casework division of American Millwork &amp; Cabinetry. We work with architects, design teams and contractors to produce casegoods that hold up in real use.
             </p>
             <p>
-              Our Emmaus plant was the first architectural casework manufacturer to install a Schelling panel saw and retrieval system. That precision shows up in laminate runs, veneer packages and semi-custom units alike.
+              Our Lehigh Valley plant was the first architectural casework manufacturer to install a Schelling panel saw and retrieval system. That precision shows up in laminate runs, veneer packages and semi-custom units alike.
             </p>
             <p>
               Need the difference between casework and millwork spelled out? Read the{" "}
@@ -364,7 +364,7 @@ export function CommercialCaseworkPage() {
         links={[
           { href: "/insights/casework-vs-millwork/", label: "Casework vs millwork", note: "Explainer" },
           { href: "/services/architectural-millwork/", label: "Architectural millwork", note: "Custom woodwork" },
-          { href: "/about/", label: "About AMC", note: "Emmaus plant" },
+          { href: "/about/", label: "About AMC", note: "Lehigh Valley plant" },
         ]}
       />
       <PageCta line1="Need casework" line2="numbers for" line3="bid day?" />
@@ -376,7 +376,7 @@ export function CommercialCaseworkPage() {
 const MILL_FAQ: FaqItem[] = [
   {
     q: "Where is AMC based?",
-    a: "Main office and manufacturing in Emmaus, PA (Lehigh Valley). Additional office in Annapolis, MD. We deliver across the Northeast corridor.",
+    a: "Main office and manufacturing in the Lehigh Valley, PA. Additional office in Annapolis, MD. We deliver across the Northeast corridor.",
   },
   {
     q: "Which markets do you cover?",
@@ -404,12 +404,12 @@ export function ArchitecturalMillworkPage() {
             Architectural millwork
           </h1>
           <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
-            Custom millwork engineered, built and installed from our Emmaus, PA plant for projects across Pennsylvania and the Mid-Atlantic.
+            Custom millwork engineered, built and installed from our Lehigh Valley, PA plant for projects across Pennsylvania and the Mid-Atlantic.
           </p>
         </div>
         <dl className="mt-14 grid grid-cols-2 gap-6 border-t border-black/15 pt-5 md:grid-cols-4">
           {[
-            { label: "Plant", value: "Emmaus, PA · Lehigh Valley" },
+            { label: "Plant", value: "Lehigh Valley, PA" },
             { label: "Office", value: "Annapolis, MD" },
             { label: "Facility", value: "~80,000 sq ft" },
             { label: "Quality", value: "AWI · QCP certified" },
@@ -421,7 +421,7 @@ export function ArchitecturalMillworkPage() {
           ))}
         </dl>
         <div className="mt-8 aspect-[16/10] overflow-hidden md:aspect-auto md:h-[560px]">
-          <LoopVideo name="loop19" label="Architectural millwork fabricated at American Millwork & Cabinetry in Emmaus, PA" className="size-full" />
+          <LoopVideo name="loop19" label="Architectural millwork fabricated at American Millwork & Cabinetry in the Lehigh Valley, PA" className="size-full" />
         </div>
       </section>
 
@@ -432,7 +432,7 @@ export function ArchitecturalMillworkPage() {
           </h2>
           <div className="max-w-[720px] space-y-6 text-body1-s leading-[1.7] text-black/80">
             <p>
-              American Millwork &amp; Cabinetry is a family business shipping custom architectural millwork since 2003. The shop sits in Emmaus, five miles south of Allentown in the Lehigh Valley.
+              American Millwork &amp; Cabinetry is a family business shipping custom architectural millwork since 2003. The shop sits in the Lehigh Valley, five miles south of Allentown.
             </p>
             <p>
               Cabinets, tops, trim and panels move through dedicated zones at the same time. Complex packages stay coordinated. We take the details other shops pass on.
@@ -455,7 +455,7 @@ export function ArchitecturalMillworkPage() {
             Mid-Atlantic delivery from the Lehigh Valley
           </h2>
           <p className="mt-6 max-w-[560px] text-body1-s leading-[1.6] text-white/70">
-            HQ and manufacturing in Emmaus, PA. Additional office in Annapolis, MD. Installed across the Northeast corridor.
+            HQ and manufacturing in the Lehigh Valley, PA. Additional office in Annapolis, MD. Installed across the Northeast corridor.
           </p>
           <ul className="mt-14 grid grid-cols-2 gap-4 border-t border-white/20 pt-8 sm:grid-cols-3 lg:grid-cols-6">
             {["New York", "New Jersey", "Philadelphia", "Harrisburg", "Baltimore", "Washington, D.C."].map((c) => (
