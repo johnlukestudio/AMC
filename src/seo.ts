@@ -4,7 +4,7 @@ import { absoluteUrl, resolveRoute, type RouteId } from "./routes"
 
 const SITE_NAME = "American Millwork & Cabinetry"
 const DEFAULT_DESCRIPTION =
-  "American Millwork & Cabinetry builds custom architectural millwork, cabinetry and surfaces in Emmaus, PA. In-house fabrication for commercial projects since 2003."
+  "American Millwork & Cabinetry builds custom architectural millwork, cabinetry and surfaces in the Lehigh Valley, PA. In-house fabrication for commercial projects since 2003."
 const SITE_URL = "https://www.amcmillwork.com"
 
 type SeoEntry = { title: string; description: string }
@@ -31,37 +31,37 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
   about: {
     title: `About | ${SITE_NAME}`,
     description:
-      "Learn about American Millwork & Cabinetry: custom architectural millwork and cabinetry from our Emmaus, PA shop since 2003.",
+      "Learn about American Millwork & Cabinetry: custom architectural millwork and cabinetry from our Lehigh Valley shop since 2003.",
   },
   "casework-vs-millwork": {
     title: `Casework vs Millwork | ${SITE_NAME}`,
     description:
-      "What is the difference between casework and millwork? A plain guide for architects and GCs, from AMC in Emmaus, PA.",
+      "What is the difference between casework and millwork? A plain guide for architects and GCs, from AMC in the Lehigh Valley, PA.",
   },
   americase: {
     title: `Commercial Casework / AmeriCase | ${SITE_NAME}`,
     description:
-      "AmeriCase commercial casework in laminate, veneer and solid wood. Bid-day pricing from our Emmaus, PA plant.",
+      "AmeriCase commercial casework in laminate, veneer and solid wood. Bid-day pricing from our Lehigh Valley, PA plant.",
   },
   "architectural-millwork": {
     title: `Architectural Millwork | ${SITE_NAME}`,
     description:
-      "Architectural millwork companies in Pennsylvania and the Mid-Atlantic. Custom woodwork from AMC in Emmaus, PA.",
+      "Architectural millwork companies in Pennsylvania and the Mid-Atlantic. Custom woodwork from AMC in the Lehigh Valley, PA.",
   },
   services: {
     title: `Services | ${SITE_NAME}`,
     description:
-      "Architectural millwork, casework, acoustical products and surfaces engineered, fabricated and installed by AMC in Emmaus, PA.",
+      "Architectural millwork, casework, acoustical products and surfaces engineered, fabricated and installed by AMC in the Lehigh Valley, PA.",
   },
   news: {
     title: `News | ${SITE_NAME}`,
     description:
-      "Awards, project updates and company news from American Millwork & Cabinetry in Emmaus, PA.",
+      "Awards, project updates and company news from American Millwork & Cabinetry in the Lehigh Valley, PA.",
   },
   article: {
     title: `News | ${SITE_NAME}`,
     description:
-      "Awards, project updates and company news from American Millwork & Cabinetry in Emmaus, PA.",
+      "Awards, project updates and company news from American Millwork & Cabinetry in the Lehigh Valley, PA.",
   },
   portfolio: {
     title: `Portfolio | ${SITE_NAME}`,
@@ -76,16 +76,16 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
   project: {
     title: `Project | ${SITE_NAME}`,
     description:
-      "Project gallery from American Millwork & Cabinetry: custom millwork fabricated in Emmaus, PA.",
+      "Project gallery from American Millwork & Cabinetry: custom millwork fabricated in the Lehigh Valley, PA.",
   },
   careers: {
     title: `Careers | ${SITE_NAME}`,
     description:
-      "Join American Millwork & Cabinetry in Emmaus, PA. Open roles for craftspeople and shop professionals.",
+      "Join American Millwork & Cabinetry in the Lehigh Valley, PA. Open roles for craftspeople and shop professionals.",
   },
   division: {
     title: "Divisions",
-    description: "AMC Installers, the installation division of American Millwork & Cabinetry in Emmaus, PA.",
+    description: "AMC Installers, the installation division of American Millwork & Cabinetry in the Lehigh Valley, PA.",
   },
   contact: {
     title: `Contact | ${SITE_NAME}`,
@@ -127,14 +127,14 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
   if (id === "division") {
     const names: Record<string, string> = { "amc-installers": "AMC Installers", "amc-acoustical": "AMC Acoustical", "american-surfaces": "American Surfaces" }
     const name = names[slug] ?? "Divisions"
-    return { title: `${name} | ${SITE_NAME}`, description: `${name}, a division of ${SITE_NAME} in Emmaus, PA.` }
+    return { title: `${name} | ${SITE_NAME}`, description: `${name}, a division of ${SITE_NAME} in the Lehigh Valley, PA.` }
   }
 
   if (id === "service") {
     const label = SERVICE_TITLES[slug] ?? "Services"
     return {
       title: `${label} | ${SITE_NAME}`,
-      description: `Custom ${label.toLowerCase()} from American Millwork & Cabinetry. Engineered, fabricated and installed in Emmaus, PA.`,
+      description: `Custom ${label.toLowerCase()} from American Millwork & Cabinetry. Engineered, fabricated and installed in the Lehigh Valley, PA.`,
     }
   }
 
@@ -161,7 +161,7 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
     if (!project) return ROUTE_SEO.project
     return {
       title: `${project.name} | ${SITE_NAME}`,
-      description: `${project.name}. Custom millwork by American Millwork & Cabinetry, fabricated in Emmaus, PA.`,
+      description: `${project.name}. Custom millwork by American Millwork & Cabinetry, fabricated in the Lehigh Valley, PA.`,
     }
   }
 

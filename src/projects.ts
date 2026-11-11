@@ -47,7 +47,7 @@ export const PROJECTS: Project[] = [
     image: "ave-blue-bell",
     alt: "AVE Blue Bell exterior",
     summary:
-      "A 400-plus residence luxury rental community in Montgomery County, where AMC fabricated and installed the interior millwork for every shared space, from the double-height lobby and fireplace lounge to the co-working suite, fitness center and resident clubroom bar. Built in our Emmaus shop, delivered on a phased schedule while units stayed open for move-ins.",
+      "A 400-plus residence luxury rental community in Montgomery County, where AMC fabricated and installed the interior millwork for every shared space, from the double-height lobby and fireplace lounge to the co-working suite, fitness center and resident clubroom bar. Built in our Lehigh Valley shop, delivered on a phased schedule while units stayed open for move-ins.",
     details: [
       { label: "Duration", value: "18 Months" },
       { label: "Location", value: "Blue Bell, PA" },

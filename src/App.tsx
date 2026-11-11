@@ -622,7 +622,7 @@ function AboutPlantBg() {
           playsInline
           loop
           poster={`${asset}/home/plant.jpg`}
-          aria-label="American Millwork & Cabinetry plant exterior in Emmaus"
+          aria-label="American Millwork & Cabinetry plant exterior in the Lehigh Valley, PA"
         >
           <source src={`${asset}/home/plant.mp4`} type="video/mp4" />
         </video>
@@ -724,9 +724,9 @@ function Services() {
 /* ---------- Locations ---------- */
 const LOCATIONS = [
   {
-    city: "Emmaus, PA",
+    city: "Lehigh Valley, PA",
     role: "Main office & manufacturing",
-    note: "Lehigh Valley",
+    note: "Pennsylvania",
   },
   {
     city: "Annapolis, MD",
@@ -784,7 +784,7 @@ function LocationsPlantMedia() {
   return reduce ? (
     <img
       src={`${asset}/home/plant.jpg`}
-      alt="AMC headquarters and manufacturing facility in Emmaus, PA"
+      alt="AMC headquarters and manufacturing facility in the Lehigh Valley, PA"
       className="absolute inset-0 size-full object-cover"
     />
   ) : (
@@ -796,7 +796,7 @@ function LocationsPlantMedia() {
       playsInline
       loop
       poster={`${asset}/home/plant.jpg`}
-      aria-label="AMC headquarters and manufacturing facility in Emmaus, PA"
+      aria-label="AMC headquarters and manufacturing facility in the Lehigh Valley, PA"
     >
       <source src={`${asset}/home/plant.mp4`} type="video/mp4" />
     </video>
@@ -813,7 +813,7 @@ function Locations() {
             <div className="relative min-h-[220px] flex-1 overflow-hidden">
               <LocationsPlantMedia />
               <span className="absolute bottom-3 left-3 bg-black/60 px-2 py-1 text-caption-s uppercase tracking-wide backdrop-blur-sm">
-                Emmaus, PA · HQ &amp; shop
+                Lehigh Valley, PA · HQ &amp; shop
               </span>
             </div>
             <div className="grid shrink-0 grid-cols-4 gap-3">
@@ -833,9 +833,9 @@ function Locations() {
               Built in the Lehigh Valley. Installed across the Northeast.
             </h2>
             <p className="mt-4 max-w-md text-body2-s leading-[1.6] text-white/60">
-              Our main office and manufacturing facility is located in Emmaus,
-              Pennsylvania, in the Lehigh Valley, a reasonable drive from the
-              major markets of the Northeast corridor.
+              Our main office and manufacturing facility is located in the
+              Lehigh Valley, Pennsylvania, a reasonable drive from the major
+              markets of the Northeast corridor.
             </p>
             <div className="mt-6 border-t border-white/20">
               {LOCATIONS.map((l, i) => (

@@ -53,9 +53,9 @@ export const NEWS: Post[] = [
         ],
       },
       {
-        h: "Made in Emmaus",
+        h: "Made in the Lehigh Valley",
         p: [
-          "Every piece on the project was engineered, drawn and built in our Emmaus, PA facility. Keeping shop drawings, CNC programming, fabrication and finishing under one roof is what lets us control quality from the first sketch to the last screw.",
+          "Every piece on the project was engineered, drawn and built in our Lehigh Valley, PA facility. Keeping shop drawings, CNC programming, fabrication and finishing under one roof is what lets us control quality from the first sketch to the last screw.",
         ],
       },
       {
@@ -73,18 +73,18 @@ export const NEWS: Post[] = [
     tag: "Manufacturing",
     img: `${asset}/08f78.png`,
     excerpt:
-      "AMC partnered with Altitude Marketing to create and install custom desk shields for its Emmaus-based office.",
+      "AMC partnered with Altitude Marketing to create and install custom desk shields for its Lehigh Valley, PA office.",
     body: [
       {
         p: [
-          "American Millwork & Cabinetry recently partnered with Altitude Marketing, an integrated marketing agency serving technology-focused B2B companies and manufacturers for more than 15 years, to create and install custom desk shields for its Emmaus-based office.",
+          "American Millwork & Cabinetry recently partnered with Altitude Marketing, an integrated marketing agency serving technology-focused B2B companies and manufacturers for more than 15 years, to create and install custom desk shields for its Lehigh Valley, PA office.",
         ],
       },
       {
         h: "Designed around the workspace",
         p: [
           "Rather than off-the-shelf panels, each shield was measured and fabricated to fit Altitude's existing desks, keeping sightlines open while giving every team member a protected workstation.",
-          "The shields were built in our Emmaus shop and installed by our own crew with minimal disruption to the office.",
+          "The shields were built in our Lehigh Valley shop and installed by our own crew with minimal disruption to the office.",
         ],
       },
     ],
@@ -332,7 +332,7 @@ export function NewsPage() {
           the shop floor.
         </h1>
         <p className="max-w-[360px] text-body1-s leading-[1.6] text-black/60 md:text-right">
-          Awards, projects and updates from American Millwork &amp; Cabinetry and our team in Emmaus, PA.
+          Awards, projects and updates from American Millwork &amp; Cabinetry and our team in the Lehigh Valley, PA.
         </p>
       </div>
 
