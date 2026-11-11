@@ -27,8 +27,8 @@ function usePrefersReducedMotion() {
 export function YouTubeFacade({
   videoId = AMC_FILM_ID,
   poster = AMC_FILM_POSTER,
-  title = "American Millwork: Who We Are",
-  duration = "02:08",
+  title = "Who We Are | American Millwork & Cabinetry, Custom Millwork Since 2003",
+  duration = "2:09",
   label = "Watch the film",
   sectionId,
 }: {

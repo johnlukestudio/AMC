@@ -494,7 +494,7 @@ export function VideoFeature({
           {targetId ? cta : "Video coming soon"}
         </span>
         <span className="absolute bottom-6 right-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:bottom-8 md:right-8">
-          {targetId ? "02:08" : "02:30"}
+          {targetId ? "2:09" : "02:30"}
         </span>
       </button>
     </section>

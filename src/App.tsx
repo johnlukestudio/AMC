@@ -11,7 +11,7 @@ import {
 import { ArticlePage, NewsPage } from "./NewsPage"
 import { ServiceDetail, ServicesOverview, useRowReveal } from "./ServicesPage"
 import { applySeo } from "./seo"
-import { YouTubeFacade } from "./YouTubeFacade"
+import { AMC_FILM_ID, YouTubeFacade } from "./YouTubeFacade"
 import { DivisionPage } from "./DivisionsPage"
 import { getPathname, NAVIGATE_EVENT, resolveRoute } from "./routes"
 import { PortfolioImage } from "./PortfolioImage"
@@ -1342,10 +1342,14 @@ export default function App() {
                 <Eyebrow>Brand film</Eyebrow>
                 <div className="md:justify-self-end md:text-right">
                   <h2 className="max-w-[560px] text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1]">See how we build.</h2>
-                  <p className="mt-4 text-body1-s leading-[1.6] text-black/70">From raw stock to finished install, all from one shop in Emmaus.</p>
+                  <p className="mt-4 text-body1-s leading-[1.6] text-black/70">From raw stock to finished install, all from one shop in the Lehigh Valley.</p>
                 </div>
               </div>
-              <YouTubeFacade videoId="_sts_Vo9JZI" poster="/media/amc-brand-poster.jpg" title="American Millwork & Cabinetry brand film" duration="" />
+              <YouTubeFacade
+                videoId={AMC_FILM_ID}
+                poster={`https://i.ytimg.com/vi/${AMC_FILM_ID}/maxresdefault.jpg`}
+                duration="2:09"
+              />
             </section>
             <Services />
             <Locations />

@@ -9,7 +9,7 @@ const field =
 const MAX_BYTES = 50 * 1024 * 1024
 
 const RECRUITING_VIDEO_ID = "isCjg7Zgrjs"
-const RECRUITING_VIDEO_TITLE = "AMC \u2014 Recruiting"
+const RECRUITING_VIDEO_TITLE = "Careers at American Millwork & Cabinetry | Now Hiring in Lehigh Valley, PA"
 const RECRUITING_VIDEO_POSTER = `https://i.ytimg.com/vi/${RECRUITING_VIDEO_ID}/maxresdefault.jpg`
 
 const GROWTH = [
@@ -62,7 +62,7 @@ export function CareersPage() {
         >
           <LoopVideo
             name="loop23"
-            label="AMC Emmaus shop floor"
+            label="AMC shop floor in the Lehigh Valley, PA"
             className="absolute inset-0 size-full opacity-70 transition duration-700 group-hover:scale-[1.02] group-hover:opacity-55"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
@@ -73,12 +73,12 @@ export function CareersPage() {
           </span>
           <span className="absolute left-6 top-6 text-body2-s text-white md:left-8 md:top-8">careers</span>
           <span className="absolute right-6 top-6 text-caption-s uppercase tracking-[0.16em] text-white/70 md:right-8 md:top-8">
-            Video · 02:08
+            Video · 2:09
           </span>
           <h1 className="absolute bottom-6 left-6 max-w-[900px] text-h3-s sm:text-h2-m md:text-h1-m xl:text-h1-l leading-[1.05] tracking-[-0.02em] text-white md:bottom-10 md:left-8 ">
             We're hiring
             <br />
-            in Emmaus.
+            in the Lehigh Valley, PA.
           </h1>
         </button>
       </section>
