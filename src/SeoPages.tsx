@@ -243,25 +243,23 @@ export function CommercialCaseworkPage() {
         <a href="/services/" className="text-caption-m text-black/60 transition-colors hover:text-black">
           ← AmeriCase™ division
         </a>
-        <div className="mt-6 grid grid-cols-1 items-start gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-12 md:gap-y-8">
-          <figure className="order-1 justify-self-end rounded-sm bg-[#F6F6F4] p-3 md:order-none md:col-start-2 md:row-start-1 md:p-4">
-            <picture>
-              <source srcSet="/media/americase/logo.svg" type="image/svg+xml" />
-              <img
-                src="/media/americase/logo-600.png"
-                srcSet="/media/americase/logo-600.png 600w, /media/americase/logo-1200.png 1200w"
-                sizes="260px"
-                width={1200}
-                height={323}
-                alt="AmeriCase"
-                className="h-auto w-[220px] md:w-[260px]"
-              />
-            </picture>
-          </figure>
-          <h1 className="order-2 max-w-[900px] text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] md:order-none md:col-start-1 md:row-start-1">
+        <div className="mt-6 max-w-[900px]">
+          <h1 className="text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] ">
             Commercial Casework
           </h1>
-          <p className="order-3 max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:order-none md:col-start-1 md:row-start-2">
+          <picture className="mt-8 block">
+            <source srcSet="/media/americase/logo.svg" type="image/svg+xml" />
+            <img
+              src="/media/americase/logo-600.png"
+              srcSet="/media/americase/logo-600.png 600w, /media/americase/logo-1200.png 1200w"
+              sizes="(min-width: 768px) 220px, 180px"
+              width={1200}
+              height={323}
+              alt="AmeriCase"
+              className="h-auto w-[180px] md:w-[220px]"
+            />
+          </picture>
+          <p className="mt-6 max-w-[420px] text-body1-s leading-[1.6] text-black/70">
             AmeriCase builds laminate, veneer and modular casework for bid-day buyers across healthcare, education and commercial work.
           </p>
         </div>
