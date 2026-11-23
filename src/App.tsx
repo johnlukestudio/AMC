@@ -1157,8 +1157,8 @@ function ContactPage() {
       <section className="mx-auto grid max-w-[1750px] grid-cols-1 gap-16 px-6 pt-32 md:grid-cols-2 md:px-10 md:pt-[140px]">
         <div className="flex flex-col justify-center pb-4">
           <Eyebrow>contact</Eyebrow>
-          <h1 className="mt-6 text-h3-s md:text-h3-m xl:text-h3-l capitalize leading-[1.4] text-dark-950 ">
-            How to find us
+          <h1 className="mt-6 text-h3-s md:text-h3-m xl:text-h3-l leading-[1.4] text-dark-950 ">
+            How to Find Us
           </h1>
           <div className="mt-10 rounded-2xl border border-black/10 bg-green-50 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.04)] md:p-10">
           {sent ? (
@@ -1249,7 +1249,7 @@ function NotFoundPage() {
   return (
     <section className="mx-auto flex min-h-[70vh] max-w-[1750px] flex-col justify-center px-6 py-32 md:px-10">
       <Eyebrow>404</Eyebrow>
-      <h1 className="mt-6 text-h3-s md:text-h3-m xl:text-h3-l capitalize leading-[1.1] text-dark-950">Page not found</h1>
+      <h1 className="mt-6 text-h3-s md:text-h3-m xl:text-h3-l leading-[1.1] text-dark-950">Page Not Found</h1>
       <p className="mt-6 max-w-[520px] text-body1-s leading-[1.6] text-black/70">
         That page is not on this site. Head back home or get in touch with the shop.
       </p>

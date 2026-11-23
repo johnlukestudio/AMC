@@ -76,9 +76,9 @@ export function CareersPage() {
             Video · 2:09
           </span>
           <h1 className="absolute bottom-6 left-6 max-w-[900px] text-h3-s sm:text-h2-m md:text-h1-m xl:text-h1-l leading-[1.05] tracking-[-0.02em] text-white md:bottom-10 md:left-8 ">
-            We're hiring
+            We're Hiring
             <br />
-            in the Lehigh Valley, PA.
+            in the Lehigh Valley, PA
           </h1>
         </button>
       </section>

@@ -119,7 +119,7 @@ export type SeoMeta = SeoEntry & { canonical: string | null }
 function resolveSeo(id: RouteId, slug: string): SeoEntry {
   if (id === "not-found") {
     return {
-      title: `Page not found | ${SITE_NAME}`,
+      title: `Page Not Found | ${SITE_NAME}`,
       description: "That page is not on the American Millwork & Cabinetry site.",
     }
   }

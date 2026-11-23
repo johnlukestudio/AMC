@@ -4,6 +4,7 @@ import { PortfolioImage } from "./PortfolioImage"
 import type { PortfolioPhotoId } from "./portfolio-photos"
 import { CARD_SIZES_3, HERO_SIZES } from "./photos"
 import { getPathname, registerNewsSlugs, resolveRoute } from "./routes"
+import { SeminarCarousel } from "./SeminarCarousel"
 
 const asset = "/media"
 
@@ -15,6 +16,12 @@ export type Post = {
   tag: string
   /** Optional: posts without photography (e.g. awards) render a typographic award plate. */
   img?: string
+  srcSet?: string
+  webpSrcSet?: string
+  width?: number
+  height?: number
+  /** Seminar stills render as a sized carousel instead of a full-bleed hero. */
+  carousel?: boolean
   photo?: PortfolioPhotoId
   award?: { org: string; name: string; year: string }
   excerpt: string
@@ -66,12 +73,71 @@ export const NEWS: Post[] = [
       },
     ],
   },
+  /*
+    Omitted from the draft press release:
+    - Internal status notes, suggested uses, and the note not to send the draft.
+    - [TO CONFIRM: names of the instructors or speakers.]
+    - [TO CONFIRM: whether a formal plant tour was on the published agenda.]
+    - [TO CONFIRM: that this chapter role is current and should be stated in the release.]
+    - [TO CONFIRM: current facility square footage. The company's About page states both 75,000 and 65,000 square feet in different sections.]
+    - The sources list and the Related event section about the May 8, 2026 chapter meeting.
+    Attendance was confirmed at about 70 people and is included.
+    George's quote is included without the bracket tag.
+  */
+  {
+    slug: "awi-project-management-seminar",
+    title: "American Millwork & Cabinetry Hosts AWI Project Management Seminar in Emmaus",
+    date: "November 23, 2026",
+    tag: "Company",
+    carousel: true,
+    img: `${asset}/news/awi-seminar/001-627.jpg`,
+    srcSet: `${asset}/news/awi-seminar/001-480.jpg 480w, ${asset}/news/awi-seminar/001-627.jpg 627w`,
+    webpSrcSet: `${asset}/news/awi-seminar/001-480.webp 480w, ${asset}/news/awi-seminar/001-627.webp 627w`,
+    width: 627,
+    height: 836,
+    excerpt:
+      "About 70 people attended the two-day AWI seminar, Tame the Chaos: Mastering Project Management, at the Emmaus plant on Oct. 1 and 2, 2026.",
+    body: [
+      {
+        p: [
+          "American Millwork & Cabinetry hosted a two-day Architectural Woodwork Institute education seminar at its plant at 840 Broad Street in Emmaus on Oct. 1 and 2, 2026.",
+          "AWI and its Central PA and New Jersey chapters presented the Project Management Education Outreach Seminar, titled \"Tame the Chaos: Mastering Project Management.\" Sessions ran from 8 a.m. to 5:30 p.m. on Thursday, Oct. 1, and from 7:30 a.m. to 2 p.m. on Friday, Oct. 2.",
+        ],
+      },
+      {
+        p: [
+          "The program covered planning, scheduling, shop drawings, costing, production, delivery, cash flow, and communication. AWI described the gathering, while it was underway, as bringing \"over 700 years of project management experience in one room.\" The institute thanked American Millwork & Cabinetry for hosting.",
+          "Photos from the two days show classroom sessions in the shop, vendor tables, meals, and groups walking the production floor. About 70 people attended.",
+        ],
+      },
+      {
+        p: [
+          "\"One of the things I enjoy most about AWI is the opportunity to bring people together to learn from one another, laugh together, build relationships, and simply enjoy the moment,\" said George Reitz, CEO and president of American Millwork & Cabinetry. \"Every time we get together, I walk away having learned something new.\"",
+        ],
+      },
+      {
+        p: [
+          "American Millwork & Cabinetry is an AWI member firm. Reitz is listed by AWI as the contact for the New Jersey chapter.",
+        ],
+      },
+      {
+        h: "About the company",
+        p: [
+          "American Millwork & Cabinetry, founded in 2002, manufactures and installs custom millwork and cabinetry in Emmaus, Pennsylvania, in the Lehigh Valley, about five miles south of Allentown. Its work includes custom millwork, solid wood and veneer cabinets, countertops, and architectural millwork. The company and its AmeriCase division are certified under AWI's Quality Certification Program. The plant is at 840 Broad Street, Emmaus, PA 18049. Phone: 610-965-0040. Web: https://www.amcmillwork.com.",
+        ],
+      },
+    ],
+  },
   {
     slug: "altitude-marketing-desk-shields",
     title: "American Millwork Partners with Altitude Marketing for COVID-19 Custom Desk Shields",
     date: "June 2, 2020",
     tag: "Manufacturing",
-    img: `${asset}/08f78.png`,
+    img: `${asset}/news/altitude-shields-1024.jpg`,
+    srcSet: `${asset}/news/altitude-shields-640.jpg 640w, ${asset}/news/altitude-shields-1024.jpg 1024w`,
+    webpSrcSet: `${asset}/news/altitude-shields-640.webp 640w, ${asset}/news/altitude-shields-1024.webp 1024w`,
+    width: 1024,
+    height: 683,
     excerpt:
       "AMC partnered with Altitude Marketing to create and install custom desk shields for its Lehigh Valley, PA office.",
     body: [
@@ -117,7 +183,11 @@ export const NEWS: Post[] = [
     title: "American Millwork Creates COVID-19 Custom Partitions for Local Businesses",
     date: "May 12, 2020",
     tag: "Manufacturing",
-    img: `${asset}/cf31d.png`,
+    img: `${asset}/news/covid-partitions-1374.jpg`,
+    srcSet: `${asset}/news/covid-partitions-640.jpg 640w, ${asset}/news/covid-partitions-1280.jpg 1280w, ${asset}/news/covid-partitions-1374.jpg 1374w`,
+    webpSrcSet: `${asset}/news/covid-partitions-640.webp 640w, ${asset}/news/covid-partitions-1280.webp 1280w, ${asset}/news/covid-partitions-1374.webp 1374w`,
+    width: 1374,
+    height: 916,
     excerpt:
       "AMC is proud to use our diverse talents to help local businesses in the somewhat difficult times of COVID-19.",
     body: [
@@ -140,7 +210,11 @@ export const NEWS: Post[] = [
     title: "AMC COVID-19 Crusher",
     date: "April 21, 2020",
     tag: "Manufacturing",
-    img: `${asset}/f4bae.png`,
+    img: `${asset}/news/covid-crusher-780.jpg`,
+    srcSet: `${asset}/news/covid-crusher-640.jpg 640w, ${asset}/news/covid-crusher-780.jpg 780w`,
+    webpSrcSet: `${asset}/news/covid-crusher-640.webp 640w, ${asset}/news/covid-crusher-780.webp 780w`,
+    width: 780,
+    height: 255,
     excerpt:
       "AMC is doing our part to promote coronavirus safety with the AMC COVID-19 Crusher.",
     body: [
@@ -157,7 +231,11 @@ export const NEWS: Post[] = [
     title: "Construction Activities May Resume in Pennsylvania on May 1",
     date: "April 20, 2020",
     tag: "Industry",
-    img: `${asset}/185d7.png`,
+    img: `${asset}/news/pa-construction-800.jpg`,
+    srcSet: `${asset}/news/pa-construction-640.jpg 640w, ${asset}/news/pa-construction-800.jpg 800w`,
+    webpSrcSet: `${asset}/news/pa-construction-640.webp 640w, ${asset}/news/pa-construction-800.webp 800w`,
+    width: 800,
+    height: 230,
     excerpt: "Read the full article at PAPublicContracts.com on construction activities resuming in Pennsylvania.",
     body: [
       {
@@ -173,7 +251,11 @@ export const NEWS: Post[] = [
     title: "North Shore Animal League: Bianca's Furry Friends Grand Opening",
     date: "December 2, 2019",
     tag: "Projects",
-    img: `${asset}/40490.png`,
+    img: `${asset}/news/north-shore-585.jpg`,
+    srcSet: `${asset}/news/north-shore-585.jpg 585w`,
+    webpSrcSet: `${asset}/news/north-shore-585.webp 585w`,
+    width: 585,
+    height: 438,
     excerpt:
       "With the likes of Howard Stern, Billy Joel and Rachael Ray on hand, North Shore Animal League opened its new Rescue and Adoption facility.",
     body: [
@@ -190,7 +272,11 @@ export const NEWS: Post[] = [
     title: "AMC/ASI Christmas Party",
     date: "November 20, 2019",
     tag: "Company",
-    img: `${asset}/62abe.png`,
+    img: `${asset}/news/christmas-1600.jpg`,
+    srcSet: `${asset}/news/christmas-640.jpg 640w, ${asset}/news/christmas-1280.jpg 1280w, ${asset}/news/christmas-1600.jpg 1600w`,
+    webpSrcSet: `${asset}/news/christmas-640.webp 640w, ${asset}/news/christmas-1280.webp 1280w, ${asset}/news/christmas-1600.webp 1600w`,
+    width: 1600,
+    height: 1067,
     excerpt:
       "We are all looking forward to Thanksgiving, and Christmas is right around the corner, so we've started to plan the party.",
     body: [
@@ -207,7 +293,11 @@ export const NEWS: Post[] = [
     title: "AMC and Whiting-Turner Contracting Co. Donate to Second Harvest of Lehigh Valley",
     date: "October 8, 2019",
     tag: "Community",
-    img: `${asset}/197f8.png`,
+    img: `${asset}/news/second-harvest-984.jpg`,
+    srcSet: `${asset}/news/second-harvest-640.jpg 640w, ${asset}/news/second-harvest-984.jpg 984w`,
+    webpSrcSet: `${asset}/news/second-harvest-640.webp 640w, ${asset}/news/second-harvest-984.webp 984w`,
+    width: 984,
+    height: 550,
     excerpt:
       "AMC partnered with Whiting-Turner Contracting Co. to supply Second Harvest of Lehigh Valley with needed materials.",
     body: [
@@ -244,6 +334,44 @@ const FILTERS = ["All", ...Array.from(new Set(NEWS.map((n) => n.tag)))]
 
 const shortDate = (d: string) =>
   new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+
+function PostImage({
+  post,
+  alt,
+  className,
+  pictureClassName = "",
+  sizes,
+  loading = "lazy",
+}: {
+  post: Post
+  alt: string
+  className: string
+  pictureClassName?: string
+  sizes?: string
+  loading?: "eager" | "lazy"
+}) {
+  if (!post.img) return null
+  const img = (
+    <img
+      src={post.img}
+      srcSet={post.srcSet}
+      sizes={post.srcSet ? sizes : undefined}
+      width={post.width}
+      height={post.height}
+      alt={alt}
+      loading={loading}
+      decoding="async"
+      className={className}
+    />
+  )
+  if (!post.webpSrcSet) return img
+  return (
+    <picture className={pictureClassName}>
+      <source type="image/webp" srcSet={post.webpSrcSet} sizes={sizes} />
+      {img}
+    </picture>
+  )
+}
 
 /* Flat typographic stand-in for posts without photography (awards, certifications). */
 function AwardPlate({ post, large = false }: { post: Post; large?: boolean }) {
@@ -288,9 +416,11 @@ export function NewsCard({ post, className = "aspect-[4/5]", sizes = CARD_SIZES_
           className="size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
         />
       ) : (
-        <img
-          src={post.img}
+        <PostImage
+          post={post}
           alt={post.title}
+          sizes={sizes}
+          pictureClassName="absolute inset-0 block size-full"
           className="absolute inset-0 size-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
         />
       )}
@@ -329,7 +459,7 @@ export function NewsPage() {
         <h1 className="max-w-[900px] text-h2-s md:text-h2-m xl:text-h2-l leading-[1.05] tracking-[-0.02em] text-dark-950 ">
           News from
           <br />
-          the shop floor.
+          the Shop Floor
         </h1>
         <p className="max-w-[360px] text-body1-s leading-[1.6] text-black/60 md:text-right">
           Awards, projects and updates from American Millwork &amp; Cabinetry and our team in the Lehigh Valley, PA.
@@ -424,23 +554,36 @@ export function ArticlePage() {
           </div>
         </dl>
 
-        <div className="relative mt-10 aspect-[4/3] w-full overflow-hidden md:aspect-[21/9]">
-          {post.img ? (
-            post.photo ? (
-              <PortfolioImage
-                id={post.photo}
-                alt={post.title}
-                sizes={HERO_SIZES}
-                pictureClassName="block size-full"
-                className="size-full object-cover"
-              />
+        {post.carousel ? (
+          <div className="mt-10">
+            <SeminarCarousel />
+          </div>
+        ) : (
+          <div className="relative mt-10 aspect-[4/3] w-full overflow-hidden md:aspect-[21/9]">
+            {post.img ? (
+              post.photo ? (
+                <PortfolioImage
+                  id={post.photo}
+                  alt={post.title}
+                  sizes={HERO_SIZES}
+                  pictureClassName="block size-full"
+                  className="size-full object-cover"
+                />
+              ) : (
+                <PostImage
+                  post={post}
+                  alt={post.title}
+                  sizes={HERO_SIZES}
+                  pictureClassName="block size-full"
+                  className="size-full object-cover"
+                  loading="eager"
+                />
+              )
             ) : (
-              <img src={post.img} alt={post.title} className="size-full object-cover" />
-            )
-          ) : (
-            <AwardPlate post={post} large />
-          )}
-        </div>
+              <AwardPlate post={post} large />
+            )}
+          </div>
+        )}
 
         <div className="mx-auto max-w-[720px] py-20 md:py-28">
           {post.body.map((b, i) => (

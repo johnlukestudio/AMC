@@ -138,7 +138,7 @@ try {
     `<div id="root">${notFoundBody}</div>`,
   )
   notFoundHtml = applyHead(notFoundHtml, notFoundSeo, jsonLdForPath("/404"))
-  if (!notFoundHtml.includes("Page not found"))
+  if (!notFoundHtml.includes("Page Not Found"))
     throw new Error("404 page is missing its heading")
   writeHtml(path.join(dist, "404.html"), notFoundHtml)
 

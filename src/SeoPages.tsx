@@ -113,7 +113,7 @@ export function CaseworkVsMillworkPage() {
         <Eyebrow>insights</Eyebrow>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <h1 className="max-w-[900px] text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] ">
-            Casework vs millwork
+            Casework vs Millwork
           </h1>
           <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
             A plain-language guide for architects, GCs and owners who need both on the same job.
@@ -156,7 +156,7 @@ export function CaseworkVsMillworkPage() {
               <li>At AMC: AmeriCase™ division</li>
             </ul>
             <a href="/americase/" className="mt-8 inline-flex text-body2-s underline underline-offset-4 transition-colors hover:text-black/60">
-              Commercial casework / AmeriCase →
+              Commercial Casework / AmeriCase →
             </a>
           </div>
           <div className="border border-black/15 bg-dark-950 p-8 text-white md:p-10">
@@ -170,7 +170,7 @@ export function CaseworkVsMillworkPage() {
               <li>At AMC: American Millwork division</li>
             </ul>
             <a href="/services/architectural-millwork/" className="mt-8 inline-flex text-body2-s text-white underline underline-offset-4 transition-colors hover:text-white/70">
-              Architectural millwork →
+              Architectural Millwork →
             </a>
           </div>
         </div>
@@ -206,8 +206,8 @@ export function CaseworkVsMillworkPage() {
       <PageFaq items={VS_FAQ} n="03" />
       <RelatedLinks
         links={[
-          { href: "/americase/", label: "Commercial casework / AmeriCase", note: "Hub" },
-          { href: "/services/architectural-millwork/", label: "Architectural millwork", note: "PA & Mid-Atlantic" },
+          { href: "/americase/", label: "Commercial Casework / AmeriCase", note: "Hub" },
+          { href: "/services/architectural-millwork/", label: "Architectural Millwork", note: "PA & Mid-Atlantic" },
           { href: "/contact/", label: "Request a bid", note: "Contact" },
         ]}
       />
@@ -245,7 +245,7 @@ export function CommercialCaseworkPage() {
         </a>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <h1 className="max-w-[900px] text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] ">
-            Commercial casework
+            Commercial Casework
           </h1>
           <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
             AmeriCase builds laminate, veneer and modular casework for bid-day buyers across healthcare, education and commercial work.
@@ -275,6 +275,20 @@ export function CommercialCaseworkPage() {
             Built for bid day<sup className="ml-2 align-super text-caption-s tracking-normal text-black/50">[01]</sup>
           </h2>
           <div className="max-w-[720px] space-y-6 text-body1-s leading-[1.7] text-black/80">
+            <figure className="max-w-[320px]">
+              <picture>
+                <source srcSet="/media/americase/logo.svg" type="image/svg+xml" />
+                <img
+                  src="/media/americase/logo-600.png"
+                  srcSet="/media/americase/logo-600.png 600w, /media/americase/logo-1200.png 1200w"
+                  sizes="320px"
+                  width={1200}
+                  height={323}
+                  alt="AmeriCase"
+                  className="h-auto w-full"
+                />
+              </picture>
+            </figure>
             <p>
               AmeriCase is the commercial casework division of American Millwork &amp; Cabinetry. We work with architects, design teams and contractors to produce casegoods that hold up in real use.
             </p>
@@ -362,8 +376,8 @@ export function CommercialCaseworkPage() {
       <PageFaq items={CASE_FAQ} n="03" />
       <RelatedLinks
         links={[
-          { href: "/insights/casework-vs-millwork/", label: "Casework vs millwork", note: "Explainer" },
-          { href: "/services/architectural-millwork/", label: "Architectural millwork", note: "Custom woodwork" },
+          { href: "/insights/casework-vs-millwork/", label: "Casework vs Millwork", note: "Explainer" },
+          { href: "/services/architectural-millwork/", label: "Architectural Millwork", note: "Custom woodwork" },
           { href: "/about/", label: "About AMC", note: "Lehigh Valley plant" },
         ]}
       />
@@ -401,7 +415,7 @@ export function ArchitecturalMillworkPage() {
         </a>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <h1 className="max-w-[980px] text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] ">
-            Architectural millwork
+            Architectural Millwork
           </h1>
           <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
             Custom millwork engineered, built and installed from our Lehigh Valley, PA plant for projects across Pennsylvania and the Mid-Atlantic.
@@ -527,8 +541,8 @@ export function ArchitecturalMillworkPage() {
       <PageFaq items={MILL_FAQ} n="03" />
       <RelatedLinks
         links={[
-          { href: "/insights/casework-vs-millwork/", label: "Casework vs millwork", note: "Explainer" },
-          { href: "/americase/", label: "Commercial casework", note: "AmeriCase" },
+          { href: "/insights/casework-vs-millwork/", label: "Casework vs Millwork", note: "Explainer" },
+          { href: "/americase/", label: "Commercial Casework", note: "AmeriCase" },
           { href: "/contact/", label: "Visit the shop", note: "840 Broad St, Emmaus" },
         ]}
       />

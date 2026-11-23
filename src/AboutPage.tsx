@@ -4,7 +4,7 @@ import { Eyebrow, OutlineButton } from "./App"
 import { YouTubeFacade, playFilmAt } from "./YouTubeFacade"
 import { PortfolioImage } from "./PortfolioImage"
 import type { PortfolioPhotoId } from "./portfolio-photos"
-import { PORTFOLIO_MARQUEE_SIZES, PORTFOLIO_THUMB_SIZES } from "./photos"
+import { PORTFOLIO_MARQUEE_SIZES } from "./photos"
 
 /* Full-bleed horizontal scroller: items peek past the page margins, while the
    custom progress bar stays aligned to the 1750px content grid.
@@ -16,8 +16,41 @@ type Milestone = {
   title: string
   body: string
   img: string
-  photo?: PortfolioPhotoId
+  /** Responsive base path, without the -{width}.jpg suffix. */
+  srcBase?: string
+  widths?: number[]
+  alt?: string
   sqft?: number
+}
+
+const TL_SIZES = "(min-width: 768px) 240px, 210px"
+
+function TimelinePhoto({ item }: { item: Milestone }) {
+  const alt = item.alt ?? `${item.year} ${item.title}`
+  const cls = "size-full object-cover object-center grayscale transition duration-500 hover:grayscale-0"
+  if (item.srcBase && item.widths?.length) {
+    const jpg = item.widths.map((w) => `${item.srcBase}-${w}.jpg ${w}w`).join(", ")
+    const webp = item.widths.map((w) => `${item.srcBase}-${w}.webp ${w}w`).join(", ")
+    const largest = item.widths[item.widths.length - 1]
+    return (
+      <picture className="block size-full">
+        <source type="image/webp" srcSet={webp} sizes={TL_SIZES} />
+        <img
+          src={`${item.srcBase}-${largest}.jpg`}
+          srcSet={jpg}
+          sizes={TL_SIZES}
+          width={largest}
+          height={Math.round((largest * 2) / 3)}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className={cls}
+        />
+      </picture>
+    )
+  }
+  return <img src={item.img} alt={alt} draggable={false} className={cls} />
 }
 
 const KIND_CHIP: Record<Milestone["kind"], string> = {
@@ -259,24 +292,8 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
                     above ? "pt-4 md:row-start-1 md:self-end md:pt-0 md:pb-4" : "pt-4 md:row-start-3 md:self-start"
                   }`}
                 >
-                  <div className="aspect-[3/2] w-full max-w-[190px] overflow-hidden bg-neutral-100">
-                    {t.photo ? (
-                      <PortfolioImage
-                        id={t.photo}
-                        alt={`${t.year} ${t.title}`}
-                        sizes={PORTFOLIO_THUMB_SIZES}
-                        pictureClassName="block size-full"
-                        className="size-full object-contain object-center grayscale transition duration-500 hover:grayscale-0"
-                        draggable={false}
-                      />
-                    ) : (
-                      <img
-                        src={t.img}
-                        alt={`${t.year} ${t.title}`}
-                        draggable={false}
-                        className="size-full object-contain object-center grayscale transition duration-500 hover:grayscale-0"
-                      />
-                    )}
+                  <div className="-ml-4 -mr-5 aspect-[3/2] w-[calc(100%+2.25rem)] overflow-hidden">
+                    <TimelinePhoto item={t} />
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     <span
@@ -414,12 +431,12 @@ const PILLARS = [
 // Growth beats from George Reitz (owner interview), interleaved with dated
 // awards and certifications from the live America's Finest Standard page.
 const TIMELINE: Milestone[] = [
-  { year: "2001", kind: "Company", title: "The business plan", body: "Fall 2001: George writes the plan for American Millwork & Cabinetry, named in honor of the fallen of 9/11.", img: `${asset}/62abe.png` },
+  { year: "2001", kind: "Company", title: "The business plan", body: "Fall 2001: George writes the plan for American Millwork & Cabinetry, named in honor of the fallen of 9/11.", img: `${asset}/about/timeline/business-plan-1400.jpg`, srcBase: `${asset}/about/timeline/business-plan`, widths: [480, 960, 1400], alt: "American flag. The 2001 business plan named the company in honor of the fallen of September 11. Photo by Luke Michael on Unsplash." },
   { year: "2003", kind: "Growth", sqft: 8000, title: "First shop", body: "Opens in an 8,000 sq ft shop. First product ships April 2003 - $735,000 in year one.", img: `${asset}/factory/11af8e22_image.png` },
   { year: "2004", kind: "Growth", sqft: 15000, title: "Taking more of the building", body: "Adds another 5,000 sq ft of the leased space - about 14-15,000 sq ft in all.", img: `${asset}/factory/2777aef6_image.png` },
-  { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/about/fire.jpg` },
-  { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring shop in the Lehigh Valley. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/02cb0.png` },
-  { year: "2006", kind: "Growth", sqft: 14000, title: "Lehigh Valley", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/factory/e307e871_image.png` },
+  { year: "2006", kind: "Company", title: "The fire", body: "January 31, 2006: a three-alarm fire takes the plant completely. Fourteen people. Contracts still owed.", img: `${asset}/about/timeline/fire-1041.jpg`, srcBase: `${asset}/about/timeline/fire`, widths: [480, 960, 1041], alt: "The shop after the January 31, 2006 three-alarm fire. Scan from George Reitz." },
+  { year: "2006", kind: "Company", title: "Nights at Precise Graphics", body: "Parts made at night in a neighboring shop in the Lehigh Valley. Assembly in 4,000 sq ft next door. Finishing at the future plant while it was renovated.", img: `${asset}/about/timeline/precise-night-1400.jpg`, srcBase: `${asset}/about/timeline/precise-night`, widths: [480, 960, 1400], alt: "A woodworker cutting parts in a dimly lit shop, for the nights AMC borrowed a neighboring shop after the fire. Not a photograph of Precise Graphics. Photo by Anna Shvets on Pexels." },
+  { year: "2006", kind: "Growth", sqft: 14000, title: "Lehigh Valley", body: "October 2006: production starts in the former fish-farm building - about 14,000 sq ft. Rooted here as the book of work came back.", img: `${asset}/about/timeline/lehigh-valley-723.jpg`, srcBase: `${asset}/about/timeline/lehigh-valley`, widths: [480, 723], alt: "Former fish-farm raceway tanks inside the building where production started in October 2006. Scan from George Reitz." },
   { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/factory/bc70d6ea_image.png` },
   { year: "2011", kind: "Growth", sqft: 50000, title: "Americas production", body: "2010-2011: another 20,000 sq ft for the Americas production division.", img: `${asset}/factory/6cf042d6_image.png` },
   { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/08f78.png` },
@@ -427,12 +444,12 @@ const TIMELINE: Milestone[] = [
   { year: "2020", kind: "Award", title: "Zero Lost Time", body: "Over 100,000 man hours with zero lost time in one fiscal year. Recognized with Federated Insurance and AWI partners.", img: `${asset}/about/awards/zero-lost-time.jpg` },
   { year: "2020", kind: "Award", title: "Safety Improvement", body: "Safety Improvement Recognition for year-over-year gains and the programs that stuck.", img: `${asset}/about/awards/safety-improvement.jpg` },
   { year: "2020", kind: "Award", title: "Fire certification", body: "Fire certification on record for the plant and our America's Finest standard.", img: `${asset}/about/awards/fire-cert.png` },
-  { year: "2021", kind: "Award", title: "AWI Award of Excellence", body: "February 2021: AWI Award of Excellence for AVE Blue Bell luxury apartments, featured in Design Solutions Magazine.", img: `${asset}/about/awards/ave-blue-bell.jpg` },
+  { year: "2021", kind: "Award", title: "AWI Award of Excellence", body: "February 2021: AWI Award of Excellence for AVE Blue Bell luxury apartments, featured in Design Solutions Magazine.", img: `${asset}/about/timeline/awi-excellence-1400.jpg`, srcBase: `${asset}/about/timeline/awi-excellence`, widths: [480, 960, 1400], alt: "AWI Award of Excellence, 2021. The seal centers the Architectural Woodwork Institute logo from awinet.org." },
   { year: "2021", kind: "Quality", title: "NJ Public Works", body: "State of New Jersey Public Works Contractor Registration #663358. Registration date March 12, 2021. George Reitz, President.", img: `${asset}/about/awards/nj-public-works.jpg` },
   { year: "2021", kind: "Award", title: "Zero Lost Time again", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/step-2020.jpg` },
-  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/portfolio/washington-reception-3840.jpg`, photo: "washington-reception" },
+  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/about/timeline/flag-exterior-1400.jpg`, srcBase: `${asset}/about/timeline/flag-exterior`, widths: [480, 960, 1400], alt: "American flag in front of the American Millwork and Cabinetry plant in Emmaus." },
   { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/awi-2022.jpg` },
-  { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/cf31d.png` },
+  { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/about/timeline/aerial-plant-1400.jpg`, srcBase: `${asset}/about/timeline/aerial-plant`, widths: [480, 960, 1400], alt: "High aerial view of the American Millwork and Cabinetry buildings in Emmaus, showing the size of the plant." },
 ]
 
 const TEAM = [
