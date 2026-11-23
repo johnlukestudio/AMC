@@ -12,7 +12,7 @@ import { PORTFOLIO_MARQUEE_SIZES } from "./photos"
    Light treatments: scroll-snap + active scale, giant years. */
 type Milestone = {
   year: string
-  kind: "Growth" | "Company" | "Quality" | "Award"
+  kind: "Growth" | "Company" | "Quality" | "Award" | "Technology" | "Recognition" | "Industry" | "Investment"
   title: string
   body: string
   img: string
@@ -22,6 +22,8 @@ type Milestone = {
   alt?: string
   sqft?: number
   href?: string
+  /** Overrides object-center when a portrait source should keep its top in frame. */
+  objectPosition?: string
 }
 
 const TL_SIZES = "(min-width: 768px) 240px, 210px"
@@ -47,11 +49,20 @@ function TimelinePhoto({ item }: { item: Milestone }) {
           decoding="async"
           draggable={false}
           className={cls}
+          style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
         />
       </picture>
     )
   }
-  return <img src={item.img} alt={alt} draggable={false} className={cls} />
+  return (
+    <img
+      src={item.img}
+      alt={alt}
+      draggable={false}
+      className={cls}
+      style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
+    />
+  )
 }
 
 const KIND_CHIP: Record<Milestone["kind"], string> = {
@@ -59,6 +70,10 @@ const KIND_CHIP: Record<Milestone["kind"], string> = {
   Company: "bg-dark-100 text-dark-800",
   Quality: "bg-green-50 text-green-700",
   Award: "bg-gold-100 text-gold-800",
+  Technology: "bg-dark-100 text-dark-800",
+  Recognition: "bg-gold-100 text-gold-800",
+  Industry: "bg-green-100 text-green-800",
+  Investment: "bg-gold-200 text-dark-950",
 }
 
 function CardBody({ item: t, onClick }: { item: Milestone; onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
@@ -84,8 +99,14 @@ function CardBody({ item: t, onClick }: { item: Milestone; onClick: (e: React.Mo
     </>
   )
   if (!t.href) return inner
+  const external = t.href.startsWith("http")
   return (
-    <a href={t.href} onClick={onClick} className="block text-inherit no-underline">
+    <a
+      href={t.href}
+      onClick={onClick}
+      className="block text-inherit no-underline"
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+    >
       {inner}
     </a>
   )
@@ -465,6 +486,11 @@ const TIMELINE: Milestone[] = [
   { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/factory/bc70d6ea_image.png` },
   { year: "2011", kind: "Growth", sqft: 50000, title: "Americas production", body: "2010-2011: another 20,000 sq ft for the Americas production division.", img: `${asset}/factory/6cf042d6_image.png` },
   { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/08f78.png` },
+  { year: "2015", kind: "Technology", title: "A Schelling saw for AmeriCase", body: "February 2015: AMC installs a Schelling panel saw and retrieval system for the AmeriCase line, the first of its kind in a U.S. architectural millwork plant.", img: `${asset}/about/timeline/schelling-saw-700.jpg`, srcBase: `${asset}/about/timeline/schelling-saw`, widths: [480, 700], href: "https://amcmillwork.com/new-panel-retrieval-system-puts-amc-cutting-edge/", alt: "Schelling panel saw and retrieval system installed for the AmeriCase line, from AMC's February 2015 news post." },
+  { year: "2016", kind: "Recognition", title: "Bay Head in Design Solutions", body: "Bay Head Yacht Club's restoration after Superstorm Sandy is featured in AWI Design Solutions.", img: `${asset}/about/timeline/bay-head-ds-680.jpg`, srcBase: `${asset}/about/timeline/bay-head-ds`, widths: [480, 680], href: "https://amcmillwork.com/bay-head-yacht-club-featured-on-design-solutions/", alt: "Bay Head Yacht Club interior woodwork, from AMC's Design Solutions news post." },
+  { year: "2016", kind: "Industry", title: "NJ AWI tours the plant", body: "November 2016: the New Jersey AWI chapter tours the AMC plant in the Lehigh Valley.", img: `${asset}/about/timeline/njawi-tour-2016-984.jpg`, srcBase: `${asset}/about/timeline/njawi-tour-2016`, widths: [480, 960, 984], href: "https://amcmillwork.com/awi-architectural-woodworking-institute-takes-a-plant-tour/", alt: "A machinist at the AMC plant during the New Jersey AWI chapter tour, from the November 2016 news post." },
+  { year: "2018", kind: "Industry", title: "NJ and PA chapters meet here", body: "February 2018: AMC hosts a joint meeting of the New Jersey and Pennsylvania AWI chapters.", img: `${asset}/factory/2777aef6_image.png`, alt: "AMC craftspeople assembling millwork on the Emmaus shop floor." },
+  { year: "2019", kind: "Quality", title: "AWI QCP self-labeling", body: "April 2019: AMC reaches AWI Quality Certification Program self-labeling status.", img: `${asset}/factory/11af8e22_image.png`, href: "https://amcmillwork.com/american-millwork-cabinetrys-awi-status-changed-to-self-labeling/", alt: "An AMC craftsman measuring a panel in the Emmaus shop." },
   { year: "2019", kind: "Award", title: "ABC STEP Diamond", body: "Late 2019 into early 2020: Association of Builders and Contractors STEP Award at Diamond Level, for the greatest safety improvement.", img: `${asset}/about/awards/step-diamond.jpg` },
   { year: "2020", kind: "Award", title: "Zero Lost Time", body: "Over 100,000 man hours with zero lost time in one fiscal year. Recognized with Federated Insurance and AWI partners.", img: `${asset}/about/awards/zero-lost-time.jpg` },
   { year: "2020", kind: "Award", title: "Safety Improvement", body: "Safety Improvement Recognition for year-over-year gains and the programs that stuck.", img: `${asset}/about/awards/safety-improvement.jpg` },
@@ -474,7 +500,13 @@ const TIMELINE: Milestone[] = [
   { year: "2021", kind: "Award", title: "Zero Lost Time again", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/step-2020.jpg` },
   { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/about/timeline/flag-exterior-1400.jpg`, srcBase: `${asset}/about/timeline/flag-exterior`, widths: [480, 960, 1400], alt: "American flag in front of the American Millwork and Cabinetry plant in Emmaus." },
   { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/awi-2022.jpg` },
+  { year: "2023", kind: "Growth", title: "AMC Acoustical launches", body: "AMC launches AMC Acoustical, for acoustic panels, ceilings and sound control.", img: `${asset}/acoustical/wood-veneer-1024.jpg`, href: "/divisions/amc-acoustical/", alt: "Wood veneer acoustic panels from AMC Acoustical." },
   { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/about/timeline/aerial-plant-1400.jpg`, srcBase: `${asset}/about/timeline/aerial-plant`, widths: [480, 960, 1400], alt: "High aerial view of the American Millwork and Cabinetry buildings in Emmaus, showing the size of the plant." },
+  { year: "2023", kind: "Industry", title: "AWI and CSI meet at AMC", body: "November 17, 2023: AMC hosts a joint meeting of NJ AWI and CSI Greater Lehigh Valley, with AWI CEO Doug Hague, a plant tour and vendor tables.", img: `${asset}/factory/2777aef6_image.png`, alt: "AMC craftspeople assembling millwork on the Emmaus shop floor." },
+  { year: "2024", kind: "Industry", title: "NJ AWI tours our plant", body: "January 2024: the New Jersey AWI chapter holds its first meeting of 2024 with a plant tour at AMC, with sessions on veneer and plywood specs (Lance Rhoads, Rhoads & O'Hara) and project management tools (Hilti).", img: `${asset}/factory/bc70d6ea_image.png`, href: "https://www.njawi.org/post/njawi-is-back-american-millwork-cabinetry-plant-tour", alt: "The AMC shop floor in Emmaus, where the New Jersey AWI chapter toured the plant in January 2024." },
+  { year: "2024", kind: "Recognition", title: "On the cover of AWI Design Solutions", body: "Spring 2024: AMC's Ember @ Berwyn project is on the cover of AWI's Design Solutions magazine.", img: `${asset}/about/timeline/ds-cover-2024-460.jpg`, srcBase: `${asset}/about/timeline/ds-cover-2024`, widths: [460], href: "https://www.nxtbook.com/nxtbooks/awi/designsolutions_2024spring/index.php?startid=11#/p/Intro", objectPosition: "center 22%", alt: "Cover of AWI Design Solutions, Spring 2024, featuring AMC's Ember @ Berwyn project." },
+  { year: "2026", kind: "Investment", title: "Ben Franklin invests in AMC", body: "January 2026: Ben Franklin Technology Partners invests in AMC. Two awards in 2026 total $178,475.", img: `${asset}/factory/e307e871_image.png`, href: "https://nep.benfranklin.org/ben-franklin-technology-partners-approves-1-9-million-to-support-11-regional-companies/", alt: "The American Millwork and Cabinetry plant in Emmaus." },
+  { year: "2026", kind: "Industry", title: "The chapter meets on craft and AI", body: "May 8, 2026: AMC hosts the New Jersey AWI chapter meeting, \"Craftsmanship Built This Industry. AI Will Shape Its Future,\" with a plant tour. 63 people are registered.", img: `${asset}/factory/6cf042d6_image.png`, href: "https://www.njawi.org/post/craftsmanship-built-this-industry-ai-will-shape-its-future", alt: "Holz-Her CNC machining center on the AMC shop floor." },
   { year: "2026", kind: "Company", title: "The industry learns at AMC", body: "AWI brings its two-day project management seminar, \"Tame the Chaos,\" to our Emmaus plant. About 70 woodwork professionals spend Oct. 1 and 2 learning on our shop floor.", img: `${asset}/about/timeline/awi-seminar-836.jpg`, srcBase: `${asset}/about/timeline/awi-seminar`, widths: [480, 836], href: "/news/awi-project-management-seminar/", alt: "Wide view of the AWI Project Management seminar in session inside the AMC shop, October 2026." },
 ]
 
