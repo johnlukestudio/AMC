@@ -129,6 +129,27 @@ export const NEWS: Post[] = [
     ],
   },
   {
+    slug: "ember-berwyn-design-solutions-cover",
+    title: "Ember @ Berwyn on the Cover of AWI Design Solutions",
+    date: "Spring 2024",
+    tag: "Recognition",
+    img: `${asset}/about/timeline/ds-cover-2024-460.jpg`,
+    srcSet: `${asset}/about/timeline/ds-cover-2024-460.jpg 460w`,
+    webpSrcSet: `${asset}/about/timeline/ds-cover-2024-460.webp 460w`,
+    width: 460,
+    height: 606,
+    excerpt:
+      "AMC's Ember @ Berwyn project is on the cover of AWI Design Solutions magazine, Spring 2024.",
+    body: [
+      {
+        p: [
+          "American Millwork & Cabinetry's Ember @ Berwyn project is on the cover of Design Solutions, the Architectural Woodwork Institute magazine, Spring 2024.",
+          "The cover is a feature in the magazine. It is not an AWI Award of Excellence.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "altitude-marketing-desk-shields",
     title: "American Millwork Partners with Altitude Marketing for COVID-19 Custom Desk Shields",
     date: "June 2, 2020",
@@ -332,8 +353,11 @@ registerNewsSlugs(NEWS.map((n) => n.slug))
 
 const FILTERS = ["All", ...Array.from(new Set(NEWS.map((n) => n.tag)))]
 
-const shortDate = (d: string) =>
-  new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+const shortDate = (d: string) => {
+  const parsed = new Date(d)
+  if (Number.isNaN(parsed.getTime())) return d
+  return parsed.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+}
 
 function PostImage({
   post,
@@ -609,6 +633,20 @@ export function ArticlePage() {
               <span>
                 <span className="block text-caption-s uppercase tracking-wide text-black/50">View the project</span>
                 AVE Blue Bell, Blue Bell PA
+              </span>
+              <span className="text-h4-s">↗</span>
+            </a>
+          )}
+          {post.slug === "ember-berwyn-design-solutions-cover" && (
+            <a
+              href="https://www.nxtbook.com/nxtbooks/awi/designsolutions_2024spring/index.php?startid=11#/p/Intro"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-14 flex items-center justify-between border-y border-black/10 py-6 text-body1-s transition-colors hover:text-black/60"
+            >
+              <span>
+                <span className="block text-caption-s uppercase tracking-wide text-black/50">Read the issue</span>
+                AWI Design Solutions, Spring 2024
               </span>
               <span className="text-h4-s">↗</span>
             </a>
