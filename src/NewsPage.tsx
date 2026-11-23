@@ -4,7 +4,9 @@ import { PortfolioImage } from "./PortfolioImage"
 import type { PortfolioPhotoId } from "./portfolio-photos"
 import { CARD_SIZES_3, HERO_SIZES } from "./photos"
 import { getPathname, registerNewsSlugs, resolveRoute } from "./routes"
+import { ALTITUDE_PHOTOS } from "./altitude-photos"
 import { SeminarCarousel } from "./SeminarCarousel"
+import type { SeminarPhoto } from "./seminar-photos"
 
 const asset = "/media"
 
@@ -23,8 +25,12 @@ export type Post = {
   height?: number
   /** Focal point for object-cover crops, especially portrait news cards. */
   objectPosition?: string
-  /** Seminar stills render as a sized carousel instead of a full-bleed hero. */
+  /** Stills render in the shared carousel instead of a full-bleed hero. */
   carousel?: boolean
+  photos?: SeminarPhoto[]
+  photoBase?: string
+  carouselLabel?: string
+  carouselMax?: number
   photo?: PortfolioPhotoId
   award?: { org: string; name: string; year: string }
   excerpt: string
@@ -156,9 +162,14 @@ export const NEWS: Post[] = [
     title: "American Millwork Partners with Altitude Marketing for COVID-19 Custom Desk Shields",
     date: "June 2, 2020",
     tag: "Manufacturing",
-    img: `${asset}/news/altitude-shields-2560.jpg`,
-    srcSet: `${asset}/news/altitude-shields-640.jpg 640w, ${asset}/news/altitude-shields-1280.jpg 1280w, ${asset}/news/altitude-shields-1920.jpg 1920w, ${asset}/news/altitude-shields-2560.jpg 2560w`,
-    webpSrcSet: `${asset}/news/altitude-shields-640.webp 640w, ${asset}/news/altitude-shields-1280.webp 1280w, ${asset}/news/altitude-shields-1920.webp 1920w, ${asset}/news/altitude-shields-2560.webp 2560w`,
+    carousel: true,
+    photos: ALTITUDE_PHOTOS,
+    photoBase: `${asset}/news/altitude-office`,
+    carouselLabel: "Photographs of the Altitude Marketing office, millwork by American Millwork and Cabinetry.",
+    carouselMax: 1200,
+    img: `${asset}/news/altitude-office/cafe-2560.jpg`,
+    srcSet: `${asset}/news/altitude-office/cafe-640.jpg 640w, ${asset}/news/altitude-office/cafe-1280.jpg 1280w, ${asset}/news/altitude-office/cafe-1920.jpg 1920w, ${asset}/news/altitude-office/cafe-2560.jpg 2560w`,
+    webpSrcSet: `${asset}/news/altitude-office/cafe-640.webp 640w, ${asset}/news/altitude-office/cafe-1280.webp 1280w, ${asset}/news/altitude-office/cafe-1920.webp 1920w, ${asset}/news/altitude-office/cafe-2560.webp 2560w`,
     width: 2560,
     height: 1707,
     excerpt:
@@ -637,7 +648,12 @@ export function ArticlePage() {
 
         {post.carousel ? (
           <div className="mt-10">
-            <SeminarCarousel />
+            <SeminarCarousel
+              photos={post.photos}
+              base={post.photoBase}
+              label={post.carouselLabel}
+              maxWidth={post.carouselMax}
+            />
           </div>
         ) : (
           <div className="relative mt-10 aspect-[4/3] w-full overflow-hidden md:aspect-[21/9]">

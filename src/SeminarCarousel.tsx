@@ -1,17 +1,33 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react"
 import { SEMINAR_PHOTOS, type SeminarPhoto } from "./seminar-photos"
 
-const BASE = "/media/news/awi-seminar"
+const SEMINAR_BASE = "/media/news/awi-seminar"
+const SEMINAR_LABEL =
+  "Photographs from the AWI Project Management seminar at American Millwork and Cabinetry, October 1 and 2, 2026"
 
-function srcSet(photo: SeminarPhoto, ext: "jpg" | "webp") {
-  return photo.widths.map((w) => `${BASE}/${photo.stem}-${w}.${ext} ${w}w`).join(", ")
+function srcSet(base: string, photo: SeminarPhoto, ext: "jpg" | "webp") {
+  return photo.widths.map((w) => `${base}/${photo.stem}-${w}.${ext} ${w}w`).join(", ")
 }
 
-/** Album stills at their real size. The frame is the 836×627 landscape box, centered, and portraits fit inside that height. */
-export function SeminarCarousel() {
+type CarouselProps = {
+  photos?: SeminarPhoto[]
+  base?: string
+  label?: string
+  /** Desktop cap, in pixels. Stays at the seminar album width unless a post passes its own. */
+  maxWidth?: number
+}
+
+/** Landscape frame, centered. Portraits fit inside that height and nothing is stretched past its file size. */
+export function SeminarCarousel({
+  photos = SEMINAR_PHOTOS,
+  base = SEMINAR_BASE,
+  label = SEMINAR_LABEL,
+  maxWidth = 836,
+}: CarouselProps = {}) {
   const scroller = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(0)
-  const count = SEMINAR_PHOTOS.length
+  const count = photos.length
+  const sizes = `(min-width: ${maxWidth + 32}px) ${maxWidth}px, 100vw`
 
   const go = useCallback(
     (next: number) => {
@@ -23,6 +39,11 @@ export function SeminarCarousel() {
     },
     [count],
   )
+
+  useEffect(() => {
+    setIndex(0)
+    scroller.current?.scrollTo({ left: 0 })
+  }, [base])
 
   useEffect(() => {
     const el = scroller.current
@@ -55,9 +76,10 @@ export function SeminarCarousel() {
 
   return (
     <section
-      className="mx-auto w-full max-w-[836px] outline-none"
+      className="mx-auto w-full outline-none"
+      style={{ maxWidth }}
       aria-roledescription="carousel"
-      aria-label="Photographs from the AWI Project Management seminar at American Millwork and Cabinetry, October 1 and 2, 2026"
+      aria-label={label}
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
@@ -65,7 +87,7 @@ export function SeminarCarousel() {
         ref={scroller}
         className="flex w-full snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {SEMINAR_PHOTOS.map((photo, i) => {
+        {photos.map((photo, i) => {
           const near = Math.abs(i - index) <= 2 || Math.abs(i - index) >= count - 2
           const largest = photo.widths[photo.widths.length - 1]
           return (
@@ -73,11 +95,11 @@ export function SeminarCarousel() {
               <div className="relative aspect-[4/3] w-full bg-neutral-200">
                 {near ? (
                   <picture className="absolute inset-0 flex items-center justify-center">
-                    <source type="image/webp" srcSet={srcSet(photo, "webp")} sizes="(min-width: 868px) 836px, 100vw" />
+                    <source type="image/webp" srcSet={srcSet(base, photo, "webp")} sizes={sizes} />
                     <img
-                      src={`${BASE}/${photo.stem}-${largest}.jpg`}
-                      srcSet={srcSet(photo, "jpg")}
-                      sizes="(min-width: 868px) 836px, 100vw"
+                      src={`${base}/${photo.stem}-${largest}.jpg`}
+                      srcSet={srcSet(base, photo, "jpg")}
+                      sizes={sizes}
                       width={photo.width}
                       height={photo.height}
                       alt={i === index ? photo.alt : ""}
