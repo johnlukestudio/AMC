@@ -187,7 +187,14 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
   const headEnd = config.customScripts?.headEnd ?? ''
   const bodyStart = config.customScripts?.bodyStart ?? ''
   const bodyEnd = config.customScripts?.bodyEnd ?? ''
-  const robotsTxt = config.robots?.index === false ? 'User-agent: *\nDisallow: /\n' : ''
+  // The beta stays out of search results. /email/ is the exception: Gmail's
+  // image proxy and other mail clients fetch the signature logo, and a
+  // sitewide Disallow blocks that fetch. Allow is more specific than
+  // Disallow: /, so only that directory is fetchable.
+  const robotsTxt =
+    config.robots?.index === false
+      ? 'User-agent: *\nAllow: /email/\nDisallow: /\n\nUser-agent: GoogleImageProxy\nAllow: /email/\nDisallow: /\n'
+      : ''
 
   return {
     name: 'figma-site-configuration',
