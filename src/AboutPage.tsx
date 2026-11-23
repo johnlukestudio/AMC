@@ -21,6 +21,7 @@ type Milestone = {
   widths?: number[]
   alt?: string
   sqft?: number
+  href?: string
 }
 
 const TL_SIZES = "(min-width: 768px) 240px, 210px"
@@ -60,6 +61,36 @@ const KIND_CHIP: Record<Milestone["kind"], string> = {
   Award: "bg-gold-100 text-gold-800",
 }
 
+function CardBody({ item: t, onClick }: { item: Milestone; onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
+  const inner = (
+    <>
+      <div className="-ml-4 -mr-5 aspect-[3/2] w-[calc(100%+2.25rem)] overflow-hidden">
+        <TimelinePhoto item={t} />
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span
+          className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] ${KIND_CHIP[t.kind]}`}
+        >
+          {t.kind}
+        </span>
+        {t.sqft != null && (
+          <span className="text-caption-s uppercase tracking-[0.12em] text-black/50">
+            {t.sqft.toLocaleString("en-US")} sq ft
+          </span>
+        )}
+      </div>
+      <h3 className="mt-3 text-h4-s">{t.title}</h3>
+      <p className="mt-2 max-w-[200px] text-body2-s text-black/60">{t.body}</p>
+    </>
+  )
+  if (!t.href) return inner
+  return (
+    <a href={t.href} onClick={onClick} className="block text-inherit no-underline">
+      {inner}
+    </a>
+  )
+}
+
 function TimelineScroller({ items }: { items: Milestone[] }) {
   const ref = useRef<HTMLDivElement>(null)
   const track = useRef<HTMLDivElement>(null)
@@ -68,6 +99,7 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
   const [active, setActive] = useState(0)
   const [snapOn, setSnapOn] = useState(true)
   const draggingRef = useRef(false)
+  const dragMoved = useRef(false)
   const paused = useRef(false)
   const hovered = useRef(false)
   const dir = useRef(1)
@@ -193,10 +225,12 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
     const x0 = e.clientX
     const s0 = el.scrollLeft
     draggingRef.current = true
+    dragMoved.current = false
     setDragging(true)
     paused.current = true
     disableSnap()
     const move = (ev: PointerEvent) => {
+      if (Math.abs(ev.clientX - x0) > 6) dragMoved.current = true
       el.scrollLeft = s0 - (ev.clientX - x0)
     }
     const up = () => {
@@ -292,23 +326,14 @@ function TimelineScroller({ items }: { items: Milestone[] }) {
                     above ? "pt-4 md:row-start-1 md:self-end md:pt-0 md:pb-4" : "pt-4 md:row-start-3 md:self-start"
                   }`}
                 >
-                  <div className="-ml-4 -mr-5 aspect-[3/2] w-[calc(100%+2.25rem)] overflow-hidden">
-                    <TimelinePhoto item={t} />
-                  </div>
-                  <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span
-                      className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] ${KIND_CHIP[t.kind]}`}
-                    >
-                      {t.kind}
-                    </span>
-                    {t.sqft != null && (
-                      <span className="text-caption-s uppercase tracking-[0.12em] text-black/50">
-                        {t.sqft.toLocaleString("en-US")} sq ft
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="mt-3 text-h4-s">{t.title}</h3>
-                  <p className="mt-2 max-w-[200px] text-body2-s text-black/60">{t.body}</p>
+                  <CardBody
+                    item={t}
+                    onClick={(e) => {
+                      if (!dragMoved.current) return
+                      e.preventDefault()
+                      dragMoved.current = false
+                    }}
+                  />
                 </article>
               </li>
             )
@@ -450,6 +475,7 @@ const TIMELINE: Milestone[] = [
   { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/about/timeline/flag-exterior-1400.jpg`, srcBase: `${asset}/about/timeline/flag-exterior`, widths: [480, 960, 1400], alt: "American flag in front of the American Millwork and Cabinetry plant in Emmaus." },
   { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/awi-2022.jpg` },
   { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/about/timeline/aerial-plant-1400.jpg`, srcBase: `${asset}/about/timeline/aerial-plant`, widths: [480, 960, 1400], alt: "High aerial view of the American Millwork and Cabinetry buildings in Emmaus, showing the size of the plant." },
+  { year: "2026", kind: "Company", title: "Hosted the AWI seminar", body: "AMC hosts AWI's two-day \"Tame the Chaos: Mastering Project Management\" seminar at the Emmaus plant, Oct. 1 and 2. About 70 people attend.", img: `${asset}/about/timeline/awi-seminar-836.jpg`, srcBase: `${asset}/about/timeline/awi-seminar`, widths: [480, 836], href: "/news/awi-project-management-seminar/", alt: "Wide view of the AWI Project Management seminar in session inside the AMC shop, October 2026." },
 ]
 
 const TEAM = [
