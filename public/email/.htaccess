@@ -1,0 +1,13 @@
+# Public signature assets. Mail clients cannot send the beta password,
+# so this directory stays open even when the parent site requires auth.
+<IfModule mod_authz_core.c>
+  AuthMerging Off
+  Require all granted
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.png$">
+    Header set Content-Type "image/png"
+    Header set Cache-Control "public, max-age=86400"
+    Header unset X-Robots-Tag
+  </FilesMatch>
+</IfModule>
