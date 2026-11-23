@@ -243,11 +243,25 @@ export function CommercialCaseworkPage() {
         <a href="/services/" className="text-caption-m text-black/60 transition-colors hover:text-black">
           ← AmeriCase™ division
         </a>
-        <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
-          <h1 className="max-w-[900px] text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] ">
+        <div className="mt-6 grid grid-cols-1 items-start gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-12 md:gap-y-8">
+          <figure className="order-1 justify-self-end rounded-sm bg-[#F6F6F4] p-3 md:order-none md:col-start-2 md:row-start-1 md:p-4">
+            <picture>
+              <source srcSet="/media/americase/logo.svg" type="image/svg+xml" />
+              <img
+                src="/media/americase/logo-600.png"
+                srcSet="/media/americase/logo-600.png 600w, /media/americase/logo-1200.png 1200w"
+                sizes="260px"
+                width={1200}
+                height={323}
+                alt="AmeriCase"
+                className="h-auto w-[220px] md:w-[260px]"
+              />
+            </picture>
+          </figure>
+          <h1 className="order-2 max-w-[900px] text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] md:order-none md:col-start-1 md:row-start-1">
             Commercial Casework
           </h1>
-          <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
+          <p className="order-3 max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:order-none md:col-start-1 md:row-start-2">
             AmeriCase builds laminate, veneer and modular casework for bid-day buyers across healthcare, education and commercial work.
           </p>
         </div>
@@ -275,20 +289,6 @@ export function CommercialCaseworkPage() {
             Built for bid day<sup className="ml-2 align-super text-caption-s tracking-normal text-black/50">[01]</sup>
           </h2>
           <div className="max-w-[720px] space-y-6 text-body1-s leading-[1.7] text-black/80">
-            <figure className="max-w-[320px]">
-              <picture>
-                <source srcSet="/media/americase/logo.svg" type="image/svg+xml" />
-                <img
-                  src="/media/americase/logo-600.png"
-                  srcSet="/media/americase/logo-600.png 600w, /media/americase/logo-1200.png 1200w"
-                  sizes="320px"
-                  width={1200}
-                  height={323}
-                  alt="AmeriCase"
-                  className="h-auto w-full"
-                />
-              </picture>
-            </figure>
             <p>
               AmeriCase is the commercial casework division of American Millwork &amp; Cabinetry. We work with architects, design teams and contractors to produce casegoods that hold up in real use.
             </p>
