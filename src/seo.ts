@@ -1,13 +1,15 @@
 import { NEWS } from "./NewsPage"
 import { projectBySlug } from "./projects"
-import { absoluteUrl, resolveRoute, type RouteId } from "./routes"
+import { absoluteUrl, resolveRoute, SITE_ORIGIN, type RouteId } from "./routes"
 
 const SITE_NAME = "American Millwork & Cabinetry"
 const DEFAULT_DESCRIPTION =
   "American Millwork & Cabinetry builds custom architectural millwork, cabinetry and countertops in the Lehigh Valley, PA. Founded in 2002."
 const SITE_URL = "https://www.amcmillwork.com"
 
-type SeoEntry = { title: string; description: string }
+type SeoEntry = { title: string; description: string; image?: string }
+
+const DEFAULT_OG_IMAGE = "/media/factory/bc70d6ea_image.png"
 
 const SERVICE_TITLES: Record<string, string> = {
   millwork: "Millwork",
@@ -151,7 +153,9 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
   if (id === "article") {
     const post = NEWS.find((item) => item.slug === slug)
     if (!post) return ROUTE_SEO.news
-    return { title: `${post.title} | ${SITE_NAME}`, description: post.excerpt }
+    const image =
+      post.slug === "awi-project-management-seminar" && post.img ? `${SITE_ORIGIN}${post.img}` : undefined
+    return { title: `${post.title} | ${SITE_NAME}`, description: post.excerpt, image }
   }
 
   if (id === "portfolio") {
@@ -258,7 +262,7 @@ function removeMeta(attr: "name" | "property", key: string) {
 
 /** Update document title and meta tags for the current path. Keeps noindex. */
 export function applySeo(pathname: string) {
-  const { title, description, canonical } = seoForPath(pathname)
+  const { title, description, canonical, image } = seoForPath(pathname)
   const route = resolveRoute(pathname)
 
   document.title = title
@@ -276,6 +280,10 @@ export function applySeo(pathname: string) {
 
   upsertMeta("name", "twitter:title", title)
   upsertMeta("name", "twitter:description", description)
+
+  const ogImage = image ?? DEFAULT_OG_IMAGE
+  upsertMeta("property", "og:image", ogImage)
+  upsertMeta("name", "twitter:image", ogImage)
 
   if (canonical) upsertLink("canonical", canonical)
   else removeLink("canonical")

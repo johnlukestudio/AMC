@@ -90,11 +90,11 @@ export const NEWS: Post[] = [
     date: "November 23, 2026",
     tag: "Company",
     carousel: true,
-    img: `${asset}/news/awi-seminar/001-627.jpg`,
-    srcSet: `${asset}/news/awi-seminar/001-480.jpg 480w, ${asset}/news/awi-seminar/001-627.jpg 627w`,
-    webpSrcSet: `${asset}/news/awi-seminar/001-480.webp 480w, ${asset}/news/awi-seminar/001-627.webp 627w`,
-    width: 627,
-    height: 836,
+    img: `${asset}/news/awi-seminar/017-836.jpg`,
+    srcSet: `${asset}/news/awi-seminar/017-480.jpg 480w, ${asset}/news/awi-seminar/017-836.jpg 836w`,
+    webpSrcSet: `${asset}/news/awi-seminar/017-480.webp 480w, ${asset}/news/awi-seminar/017-836.webp 836w`,
+    width: 836,
+    height: 627,
     excerpt:
       "About 70 people attended the two-day AWI seminar, Tame the Chaos: Mastering Project Management, at the Emmaus plant on Oct. 1 and 2, 2026.",
     body: [

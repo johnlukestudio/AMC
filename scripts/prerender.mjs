@@ -52,6 +52,10 @@ function applyHead(html, seo, jsonLd) {
   next = stripMeta(next, "property", "og:site_name")
   next = stripMeta(next, "name", "twitter:title")
   next = stripMeta(next, "name", "twitter:description")
+  if (seo.image) {
+    next = stripMeta(next, "property", "og:image")
+    next = stripMeta(next, "name", "twitter:image")
+  }
   next = next.replace(/\s*<link\b[^>]*\brel=["']canonical["'][^>]*>/gi, "")
 
   const tags = [
@@ -68,6 +72,10 @@ function applyHead(html, seo, jsonLd) {
     tags.push(
       `<meta property="og:url" content="${escapeAttr(seo.canonical)}" />`,
     )
+  }
+  if (seo.image) {
+    tags.push(`<meta property="og:image" content="${escapeAttr(seo.image)}" />`)
+    tags.push(`<meta name="twitter:image" content="${escapeAttr(seo.image)}" />`)
   }
   for (const block of jsonLd) {
     tags.push(

@@ -7,7 +7,7 @@ function srcSet(photo: SeminarPhoto, ext: "jpg" | "webp") {
   return photo.widths.map((w) => `${BASE}/${photo.stem}-${w}.${ext} ${w}w`).join(", ")
 }
 
-/** 836px-wide seminar stills. The frame matches the album's 4:3 landscape shots and is not stretched past the source. */
+/** Album stills at their real size. The frame is the 836×627 landscape box, centered, and portraits fit inside that height. */
 export function SeminarCarousel() {
   const scroller = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(0)
@@ -69,26 +69,27 @@ export function SeminarCarousel() {
           const near = Math.abs(i - index) <= 2 || Math.abs(i - index) >= count - 2
           const largest = photo.widths[photo.widths.length - 1]
           return (
-            <div key={photo.stem} className="w-full shrink-0 snap-center" aria-hidden={i !== index}>
-              {near ? (
-                <picture className="block">
-                  <source type="image/webp" srcSet={srcSet(photo, "webp")} sizes="(min-width: 868px) 836px, 100vw" />
-                  <img
-                    src={`${BASE}/${photo.stem}-${largest}.jpg`}
-                    srcSet={srcSet(photo, "jpg")}
-                    sizes="(min-width: 868px) 836px, 100vw"
-                    width={photo.width}
-                    height={photo.height}
-                    alt={i === index ? photo.alt : ""}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                    draggable={false}
-                    className="aspect-[4/3] w-full bg-neutral-200 object-cover"
-                  />
-                </picture>
-              ) : (
-                <div className="aspect-[4/3] w-full bg-neutral-200" />
-              )}
+            <div key={photo.stem} className="w-full shrink-0 snap-center overflow-hidden" aria-hidden={i !== index}>
+              <div className="relative aspect-[4/3] w-full bg-neutral-200">
+                {near ? (
+                  <picture className="absolute inset-0 flex items-center justify-center">
+                    <source type="image/webp" srcSet={srcSet(photo, "webp")} sizes="(min-width: 868px) 836px, 100vw" />
+                    <img
+                      src={`${BASE}/${photo.stem}-${largest}.jpg`}
+                      srcSet={srcSet(photo, "jpg")}
+                      sizes="(min-width: 868px) 836px, 100vw"
+                      width={photo.width}
+                      height={photo.height}
+                      alt={i === index ? photo.alt : ""}
+                      loading={i === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                      draggable={false}
+                      style={{ maxWidth: `min(100%, ${photo.width}px)`, maxHeight: `min(100%, ${photo.height}px)` }}
+                      className="h-auto w-auto object-contain"
+                    />
+                  </picture>
+                ) : null}
+              </div>
             </div>
           )
         })}
