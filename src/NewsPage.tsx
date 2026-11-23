@@ -21,6 +21,8 @@ export type Post = {
   webpSrcSet?: string
   width?: number
   height?: number
+  /** Focal point for object-cover crops, especially portrait news cards. */
+  objectPosition?: string
   /** Seminar stills render as a sized carousel instead of a full-bleed hero. */
   carousel?: boolean
   photo?: PortfolioPhotoId
@@ -231,11 +233,12 @@ export const NEWS: Post[] = [
     title: "AMC COVID-19 Crusher",
     date: "April 21, 2020",
     tag: "Manufacturing",
-    img: `${asset}/news/covid-crusher-780.jpg`,
-    srcSet: `${asset}/news/covid-crusher-640.jpg 640w, ${asset}/news/covid-crusher-780.jpg 780w`,
-    webpSrcSet: `${asset}/news/covid-crusher-640.webp 640w, ${asset}/news/covid-crusher-780.webp 780w`,
-    width: 780,
+    img: `${asset}/news/covid-crusher-385.jpg`,
+    srcSet: `${asset}/news/covid-crusher-385.jpg 385w`,
+    webpSrcSet: `${asset}/news/covid-crusher-385.webp 385w`,
+    width: 385,
     height: 255,
+    objectPosition: "center",
     excerpt:
       "AMC is doing our part to promote coronavirus safety with the AMC COVID-19 Crusher.",
     body: [
@@ -366,6 +369,7 @@ function PostImage({
       loading={loading}
       decoding="async"
       className={className}
+      style={post.objectPosition ? { objectPosition: post.objectPosition } : undefined}
     />
   )
   if (!post.webpSrcSet) return img
