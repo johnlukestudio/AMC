@@ -153,8 +153,7 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
   if (id === "article") {
     const post = NEWS.find((item) => item.slug === slug)
     if (!post) return ROUTE_SEO.news
-    const image =
-      post.slug === "awi-project-management-seminar" && post.img ? `${SITE_ORIGIN}${post.img}` : undefined
+    const image = post.img ? `${SITE_ORIGIN}${post.img}` : undefined
     return { title: `${post.title} | ${SITE_NAME}`, description: post.excerpt, image }
   }
 

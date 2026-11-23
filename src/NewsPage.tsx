@@ -8,7 +8,8 @@ import { SeminarCarousel } from "./SeminarCarousel"
 
 const asset = "/media"
 
-type Block = { h?: string; p: string[] }
+type PullQuote = { text: string; name: string; title: string; company: string }
+type Block = { h?: string; p: string[]; quote?: PullQuote; about?: boolean }
 export type Post = {
   slug: string
   title: string
@@ -111,21 +112,20 @@ export const NEWS: Post[] = [
         ],
       },
       {
-        p: [
-          "\"One of the things I enjoy most about AWI is the opportunity to bring people together to learn from one another, laugh together, build relationships, and simply enjoy the moment,\" said George Reitz, CEO and president of American Millwork & Cabinetry. \"Every time we get together, I walk away having learned something new.\"",
-        ],
+        p: [],
+        quote: {
+          text: "One of the things I enjoy most about AWI is the opportunity to bring people together to learn from one another, laugh together, build relationships, and simply enjoy the moment. Every time we get together, I walk away having learned something new.",
+          name: "George Reitz",
+          title: "CEO and president",
+          company: "American Millwork & Cabinetry",
+        },
       },
       {
         p: [
           "American Millwork & Cabinetry is an AWI member firm. Reitz is listed by AWI as the contact for the New Jersey chapter.",
         ],
       },
-      {
-        h: "About the company",
-        p: [
-          "American Millwork & Cabinetry, founded in 2002, manufactures and installs custom millwork and cabinetry in Emmaus, Pennsylvania, in the Lehigh Valley, about five miles south of Allentown. Its work includes custom millwork, solid wood and veneer cabinets, countertops, and architectural millwork. The company and its AmeriCase division are certified under AWI's Quality Certification Program. The plant is at 840 Broad Street, Emmaus, PA 18049. Phone: 610-965-0040. Web: https://www.amcmillwork.com.",
-        ],
-      },
+      { p: [], about: true },
     ],
   },
   {
@@ -154,11 +154,11 @@ export const NEWS: Post[] = [
     title: "American Millwork Partners with Altitude Marketing for COVID-19 Custom Desk Shields",
     date: "June 2, 2020",
     tag: "Manufacturing",
-    img: `${asset}/news/altitude-shields-1024.jpg`,
-    srcSet: `${asset}/news/altitude-shields-640.jpg 640w, ${asset}/news/altitude-shields-1024.jpg 1024w`,
-    webpSrcSet: `${asset}/news/altitude-shields-640.webp 640w, ${asset}/news/altitude-shields-1024.webp 1024w`,
-    width: 1024,
-    height: 683,
+    img: `${asset}/news/altitude-shields-2560.jpg`,
+    srcSet: `${asset}/news/altitude-shields-640.jpg 640w, ${asset}/news/altitude-shields-1280.jpg 1280w, ${asset}/news/altitude-shields-1920.jpg 1920w, ${asset}/news/altitude-shields-2560.jpg 2560w`,
+    webpSrcSet: `${asset}/news/altitude-shields-640.webp 640w, ${asset}/news/altitude-shields-1280.webp 1280w, ${asset}/news/altitude-shields-1920.webp 1920w, ${asset}/news/altitude-shields-2560.webp 2560w`,
+    width: 2560,
+    height: 1707,
     excerpt:
       "AMC partnered with Altitude Marketing to create and install custom desk shields for its Lehigh Valley, PA office.",
     body: [
@@ -243,26 +243,6 @@ export const NEWS: Post[] = [
         p: [
           "American Millwork & Cabinetry is doing our part to promote coronavirus safety with the AMC COVID-19 CRUSHER. Our new shop-built machine is utilized to disinfect our plant equipment on a daily basis.",
           "Spraying a chlorine bleach and water solution mixed as per CDC recommendations, it uses a battery-operated compressor and pressure pot to reach every corner of the shop.",
-        ],
-      },
-    ],
-  },
-  {
-    slug: "pa-construction-may-resume",
-    title: "Construction Activities May Resume in Pennsylvania on May 1",
-    date: "April 20, 2020",
-    tag: "Industry",
-    img: `${asset}/news/pa-construction-800.jpg`,
-    srcSet: `${asset}/news/pa-construction-640.jpg 640w, ${asset}/news/pa-construction-800.jpg 800w`,
-    webpSrcSet: `${asset}/news/pa-construction-640.webp 640w, ${asset}/news/pa-construction-800.webp 800w`,
-    width: 800,
-    height: 230,
-    excerpt: "Read the full article at PAPublicContracts.com on construction activities resuming in Pennsylvania.",
-    body: [
-      {
-        p: [
-          "Pennsylvania announced that construction activities may resume statewide on May 1, under updated guidance for job site safety.",
-          "AMC is ready to return to active job sites across PA, NY and NJ with protocols in place for our install crews. Read the full article at PAPublicContracts.com.",
         ],
       },
     ],
@@ -540,10 +520,83 @@ export function NewsPage() {
   )
 }
 
+function PullQuoteBlock({ quote }: { quote: PullQuote }) {
+  return (
+    <figure className="mt-16 border-l-2 border-gold-600 py-1 pl-6 md:mt-20 md:pl-10">
+      <span aria-hidden="true" className="block text-h2-s leading-none text-gold-600 md:text-h2-m">
+        “
+      </span>
+      <blockquote className="mt-3 max-w-[36ch] text-h3-s leading-[1.3] tracking-[-0.02em] text-dark-950 md:text-h3-m">
+        {quote.text}
+      </blockquote>
+      <figcaption className="mt-8">
+        <span className="block text-caption-s uppercase tracking-[0.16em]">{quote.name}</span>
+        <span className="mt-1 block text-caption-s uppercase tracking-[0.14em] text-black/50">{quote.title}</span>
+        <span className="mt-1 block text-caption-s uppercase tracking-[0.14em] text-black/50">{quote.company}</span>
+      </figcaption>
+    </figure>
+  )
+}
+
+function AboutAmc() {
+  return (
+    <section className="mt-20 border-t border-black/15 pt-8">
+      <img src="/media/73d6c.svg" alt="" className="h-8 w-auto" />
+      <p className="mt-5 text-caption-s uppercase tracking-[0.18em] text-black/50">About AMC</p>
+      <p className="mt-5 max-w-[68ch] text-body1-s leading-[1.65] text-black/80 md:text-body1-m">
+        American Millwork &amp; Cabinetry manufactures and installs custom millwork and cabinetry in the Lehigh Valley,
+        about five miles south of Allentown. Its work includes custom millwork, solid wood and veneer cabinets,
+        countertops, and architectural millwork.
+      </p>
+      <dl className="mt-8 grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
+        <div>
+          <dt className="text-caption-s uppercase tracking-[0.16em] text-black/50">Founded</dt>
+          <dd className="mt-1 text-body2-s">2002</dd>
+        </div>
+        <div>
+          <dt className="text-caption-s uppercase tracking-[0.16em] text-black/50">Location</dt>
+          <dd className="mt-1 text-body2-s">Emmaus, PA (Lehigh Valley)</dd>
+        </div>
+        <div>
+          <dt className="text-caption-s uppercase tracking-[0.16em] text-black/50">Certification</dt>
+          <dd className="mt-1 text-body2-s">AWI QCP (AMC and AmeriCase)</dd>
+        </div>
+        <div>
+          <dt className="text-caption-s uppercase tracking-[0.16em] text-black/50">Address</dt>
+          <dd className="mt-1 text-body2-s">840 Broad St, Emmaus, PA 18049</dd>
+        </div>
+        <div>
+          <dt className="text-caption-s uppercase tracking-[0.16em] text-black/50">Phone</dt>
+          <dd className="mt-1 text-body2-s">
+            <a href="tel:+16109650040" className="underline decoration-black/25 underline-offset-4 hover:decoration-black">
+              (610) 965-0040
+            </a>
+          </dd>
+        </div>
+        <div>
+          <dt className="text-caption-s uppercase tracking-[0.16em] text-black/50">Web</dt>
+          <dd className="mt-1 text-body2-s">
+            <a
+              href="https://www.amcmillwork.com"
+              className="underline decoration-black/25 underline-offset-4 hover:decoration-black"
+            >
+              amcmillwork.com
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </section>
+  )
+}
+
 export function ArticlePage() {
   const slug = resolveRoute(getPathname()).slug
   const post = NEWS.find((n) => n.slug === slug) ?? NEWS[0]
-  const words = post.body.flatMap((b) => b.p).join(" ").split(/\s+/).length
+  const words = post.body
+    .flatMap((b) => [...b.p, b.quote?.text ?? ""])
+    .join(" ")
+    .split(/\s+/)
+    .filter(Boolean).length
   const minutes = Math.max(1, Math.round(words / 200))
   const recent = NEWS.filter((n) => n.slug !== post.slug).slice(0, 3)
 
@@ -610,21 +663,25 @@ export function ArticlePage() {
         )}
 
         <div className="mx-auto max-w-[720px] py-20 md:py-28">
-          {post.body.map((b, i) => (
-            <div key={i} className={i ? "mt-14" : ""}>
-              {b.h && <h2 className="mb-6 text-h3-s md:text-h3-m xl:text-h3-l leading-[1.2] tracking-[-0.01em] ">{b.h}</h2>}
-              {b.p.map((t, j) => (
-                <p
-                  key={j}
-                  className={`text-h4-s leading-[1.75] text-black/70  ${j ? "mt-5" : ""} ${
-                    i === 0 && j === 0 ? "text-h4-m xl:text-h4-l text-black  md:leading-[1.6]" : ""
-                  }`}
-                >
-                  {t}
-                </p>
-              ))}
-            </div>
-          ))}
+          {post.body.map((b, i) => {
+            if (b.about || b.h === "About the company") return <AboutAmc key={i} />
+            if (b.quote) return <PullQuoteBlock key={i} quote={b.quote} />
+            return (
+              <div key={i} className={i ? "mt-14" : ""}>
+                {b.h && <h2 className="mb-6 text-h3-s md:text-h3-m xl:text-h3-l leading-[1.2] tracking-[-0.01em] ">{b.h}</h2>}
+                {b.p.map((t, j) => (
+                  <p
+                    key={j}
+                    className={`text-h4-s leading-[1.75] text-black/70  ${j ? "mt-5" : ""} ${
+                      i === 0 && j === 0 ? "text-h4-m xl:text-h4-l text-black  md:leading-[1.6]" : ""
+                    }`}
+                  >
+                    {t}
+                  </p>
+                ))}
+              </div>
+            )
+          })}
           {post.slug === "awi-award-of-excellence" && (
             <a
               href="/portfolio/project/ave-blue-bell/"

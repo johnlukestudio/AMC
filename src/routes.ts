@@ -16,6 +16,7 @@ export const ALIASES: Record<string, string> = {
   "/portfolio": "/portfolio/millwork",
   "/portfolio/acoustics": "/portfolio/all",
   "/portfolio/project": "/portfolio/project/ave-blue-bell",
+  "/news/pa-construction-may-resume": "/news",
 }
 
 const SERVICE_SLUGS = new Set(["acoustical", "surfaces"])
