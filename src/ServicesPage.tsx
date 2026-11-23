@@ -48,7 +48,6 @@ export type Service = {
 }
 
 const acousticalHero = serviceHero("acoustical")
-const surfacesHero = serviceHero("surfaces")
 const acoustic = (name: string) => {
   const photo = acousticalPhoto(name)
   return { img: photo.src, srcSet: photo.srcSet, sizes: CARD_SIZES_3, width: photo.width, height: photo.height }
@@ -229,67 +228,78 @@ export const SERVICE_DATA: Service[] = [
   },
   {
     slug: "surfaces",
-    title: "Surfaces",
+    title: "Countertops",
     kicker: "American Surfaces",
-    intro: "For first impressions, and lasting impressions. Custom commercial solid surfaces for office, retail, academic, and other commercial spaces.",
-    hero: surfacesHero.src,
-    heroSrcSet: surfacesHero.srcSet,
-    heroWidth: surfacesHero.width,
-    heroHeight: surfacesHero.height,
+    intro: "Solid surface countertops, including Corian, for kitchens, baths, offices and healthcare spaces.",
+    hero: `${asset}/surfaces/kitchen-counter-944.jpg`,
+    heroSrcSet: `${asset}/surfaces/kitchen-counter-640.jpg 640w, ${asset}/surfaces/kitchen-counter-944.jpg 944w`,
+    heroWidth: 944,
+    heroHeight: 910,
     overview:
-      "Solid surfaces such as Corian can be used in a variety of applications. Non-porous, durable, easy to maintain and able to be shaped to fit any design, they are a popular choice for commercial spaces, from countertops and seamless wall cladding to custom furniture and retail and hospitality fixtures.",
-    overviewImg: `${asset}/portfolio/mattison-lounge-3840.jpg`,
-    overviewPhoto: "mattison-lounge",
+      "American Surfaces fabricates and installs solid surface countertops. Corian is a common choice for kitchen and bath counters because it is non-porous, easy to clean, and available in a wide range of colors and patterns.",
+    overviewImg: `${asset}/surfaces/kitchen-bar-816.jpg`,
     meta: [
-      { label: "Spaces", value: "Office · Retail · Academic" },
+      { label: "Work", value: "Countertops" },
       { label: "Material", value: "Solid surface · Corian" },
       { label: "Lead time", value: "Coordinated to project schedule" },
-      { label: "Region", value: "PA · NY · NJ" },
+      { label: "Region", value: "PA · NJ · NY · DE · MD" },
     ],
-    tags: ["Solid surface · Corian", "Retail · Hospitality"],
+    tags: ["Countertops", "Solid surface · Corian"],
     items: [
       {
-        title: "Countertops",
-        img: `${asset}/portfolio/milford-residences-3840.jpg`,
-        photo: "milford-residences",
+        title: "Kitchen countertops",
+        img: `${asset}/surfaces/kitchen-counter-944.jpg`,
+        srcSet: `${asset}/surfaces/kitchen-counter-640.jpg 640w, ${asset}/surfaces/kitchen-counter-944.jpg 944w`,
         sizes: CARD_SIZES_3,
-        body: "A popular choice for kitchen and bath because it is non-porous, easy to clean and comes in a wide variety of colors and patterns.",
+        width: 944,
+        height: 910,
+        body: "Kitchen counters, islands and two-level bars in solid surface, including Corian.",
       },
       {
-        title: "Wall Cladding",
-        img: `${asset}/74e34.png`,
-        body: "Seamless wall cladding for settings from commercial spaces to residences. Durable, easy to maintain and shaped to fit any design.",
-      },
-      {
-        title: "Furniture",
-        img: `${asset}/portfolio/cheston-interior-3840.jpg`,
-        photo: "cheston-interior",
+        title: "Bath counters",
+        img: `${asset}/surfaces/bath-counters-1122.jpg`,
+        srcSet: `${asset}/surfaces/bath-counters-640.jpg 640w, ${asset}/surfaces/bath-counters-1122.jpg 1122w`,
         sizes: CARD_SIZES_3,
-        body: "Custom tables, desks and shelves in a versatile material that can be shaped and formed into a variety of designs.",
+        width: 1122,
+        height: 1122,
+        body: "Bath and commercial restroom counters, including integrated sinks.",
       },
       {
-        title: "Retail & Hospitality",
-        img: `${asset}/875eb.png`,
-        body: "Durable, attractive surfaces for countertops, bars and fixtures in hotels and restaurants.",
+        title: "Office counters",
+        img: `${asset}/surfaces/office-counter-1000.jpg`,
+        srcSet: `${asset}/surfaces/office-counter-640.jpg 640w, ${asset}/surfaces/office-counter-1000.jpg 1000w`,
+        sizes: CARD_SIZES_3,
+        width: 1000,
+        height: 670,
+        body: "Snack bars, lunch counters and work surfaces for offices and commercial buildings.",
+      },
+      {
+        title: "Healthcare counters",
+        img: `${asset}/surfaces/medical-counter-880.jpg`,
+        srcSet: `${asset}/surfaces/medical-counter-640.jpg 640w, ${asset}/surfaces/medical-counter-880.jpg 880w`,
+        sizes: CARD_SIZES_3,
+        width: 880,
+        height: 580,
+        body: "Solid surface counters for medical and healthcare spaces, where a non-porous surface is easy to sanitize.",
       },
     ],
     steps: [
-      { title: "Clean up spills", body: "Solid surfaces are non-porous and resist stains, but cleaning spills promptly prevents damage or discoloration." },
-      { title: "Use a gentle cleaner", body: "Avoid abrasive or acidic cleaners. Use mild dish soap and water or a cleaner designed for solid surfaces." },
-      { title: "Cutting boards & trivets", body: "Protect the surface from sharp objects and hot pots and pans with cutting boards and trivets." },
-      { title: "Avoid heavy impacts", body: "Solid surfaces can crack or chip under heavy objects, so take care when placing or moving heavy items." },
+      { title: "Clean up spills", body: "Solid surface countertops are non-porous and resist stains, but cleaning spills promptly prevents damage or discoloration." },
+      { title: "Use a gentle cleaner", body: "Avoid abrasive or acidic cleaners. Use mild dish soap and water or a cleaner designed for solid surface countertops." },
+      { title: "Cutting boards & trivets", body: "Protect the counter from sharp objects and hot pots and pans with cutting boards and trivets." },
+      { title: "Avoid heavy impacts", body: "Solid surface countertops can crack or chip under heavy objects, so take care when placing or moving heavy items." },
       { title: "Professional maintenance", body: "A periodic professional cleaning can repair damage, remove stains and restore the original finish." },
     ],
     stepsTitle: "Care & maintenance",
-    stepsAside: "Proper care ensures the longevity and durability of your solid surfaces.",
-    stepsImg: `${asset}/factory/bc70d6ea_image.png`,
+    stepsAside: "Care notes from American Surfaces for solid surface countertops.",
+    stepsImg: `${asset}/surfaces/office-counter-1000.jpg`,
     deliverables: [
-      { title: "Non-porous", body: "Hygienic surfaces that resist stains and are easy to sanitize." },
-      { title: "Seamless", body: "Joints disappear for continuous countertops, walls and fixtures." },
+      { title: "Non-porous", body: "Hygienic countertops that resist stains and are easy to sanitize." },
+      { title: "Seamless", body: "Joints disappear for continuous countertops and integrated sinks." },
       { title: "Repairable", body: "Damage and stains can be professionally restored." },
-      { title: "Any shape", body: "Thermoformed and fabricated to fit any design." },
+      { title: "Corian and solid surface", body: "Fabricated in the colors and patterns the project specifies." },
     ],
-    deliverablesImg: `${asset}/875eb.png`,
+    deliverablesImg: `${asset}/surfaces/bath-counters-1122.jpg`,
   },
 ]
 
@@ -359,7 +369,7 @@ const CAPABILITIES = [
 ]
 
 const FAQ = [
-  { q: "Which regions do you serve?", a: "We work across Pennsylvania, New York and New Jersey, with additional reach into Maryland and D.C." },
+  { q: "Which regions do you serve?", a: "Our customer base covers Pennsylvania, New Jersey, New York, Delaware and Maryland." },
   { q: "Do you handle installation?", a: "Yes. AMC Installers LLC installs everything we manufacture, with open, prevailing or union crews." },
   {
     q: "Can you work from our architect's drawings?",
@@ -371,7 +381,7 @@ const FAQ = [
   },
   {
     q: "Do you offer custom finishes?",
-    a: "Yes. Stains, sheens, laminates and veneers are sampled in submittals. Solid surface and Corian work through our surfaces division when the project calls for it.",
+    a: "Yes. Stains, sheens, laminates and veneers are sampled in submittals. Solid surface countertops, including Corian, are fabricated by American Surfaces when the project calls for them.",
   },
 ]
 
@@ -540,7 +550,7 @@ export function ServicesOverview() {
           </h1>
           <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
             Millwork, casework, acoustical and surfaces, estimated, engineered, built and installed by one team in
-            the Lehigh Valley, PA since 2003.
+            the Lehigh Valley, PA. Founded in 2002.
           </p>
         </div>
         <div className="mt-14 grid gap-3 md:grid-cols-[1.6fr_1fr]">

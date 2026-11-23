@@ -361,7 +361,7 @@ export function CommercialCaseworkPage() {
           </ol>
         </div>
         <p className="mt-10 max-w-[720px] text-body2-s leading-[1.6] text-black/60">
-          AWI and QCP certified. Family business in the Lehigh Valley since 2003. Browse the{" "}
+          AWI and QCP certified. Family business founded in 2002 in the Lehigh Valley. Browse the{" "}
           <a href="/portfolio/casework/" className="underline underline-offset-4 text-black">
             casework portfolio
           </a>{" "}
@@ -394,7 +394,7 @@ const MILL_FAQ: FaqItem[] = [
   },
   {
     q: "Which markets do you cover?",
-    a: "Pennsylvania, New York, New Jersey, Philadelphia, Harrisburg, Baltimore and Washington, D.C., with reach across the Mid-Atlantic.",
+    a: "Pennsylvania, New Jersey, New York, Delaware and Maryland.",
   },
   {
     q: "What grades do you build to?",
@@ -471,8 +471,8 @@ export function ArchitecturalMillworkPage() {
           <p className="mt-6 max-w-[560px] text-body1-s leading-[1.6] text-white/70">
             HQ and manufacturing in the Lehigh Valley, PA. Additional office in Annapolis, MD. Installed across the Northeast corridor.
           </p>
-          <ul className="mt-14 grid grid-cols-2 gap-4 border-t border-white/20 pt-8 sm:grid-cols-3 lg:grid-cols-6">
-            {["New York", "New Jersey", "Philadelphia", "Harrisburg", "Baltimore", "Washington, D.C."].map((c) => (
+          <ul className="mt-14 grid grid-cols-2 gap-4 border-t border-white/20 pt-8 sm:grid-cols-3 lg:grid-cols-5">
+            {["Pennsylvania", "New Jersey", "New York", "Delaware", "Maryland"].map((c) => (
               <li key={c} className="text-h4-m leading-tight">
                 {c}
               </li>

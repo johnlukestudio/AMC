@@ -9,7 +9,7 @@ const asset = "/media"
 
 type Card = {
   title: string
-  body: string
+  body?: string
   img?: string
   photo?: PortfolioPhotoId
   srcSet?: string
@@ -25,10 +25,11 @@ type Division = {
   headlineClass?: string
   intro: string[]
   hero: string
+  heroAlt?: string
   heroVideo?: string
   cardsTitle: string
   cards: Card[]
-  steps?: { title: string; title2?: string; body: string }[]
+  steps?: { title: string; title2?: string; body?: string }[]
   stepsTitle?: string
   blocks?: { eyebrow: string; title: string; body: string[] }[]
   awards?: Card[]
@@ -64,12 +65,14 @@ export const DIVISION_PAGES: Division[] = [
       { title: "Architectural millwork", img: `${asset}/cat-millwork.png`, body: "Our installation company installs millwork, casework and fixtures using open, prevailing or union craftsmen." },
       { title: "AmeriCase casework", img: `${asset}/cat-casework.png`, body: "Installed with the same attention to detail as our fabrication." },
       { title: "Acoustical panels and ceilings", img: `${asset}/cat-acoustics.png`, body: "Our skilled team ensures precise and efficient installation of acoustical panels, ceilings and other elements." },
-      { title: "Solid surfaces", img: `${asset}/2e51c.png`, body: "[Placeholder: confirm solid surface install scope]" },
+      // Still unconfirmed with George: the exact solid-surface install scope.
+      { title: "Countertops", img: `${asset}/surfaces/bath-counters-1122.jpg`, srcSet: `${asset}/surfaces/bath-counters-640.jpg 640w, ${asset}/surfaces/bath-counters-1122.jpg 1122w`, sizes: CARD_SIZES, width: 1122, height: 1122, body: "Solid surface countertops, including Corian, installed with the rest of the package." },
     ],
     stepsTitle: "How an install works",
     steps: [
       { title: "Field dimensions", body: "We catch field measures three to four weeks before manufacturing. Custom work needs accurate dimensions. We do not build to a guess." },
-      { title: "Coordination with the GC", body: "[Placeholder: how install scheduling and sequencing are coordinated with the general contractor]" },
+      // Still unconfirmed with George: how install scheduling and sequencing are coordinated with the general contractor.
+      { title: "Coordination with the GC" },
       { title: "Delivery", body: "Cabinets, tops, trim and panels built in dedicated shop zones, labeled and ready for install." },
       { title: "Install", body: "AMC Installers LLC installs with highly skilled craftsmen: open, prevailing or union, as the project requires. 9 to 11 people on install." },
       { title: "Punch list", body: "AMC Installers puts it in place and closes the punch list with the same team that built it." },
@@ -78,7 +81,7 @@ export const DIVISION_PAGES: Division[] = [
       {
         eyebrow: "Service area",
         title: "Built in the Lehigh Valley. Installed across the Northeast.",
-        body: ["Pennsylvania, New York, New Jersey, Philadelphia, Harrisburg, Baltimore and Washington, D.C., with reach across the Mid-Atlantic."],
+        body: ["Pennsylvania, New Jersey, New York, Delaware and Maryland."],
       },
       {
         eyebrow: "Quality",
@@ -130,19 +133,20 @@ export const DIVISION_PAGES: Division[] = [
   {
     slug: "american-surfaces",
     name: "American Surfaces",
-    headline: "For First Impressions, and Lasting Impressions",
-    intro: ["Transform your interiors with solid surfaces.", "Custom commercial solid surfaces for office, retail, academic, and other commercial spaces."],
-    hero: `${asset}/2e51c.png`,
-    heroVideo: "loop02",
-    cardsTitle: "Solid surfaces such as Corian",
+    headline: "Countertops, for First Impressions and Lasting Impressions",
+    headlineClass: "max-w-[14em] text-[7vw] md:text-[min(4.2vw,76px)]",
+    intro: ["American Surfaces fabricates and installs solid surface countertops, including Corian.", "Kitchen, bath, office and healthcare counters for commercial and residential projects."],
+    hero: `${asset}/surfaces/kitchen-counter-944.jpg`,
+    heroAlt: "Solid surface kitchen countertop and island by American Surfaces",
+    cardsTitle: "Countertops",
     cards: [
-      { title: "Countertops", img: `${asset}/portfolio/milford-residences-3840.jpg`, photo: "milford-residences", sizes: CARD_SIZES, body: "Non-porous, easy to clean, and available in a wide variety of colors and patterns." },
-      { title: "Furniture", img: `${asset}/portfolio/cheston-interior-3840.jpg`, photo: "cheston-interior", sizes: CARD_SIZES, body: "Custom tables, desks and shelves. Can be shaped and formed into a variety of designs." },
-      { title: "Wall Cladding", img: `${asset}/74e34.png`, body: "Seamless, durable, easy to maintain, and shaped to fit any design." },
-      { title: "Retail & Hospitality", img: `${asset}/875eb.png`, body: "Hotels and restaurants: countertops, bars and other fixtures." },
+      { title: "Kitchen countertops", img: `${asset}/surfaces/kitchen-counter-944.jpg`, srcSet: `${asset}/surfaces/kitchen-counter-640.jpg 640w, ${asset}/surfaces/kitchen-counter-944.jpg 944w`, sizes: CARD_SIZES, width: 944, height: 910, body: "Kitchen counters, islands and two-level bars. Non-porous, easy to clean, and available in a wide range of colors and patterns." },
+      { title: "Bath counters", img: `${asset}/surfaces/bath-counters-1122.jpg`, srcSet: `${asset}/surfaces/bath-counters-640.jpg 640w, ${asset}/surfaces/bath-counters-1122.jpg 1122w`, sizes: CARD_SIZES, width: 1122, height: 1122, body: "Bath and commercial restroom counters, including integrated sinks." },
+      { title: "Office counters", img: `${asset}/surfaces/office-counter-1000.jpg`, srcSet: `${asset}/surfaces/office-counter-640.jpg 640w, ${asset}/surfaces/office-counter-1000.jpg 1000w`, sizes: CARD_SIZES, width: 1000, height: 670, body: "Snack bars, lunch counters and work surfaces for offices and commercial buildings." },
+      { title: "Healthcare counters", img: `${asset}/surfaces/medical-counter-880.jpg`, srcSet: `${asset}/surfaces/medical-counter-640.jpg 640w, ${asset}/surfaces/medical-counter-880.jpg 880w`, sizes: CARD_SIZES, width: 880, height: 580, body: "Solid surface counters for medical and healthcare spaces, where a non-porous surface is easy to sanitize." },
     ],
     blocks: [
-      { eyebrow: "Why Corian", title: "Versatile, durable, easy to maintain.", body: ["Overall, the versatility, durability, and ease of maintenance of Corian make it a popular choice for a wide range of applications in both residential and commercial settings."] },
+      { eyebrow: "Why Corian", title: "A solid surface made for counters.", body: ["Corian is a popular solid surface for kitchen and bathroom countertops because it is non-porous, easy to clean, and available in a wide range of colors and patterns."] },
       { eyebrow: "Our mission", title: "Integrity from beginning to end.", body: ["We strive to serve our clients with integrity from the beginning to the end of a project, offering industry-leading expertise and creativity to achieve your goals.", "The team at American Surfaces has decades of experience in local and international projects, and we enjoy one another’s camaraderie as we work together to serve you."] },
     ],
     quote: { text: "I love to transform interiors for clients and give them the “wow” experience to show off their property to others. Solid surfaces can achieve that!", name: "Arton Metolli", role: "Founder, American Surfaces" },
@@ -160,7 +164,7 @@ export function DivisionPage() {
         {d.heroVideo ? (
           <LoopVideo name={d.heroVideo} label={d.name} className="absolute inset-0 size-full opacity-70" />
         ) : (
-          <img src={d.hero} alt={d.name} className="absolute inset-0 size-full object-cover opacity-70" />
+          <img src={d.hero} alt={d.heroAlt ?? d.name} className="absolute inset-0 size-full object-cover opacity-70" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
         <div className="relative mx-auto w-full max-w-[1750px] px-6 pb-16 md:px-10 md:pb-24">
@@ -207,7 +211,7 @@ export function DivisionPage() {
                 </div>
               )}
               <h3 className="text-h4-m leading-[1.25]">{c.title}</h3>
-              <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{c.body}</p>
+              {c.body ? <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{c.body}</p> : null}
             </article>
           ))}
         </div>
@@ -222,7 +226,7 @@ export function DivisionPage() {
                 <li key={s.title} className="border-t border-black/20 pt-6">
                   <span className="text-caption-s text-black/50">Step {String(i + 1).padStart(2, "0")}</span>
                   <h3 className="mt-4 text-h4-m leading-[1.25]">{s.title}</h3>
-                  <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{s.body}</p>
+                  {s.body ? <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{s.body}</p> : null}
                 </li>
               ))}
             </ol>

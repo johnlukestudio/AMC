@@ -428,7 +428,7 @@ function CountUpStat({ value, delay = 0 }: { value: string; delay?: number }) {
 }
 
 const STATS = [
-  { n: "23+", title: "Years experience", body: "Building custom millwork in-house since 2003" },
+  { n: "23+", title: "Years experience", body: "Founded in 2002" },
   { n: "~83", title: "People across the shop", body: "About 50 on the floor, ~22 in the office, 9 to 11 on install, six in estimating, five in project management" },
   { n: "80k", title: "Sq. ft. facility", body: "Our Lehigh Valley, PA plant houses every operation" },
   { n: "AWI", title: "QCP certified", body: "Products meet or exceed Quality Certification Program standards" },

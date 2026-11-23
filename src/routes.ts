@@ -14,6 +14,7 @@ export const ALIASES: Record<string, string> = {
   "/installers": "/divisions/amc-installers",
   "/divisions/american-installers": "/divisions/amc-installers",
   "/portfolio": "/portfolio/millwork",
+  "/portfolio/acoustics": "/portfolio/all",
   "/portfolio/project": "/portfolio/project/ave-blue-bell",
 }
 
@@ -51,7 +52,6 @@ export const STATIC_PATHS = [
   "/news",
   "/portfolio/millwork",
   "/portfolio/casework",
-  "/portfolio/acoustics",
   "/portfolio/all",
   ...projectPathnames(),
   "/divisions/amc-installers",
