@@ -119,9 +119,6 @@ export function ProjectPage({ slug }: { slug: string }) {
           <h1 className="absolute bottom-10 left-6 text-h2-s md:text-h2-m xl:text-h2-l leading-[1.2] tracking-[-0.02em] md:left-10 ">
             {project.name}
           </h1>
-          <p className="absolute bottom-12 left-[calc(75.7%+20px)] hidden text-body2-s md:block">
-            {project.year}
-          </p>
         </div>
       </section>
 

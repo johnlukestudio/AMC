@@ -201,9 +201,8 @@ export function MillworkPortfolio() {
                   />
                 </div>
               </div>
-              <div className="mt-3 flex items-center justify-between text-body2-s">
+              <div className="mt-3 text-body2-s">
                 <span className="capitalize">{p.name}</span>
-                <span className="text-black/50">{p.year}</span>
               </div>
             </a>
           ))}
