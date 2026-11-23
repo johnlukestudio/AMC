@@ -52,7 +52,7 @@ export const DIVISION_PAGES: Division[] = [
   {
     slug: "amc-installers",
     name: "AMC Installers",
-    headline: "Installed right. By the people who built it.",
+    headline: "Installed Right. By the People Who Built It.",
     headlineClass: "max-w-[8.6em] text-[9vw] md:text-[min(6.4vw,112px)]",
     intro: [
       "AMC Installers LLC installs everything we manufacture, with open, prevailing or union crews.",
@@ -95,7 +95,7 @@ export const DIVISION_PAGES: Division[] = [
   {
     slug: "amc-acoustical",
     name: "AMC Acoustical",
-    headline: "Let's Keep Things Quiet!",
+    headline: "Let's Keep Things Quiet",
     intro: [
       "Let’s face it we can all use less noise and distraction in our lives. AMC Acoustical’s High Performance Sound Absorption Panels will capture and reduce Sound Reverberation in your space providing quieter & less distracting spaces such as Work & Office Spaces, Common Areas, Restaurants, Libraries, Lecture Halls, Auditoriums, Theaters, Studios & Concert Halls.",
       "AMC Acoustical offers you the following products which enables us to meet or exceed all NRC or SAA requirements for your project.",
@@ -130,7 +130,7 @@ export const DIVISION_PAGES: Division[] = [
   {
     slug: "american-surfaces",
     name: "American Surfaces",
-    headline: "For first impressions, and lasting impressions.",
+    headline: "For First Impressions, and Lasting Impressions",
     intro: ["Transform your interiors with solid surfaces.", "Custom commercial solid surfaces for office, retail, academic, and other commercial spaces."],
     hero: `${asset}/2e51c.png`,
     heroVideo: "loop02",
@@ -165,7 +165,7 @@ export function DivisionPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
         <div className="relative mx-auto w-full max-w-[1750px] px-6 pb-16 md:px-10 md:pb-24">
           <p className="text-caption-m uppercase tracking-[0.16em] text-[#D9B547]">{d.name}</p>
-          <h1 className={`mt-5 font-normal uppercase leading-[0.92] tracking-[-0.03em] ${d.headlineClass ?? "max-w-[1150px] text-[11vw] md:text-[min(6.4vw,112px)]"}`}>{d.headline}</h1>
+          <h1 className={`mt-5 font-normal leading-[0.95] tracking-[-0.03em] ${d.headlineClass ?? "max-w-[14ch] text-[8vw] md:text-[min(4.6vw,80px)]"}`}>{d.headline}</h1>
           {d.intro.map((p) => (
             <p key={p} className="mt-5 max-w-[720px] text-body1-s leading-[1.6] text-white/85">{p}</p>
           ))}

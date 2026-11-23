@@ -77,7 +77,7 @@ export const SERVICE_DATA: Service[] = [
   {
     slug: "millwork",
     hubHref: "/services/architectural-millwork/",
-    title: "Architectural millwork",
+    title: "Architectural Millwork",
     kicker: "Architectural woodwork",
     intro: "Custom architectural millwork engineered, built and installed by one team, from lobby walls to reception desks.",
     hero: `${asset}/02cb0.png`,
@@ -111,7 +111,7 @@ export const SERVICE_DATA: Service[] = [
   {
     slug: "casework",
     hubHref: "/americase/",
-    title: "Commercial casework",
+    title: "Commercial Casework",
     kicker: "AmeriCase™ division",
     intro: "Standard and semi-custom casework for virtually any application, in plastic laminate, veneer or solid wood.",
     hero: `${asset}/6dc05.png`,
@@ -534,9 +534,9 @@ export function ServicesOverview() {
         <Eyebrow>What we do</Eyebrow>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <h1 className="text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] ">
-            One source.
+            One Source.
             <br />
-            Every detail.
+            Every Detail.
           </h1>
           <p className="max-w-[420px] text-body1-s leading-[1.6] text-black/70 md:text-right">
             Millwork, casework, acoustical and surfaces, estimated, engineered, built and installed by one team in

@@ -11,7 +11,7 @@ const FILTERS = [
   { label: "Millwork", slug: "millwork" },
   { label: "Casework", slug: "casework" },
   { label: "Acoustics", slug: "acoustics" },
-  { label: "All projects", slug: "all" },
+  { label: "All Projects", slug: "all" },
 ]
 
 const CUBE_W = 218
@@ -122,8 +122,8 @@ export function MillworkPortfolio() {
           )
         })}
       </nav>
-      <span className="text-body2-s leading-none capitalize">
-        {current.slug === "all" ? "All projects" : `${current.label} projects`}
+      <span className="text-body2-s leading-none">
+        {current.slug === "all" ? "All Projects" : `${current.label} Projects`}
       </span>
       {projects.length === 0 ? (
         <p className="mt-12 max-w-[520px] text-body1-s leading-[1.6] text-black/60">
