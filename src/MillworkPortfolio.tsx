@@ -10,7 +10,6 @@ const corner = `${asset}/4a604.svg`
 const FILTERS = [
   { label: "Millwork", slug: "millwork" },
   { label: "Casework", slug: "casework" },
-  { label: "Acoustics", slug: "acoustics" },
   { label: "All Projects", slug: "all" },
 ]
 
@@ -25,7 +24,6 @@ export function MillworkPortfolio() {
   const slug = resolveRoute(getPathname()).slug || "millwork"
   const current = FILTERS.find((f) => f.slug === slug) ?? FILTERS[0]
   const projects = projectsInCategory(current.slug)
-  const composed = current.slug === "all"
   const gridRef = useRef<HTMLDivElement>(null)
   const frames = useRef<(HTMLDivElement | null)[]>([])
   const cubes = useRef<(HTMLDivElement | null)[]>([])
@@ -138,9 +136,7 @@ export function MillworkPortfolio() {
             <a
               key={p.slug}
               href={`/portfolio/project/${p.slug}/`}
-              className={`block self-start ${
-                composed ? p.cls : "md:col-span-6"
-              }`}
+              className="block self-start md:col-span-6"
             >
               <div
                 ref={(el) => {

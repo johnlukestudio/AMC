@@ -29,7 +29,7 @@ const processImgs = [
 const serviceImgs = [
   `${asset}/02cb0.png`, // Architectural Millwork
   `${asset}/6dc05.png`, // Casework & Cabinetry
-  `${asset}/2e51c.png`, // Solid Surface & Stone
+  `${asset}/surfaces/kitchen-counter-944.jpg`, // American Surfaces countertops
   `${asset}/portfolio/washington-reception-3840.jpg`, // Plastic Laminate Fabrication
 ]
 const projectImgs = [
@@ -49,7 +49,7 @@ const HERO_CATEGORIES = [
   { name: "Acoustical", img: `${asset}/cat-acoustics.png` },
   { name: "Casework", img: `${asset}/cat-casework.png` },
   { name: "Millwork", img: `${asset}/cat-millwork.png` },
-  { name: "Surfaces", img: serviceImgs[2] },
+  { name: "Countertops", img: serviceImgs[2] },
 ]
 const arrowPrev = `${asset}/50a22.svg`
 const arrowNext = `${asset}/fa423.svg`
@@ -61,7 +61,7 @@ export const SERVICES = [
   { title: "Millwork", href: "/services/architectural-millwork/", img: serviceImgs[0] },
   { title: "Casework", href: "/americase/", img: serviceImgs[1] },
   { title: "Acoustical", href: "/services/acoustical/", img: `${asset}/cat-acoustics.png` },
-  { title: "Surfaces", href: "/services/surfaces/", img: serviceImgs[2] },
+  { title: "Countertops", href: "/services/surfaces/", img: serviceImgs[2] },
 ]
 
 type NavLink = { label: string; href: string; children?: NavLink[] }
@@ -90,7 +90,7 @@ const NAV: NavItem[] = [
       { label: "Architectural Millwork", href: "/services/architectural-millwork/" },
       { label: "Commercial Casework", href: "/americase/" },
       { label: "Acoustical", href: "/services/acoustical/" },
-      { label: "Surfaces", href: "/services/surfaces/" },
+      { label: "Countertops", href: "/services/surfaces/" },
     ],
   },
   {
@@ -98,7 +98,6 @@ const NAV: NavItem[] = [
     items: [
       { label: "Millwork", href: "/portfolio/millwork/" },
       { label: "Casework", href: "/portfolio/casework/" },
-      { label: "Acoustics", href: "/portfolio/acoustics/" },
       { label: "All Projects", href: "/portfolio/all/" },
     ],
   },
@@ -636,8 +635,8 @@ function AboutPlantBg() {
 function About() {
   const stats = [
     { n: "23+", label: "Years in business" },
-    { n: "1,200+", label: "Projects delivered" },
-    { n: "3", label: "States served" },
+    { n: "2002", label: "Founded" },
+    { n: "5", label: "States served" },
     { n: "100%", label: "Custom fabrication" },
   ]
   return (
@@ -656,7 +655,9 @@ function About() {
             and retail spaces.
           </p>
           <div className="mt-10">
-            <OutlineButton dark>Explore more</OutlineButton>
+            <a href="/about/">
+              <OutlineButton dark>Explore more</OutlineButton>
+            </a>
           </div>
         </div>
         <div className="flex flex-col justify-center">
@@ -878,7 +879,7 @@ function Locations() {
 }
 
 /* ---------- Memberships & Certifications ---------- */
-const MEMBERSHIPS = [
+const MEMBERSHIPS: { logo: string; name: string; href?: string }[] = [
   {
     logo: `${asset}/certs/6810e343_awi-150x126.gif`,
     name: "Architectural Woodwork\nInstitute",
@@ -894,10 +895,12 @@ const MEMBERSHIPS = [
   {
     logo: `${asset}/certs/3e731f29_gwa.gif`,
     name: "Green Advantage\nLEED Accredited",
+    href: "https://greenadvantage.org/",
   },
   {
     logo: `${asset}/certs/63c102ec_FSClogo.png`,
     name: "Forest Stewardship Council\nC109137",
+    href: "https://fsc.org/en",
   },
   {
     logo: `${asset}/certs/85a2866d_Cisca-Logo-300x300.jpg`,
@@ -916,17 +919,21 @@ function Memberships() {
           <p>
             We are LEED Accredited, so our in-house experts can guide your
             project to successful completion with{" "}
-            <a href="#" className="text-black underline underline-offset-4">
+            <a href="https://greenadvantage.org/" target="_blank" rel="noreferrer" className="text-black underline underline-offset-4">
               Green Advantage
             </a>
             .
           </p>
           <p>
             Please{" "}
-            <a href="#" className="text-black underline underline-offset-4">
+            <a href="/contact/" className="text-black underline underline-offset-4">
               ask us
             </a>{" "}
-            about the availability of FSC® Certified products.
+            about the availability of{" "}
+            <a href="https://fsc.org/en" target="_blank" rel="noreferrer" className="text-black underline underline-offset-4">
+              FSC® Certified products
+            </a>
+            .
           </p>
         </div>
       </div>
@@ -939,11 +946,21 @@ function Memberships() {
             <span className="text-center text-caption-s text-black/40">
               [{String(i + 1).padStart(2, "0")}]
             </span>
-            <img
-              src={m.logo}
-              alt={m.name}
-              className="mx-auto h-[70px] w-auto max-w-[77%] object-contain mix-blend-multiply grayscale opacity-70 transition duration-300 group-hover:opacity-100"
-            />
+            {m.href ? (
+              <a href={m.href} target="_blank" rel="noreferrer" className="mx-auto block">
+                <img
+                  src={m.logo}
+                  alt={m.name}
+                  className="mx-auto h-[70px] w-auto max-w-[77%] object-contain mix-blend-multiply grayscale opacity-70 transition duration-300 group-hover:opacity-100"
+                />
+              </a>
+            ) : (
+              <img
+                src={m.logo}
+                alt={m.name}
+                className="mx-auto h-[70px] w-auto max-w-[77%] object-contain mix-blend-multiply grayscale opacity-70 transition duration-300 group-hover:opacity-100"
+              />
+            )}
             <span className="flex h-[34px] items-center justify-center whitespace-pre-line text-center text-caption-s leading-snug text-black/50">
               {m.name}
             </span>
@@ -955,6 +972,8 @@ function Memberships() {
 }
 
 /* ---------- Testimonials ---------- */
+// Sample quotes only. Hidden until real client names exist. Do not render while this is false.
+const SHOW_TESTIMONIALS = false
 const TESTIMONIALS = [
   {
     quote:
@@ -1039,12 +1058,13 @@ function Testimonials() {
 }
 
 /* ---------- Footer ---------- */
-// Social profiles aren't live yet. Flip this on and replace the hrefs to show the column again.
-const SHOW_FOOTER_SOCIAL = false
+// Profiles listed in the header of the current amcmillwork.com site.
+const SHOW_FOOTER_SOCIAL = true
 const SOCIAL_LINKS: NavLink[] = [
-  { label: "Instagram", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "Facebook", href: "#" },
+  { label: "Facebook", href: "https://www.facebook.com/AMCMillwork" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/american-millwork-&-cabinetry/" },
+  { label: "YouTube", href: "https://www.youtube.com/@americanmillworkcabinetry1712" },
+  { label: "Instagram", href: "https://www.instagram.com/amcmillwork/" },
 ]
 
 const FOOTER_COLUMNS: { title: string; href?: string; links: NavLink[] }[] = [
@@ -1091,18 +1111,27 @@ function Footer() {
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 text-body2-s sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
               <div>
                 <div className="text-white/70">Email</div>
-                <a href="#" className="mt-1 inline-flex items-center gap-2">
-                  info@americanmillwork.com
+                <a href="mailto:info@amcmillwork.com" className="mt-1 inline-flex items-center gap-2">
+                  info@amcmillwork.com
                   <img src={emailArrow} alt="" className="size-[18px] invert" />
                 </a>
               </div>
               <div>
                 <div className="text-white/70">Phone</div>
-                <div className="mt-1">+1 (973) 560-6043</div>
+                <a href="tel:+16109650040" className="mt-1 inline-block">
+                  (610) 965-0040
+                </a>
               </div>
               <div>
                 <div className="text-white/70">Office</div>
-                <div className="mt-1">Philadelphia, PA · New York · New Jersey</div>
+                <a
+                  href="https://maps.google.com/?q=840+Broad+St+Emmaus+PA+18049"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 inline-block"
+                >
+                  840 Broad St, Emmaus, PA 18049
+                </a>
               </div>
             </div>
           </div>
@@ -1127,7 +1156,11 @@ function Footer() {
               <ul className="mt-5 space-y-2.5 text-body2-s">
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <a href={l.href} className="text-white/70 transition-colors hover:text-white">
+                    <a
+                      href={l.href}
+                      className="text-white/70 transition-colors hover:text-white"
+                      {...(l.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
+                    >
                       {l.label}
                     </a>
                   </li>
@@ -1353,7 +1386,7 @@ export default function App() {
             </section>
             <Services />
             <Locations />
-            <Testimonials />
+            {SHOW_TESTIMONIALS ? <Testimonials /> : null}
             <Memberships />
           </>
         )}

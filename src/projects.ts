@@ -1,4 +1,5 @@
 import type { PortfolioPhotoId } from "./portfolio-photos"
+import { ADDED_PROJECTS } from "./added-projects"
 
 /** Portfolio projects. `image` is the featured photo: portfolio card, hover thumbnail, and project hero. */
 
@@ -23,11 +24,11 @@ export type Project = {
   ratio: string
 }
 
-export const PROJECTS: Project[] = [
+const LISTED: Project[] = [
   {
     slug: "cheston-elementary-school",
     name: "Cheston Elementary School",
-    year: "2026",
+    year: "2020",
     categories: ["millwork", "casework"],
     image: "cheston-school",
     alt: "Cheston Elementary School",
@@ -40,10 +41,10 @@ export const PROJECTS: Project[] = [
   {
     slug: "ave-blue-bell",
     name: "AVE Blue Bell",
-    year: "2026",
+    year: "2020",
     place: "Blue Bell, Pennsylvania",
     type: "Multifamily Residential",
-    categories: ["millwork", "casework"],
+    categories: ["millwork"],
     image: "ave-blue-bell",
     alt: "AVE Blue Bell exterior",
     summary:
@@ -84,7 +85,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "mattison-estates",
     name: "Mattison Estates",
-    year: "2026",
+    year: "2022",
     categories: ["millwork"],
     image: "mattison-lounge",
     alt: "Mattison Estates lounge",
@@ -95,7 +96,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "kalahari-resort",
     name: "Kalahari Resort",
-    year: "2025",
+    year: "2019",
     categories: ["millwork"],
     image: "kalahari-entrance",
     alt: "Kalahari Resort entrance",
@@ -106,8 +107,8 @@ export const PROJECTS: Project[] = [
   {
     slug: "milford-village",
     name: "Milford Village",
-    year: "2022",
-    categories: ["casework"],
+    year: "2019",
+    categories: ["millwork", "casework"],
     image: "milford-village",
     alt: "Milford Village",
     gallery: [{ src: "milford-residences", alt: "Milford Village residences" }],
@@ -117,7 +118,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "waugh-chapel-monarch-clubhouse",
     name: "Waugh Chapel Monarch Clubhouse",
-    year: "2023",
+    year: "2019",
     categories: ["millwork"],
     image: "waugh-chapel",
     alt: "Waugh Chapel Monarch Clubhouse",
@@ -130,7 +131,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "washington-crossing",
     name: "Washington Crossing",
-    year: "2025",
+    year: "2017",
     categories: ["millwork"],
     image: "washington-hall",
     alt: "Washington Crossing hall",
@@ -146,6 +147,32 @@ export const PROJECTS: Project[] = [
     ratio: "aspect-[650/460]",
   },
 ]
+
+/** Same order as the current amcmillwork.com portfolio. */
+const PORTFOLIO_ORDER = [
+  "mattison-estates",
+  "st-lukes-quakertown",
+  "cheston-elementary-school",
+  "ave-blue-bell",
+  "milford-village",
+  "lvhn-childrens-hospital",
+  "waugh-chapel-monarch-clubhouse",
+  "mount-airy-casino",
+  "altitude-marketing",
+  "torre-restaurant",
+  "bay-head-yacht-club",
+  "kalahari-resort",
+  "the-hearth-at-drexel",
+  "lehigh-country-club",
+  "washington-crossing",
+  "lancaster-history",
+]
+
+export const PROJECTS: Project[] = PORTFOLIO_ORDER.map((slug) => {
+  const project = [...LISTED, ...ADDED_PROJECTS].find((item) => item.slug === slug)
+  if (!project) throw new Error(`Missing portfolio project ${slug}`)
+  return project
+})
 
 export function projectBySlug(slug: string): Project | undefined {
   return PROJECTS.find((project) => project.slug === slug)

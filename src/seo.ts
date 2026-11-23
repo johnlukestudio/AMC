@@ -4,7 +4,7 @@ import { absoluteUrl, resolveRoute, type RouteId } from "./routes"
 
 const SITE_NAME = "American Millwork & Cabinetry"
 const DEFAULT_DESCRIPTION =
-  "American Millwork & Cabinetry builds custom architectural millwork, cabinetry and surfaces in the Lehigh Valley, PA. In-house fabrication for commercial projects since 2003."
+  "American Millwork & Cabinetry builds custom architectural millwork, cabinetry and countertops in the Lehigh Valley, PA. Founded in 2002."
 const SITE_URL = "https://www.amcmillwork.com"
 
 type SeoEntry = { title: string; description: string }
@@ -13,7 +13,7 @@ const SERVICE_TITLES: Record<string, string> = {
   millwork: "Millwork",
   casework: "Casework",
   acoustical: "Acoustical",
-  surfaces: "Surfaces",
+  surfaces: "Countertops",
 }
 
 const PORTFOLIO_TITLES: Record<string, string> = {
@@ -31,7 +31,7 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
   about: {
     title: `About | ${SITE_NAME}`,
     description:
-      "Learn about American Millwork & Cabinetry: custom architectural millwork and cabinetry from our Lehigh Valley shop since 2003.",
+      "Learn about American Millwork & Cabinetry, founded in 2002: custom architectural millwork and cabinetry from our Lehigh Valley shop.",
   },
   "casework-vs-millwork": {
     title: `Casework vs Millwork | ${SITE_NAME}`,
@@ -66,12 +66,12 @@ const ROUTE_SEO: Record<string, SeoEntry> = {
   portfolio: {
     title: `Portfolio | ${SITE_NAME}`,
     description:
-      "Selected architectural millwork, casework and acoustical projects by American Millwork & Cabinetry.",
+      "Selected architectural millwork and casework projects by American Millwork & Cabinetry.",
   },
   millwork: {
     title: `Portfolio | ${SITE_NAME}`,
     description:
-      "Selected architectural millwork, casework and acoustical projects by American Millwork & Cabinetry.",
+      "Selected architectural millwork and casework projects by American Millwork & Cabinetry.",
   },
   project: {
     title: `Project | ${SITE_NAME}`,
@@ -127,6 +127,12 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
   if (id === "division") {
     const names: Record<string, string> = { "amc-installers": "AMC Installers", "amc-acoustical": "AMC Acoustical", "american-surfaces": "American Surfaces" }
     const name = names[slug] ?? "Divisions"
+    if (slug === "american-surfaces") {
+      return {
+        title: `American Surfaces | ${SITE_NAME}`,
+        description: "American Surfaces fabricates and installs solid surface countertops, including Corian, from the Lehigh Valley, PA.",
+      }
+    }
     return { title: `${name} | ${SITE_NAME}`, description: `${name}, a division of ${SITE_NAME} in the Lehigh Valley, PA.` }
   }
 
@@ -190,7 +196,12 @@ const ORGANIZATION_JSON_LD = {
     postalCode: "18049",
     addressCountry: "US",
   },
-  sameAs: [],
+  sameAs: [
+    "https://www.facebook.com/AMCMillwork",
+    "https://www.linkedin.com/company/american-millwork-&-cabinetry/",
+    "https://www.youtube.com/@americanmillworkcabinetry1712",
+    "https://www.instagram.com/amcmillwork/",
+  ],
 }
 
 const VIDEO_JSON_LD = {
