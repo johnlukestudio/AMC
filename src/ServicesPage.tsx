@@ -385,6 +385,15 @@ const FAQ = [
   },
 ]
 
+const ACOUSTIC_FAQ = FAQ.map((item) =>
+  item.q === "Do you offer custom finishes?"
+    ? {
+        q: item.q,
+        a: "Yes. Wood veneer and plastic laminate panels are available in a range of wood species and finishes. Fabric ceiling and wall panels can be matched to a specified fabric. Linear wood, coffered ceilings, and other custom designs are engineered and fabricated for the space.",
+      }
+    : item,
+)
+
 /* Staggered clip-reveal shared with the homepage services list. */
 export function useRowReveal(count: number) {
   const rows = useRef<(HTMLElement | null)[]>([])
@@ -481,16 +490,16 @@ function ItemCard({ item, compact = false }: { item: Item; compact?: boolean }) 
   )
 }
 
-function Faq() {
+function Faq({ n = "04", items = FAQ }: { n?: string; items?: { q: string; a: string }[] }) {
   const [open, setOpen] = useState(0)
   return (
     <section className="mx-auto max-w-[1750px] px-6 py-24 md:px-10 md:py-32">
       <div className="grid gap-10 md:grid-cols-[35%_1fr]">
         <h2 className="text-h2-s md:text-h2-m xl:text-h2-l leading-[1] tracking-[-0.03em] ">
-          FAQ<sup className="ml-2 align-super text-caption-s tracking-normal text-black/50">[04]</sup>
+          FAQ<sup className="ml-2 align-super text-caption-s tracking-normal text-black/50">[{n}]</sup>
         </h2>
         <ul className="border-t border-black/15">
-          {FAQ.map((f, i) => (
+          {items.map((f, i) => (
             <li key={f.q} className="border-b border-black/15">
               <button
                 onClick={() => setOpen(open === i ? -1 : i)}
@@ -675,8 +684,11 @@ export function ServiceDetail() {
   return (
     <>
       <section className="mx-auto max-w-[1750px] px-6 pt-32 md:px-10 md:pt-[160px]">
-        <a href="/services/" className="text-caption-m text-black/60 transition-colors hover:text-black">
-          ← {s.kicker}
+        <a
+          href={s.slug === "acoustical" ? "/divisions/amc-acoustical/" : "/services/"}
+          className="text-caption-m text-black/60 transition-colors hover:text-black"
+        >
+          ← {s.slug === "acoustical" ? "AMC Acoustical" : "Services"}
         </a>
         <div className="mt-6 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <h1 className="text-h1-s md:text-h1-m xl:text-h1-l leading-[0.95] tracking-[-0.04em] ">{s.title}</h1>
@@ -790,7 +802,7 @@ export function ServiceDetail() {
         </div>
       </section>
 
-      <Faq />
+      <Faq n="05" items={s.slug === "acoustical" ? ACOUSTIC_FAQ : FAQ} />
 
       <section className="mx-auto max-w-[1750px] px-6 pb-24 md:px-10 md:pb-32">
         <a href={`/services/${next.slug}/`} className="group flex items-end justify-between gap-6 border-y border-black/15 py-12">

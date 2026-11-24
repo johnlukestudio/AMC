@@ -440,12 +440,13 @@ function Hero() {
   }, [])
   return (
     <>
+    <h1 className="sr-only">America's Millwork</h1>
     <section className="bg-white px-6 pt-[150px] pb-16 md:hidden">
-      <h1 className="text-center font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[15vw]">
+      <p aria-hidden="true" className="text-center font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[15vw]">
         America's
         <br />
         Millwork
-      </h1>
+      </p>
       <div className="mt-8 grid grid-cols-2 gap-3">
         {HERO_CATEGORIES.map((c, i) => (
           <figure key={c.name}>
@@ -569,10 +570,10 @@ function Hero() {
 
         {/* Big headline - spans full width, edge to edge */}
         <div className="pointer-events-none relative z-10 mx-auto w-full max-w-[1750px] px-6 pb-8 md:px-10 md:pb-12">
-          <h1 className="w-full text-center font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[15vw] md:whitespace-nowrap md:text-[min(8.7vw,152px)]">
+          <p aria-hidden="true" className="w-full text-center font-normal uppercase leading-[0.9] tracking-[-0.03em] text-[15vw] md:whitespace-nowrap md:text-[min(8.7vw,152px)]">
             America's <br className="md:hidden" />
             Millwork
-          </h1>
+          </p>
         </div>
       </div>
     </section>
@@ -1107,7 +1108,7 @@ function Footer() {
           </div>
 
           <div className="lg:col-span-3">
-            <h4 className="text-h4-m font-bold xl:text-h4-l">Get in touch</h4>
+            <h2 className="text-h4-m font-bold xl:text-h4-l">Get in touch</h2>
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-5 text-body2-s sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
               <div>
                 <div className="text-white/70">Email</div>

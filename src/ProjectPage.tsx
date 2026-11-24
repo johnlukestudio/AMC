@@ -161,7 +161,7 @@ export function ProjectPage({ slug }: { slug: string }) {
             </h2>
           </div>
           <a
-            href="/portfolio/millwork/"
+            href="/portfolio/all/"
             className="pb-2 text-body2-s text-black/60 transition-colors hover:text-black"
           >
             All projects →

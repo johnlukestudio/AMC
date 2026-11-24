@@ -62,7 +62,7 @@ function applyHead(html, seo, jsonLd) {
     `<meta name="description" content="${escapeAttr(seo.description)}" />`,
     `<meta property="og:title" content="${escapeAttr(seo.title)}" />`,
     `<meta property="og:description" content="${escapeAttr(seo.description)}" />`,
-    `<meta property="og:type" content="website" />`,
+    `<meta property="og:type" content="${seo.type === "article" ? "article" : "website"}" />`,
     `<meta property="og:site_name" content="American Millwork &amp; Cabinetry" />`,
     `<meta name="twitter:title" content="${escapeAttr(seo.title)}" />`,
     `<meta name="twitter:description" content="${escapeAttr(seo.description)}" />`,
@@ -152,20 +152,14 @@ try {
 
   for (const [from, to] of Object.entries(ALIASES)) {
     const dest = publicPath(to)
-    const stub = `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="robots" content="noindex, nofollow" />
-<link rel="canonical" href="${absoluteUrl(to)}" />
-<meta http-equiv="refresh" content="0;url=${dest}" />
-<script>location.replace(${JSON.stringify(dest)})</script>
-<title>Redirecting…</title>
-</head>
-<body></body>
-</html>
+    const php = `<?php
+header("Location: ${dest}", true, 301);
+header("X-Robots-Tag: noindex");
+exit;
 `
-    writeHtml(path.join(dist, from.slice(1), "index.html"), stub)
+    const file = path.join(dist, from.slice(1), "index.php")
+    fs.mkdirSync(path.dirname(file), { recursive: true })
+    fs.writeFileSync(file, php)
   }
 
   const urls = paths
