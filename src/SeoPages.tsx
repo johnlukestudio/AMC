@@ -364,10 +364,6 @@ export function CommercialCaseworkPage() {
           AWI and QCP certified. Family business founded in 2002 in the Lehigh Valley. Browse the{" "}
           <a href="/portfolio/casework/" className="underline underline-offset-4 text-black">
             casework portfolio
-          </a>{" "}
-          or the full{" "}
-          <a href="/americase/" className="underline underline-offset-4 text-black">
-            AmeriCase commercial casework hub
           </a>
           .
         </p>
@@ -525,10 +521,6 @@ export function ArchitecturalMillworkPage() {
           Explore the{" "}
           <a href="/portfolio/millwork/" className="underline underline-offset-4 text-black">
             millwork portfolio
-          </a>{" "}
-          or the{" "}
-          <a href="/services/architectural-millwork/" className="underline underline-offset-4 text-black">
-            Architectural millwork hub
           </a>
           . For commercial cabinets and storage, see{" "}
           <a href="/americase/" className="underline underline-offset-4 text-black">

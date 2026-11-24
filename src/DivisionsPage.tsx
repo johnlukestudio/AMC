@@ -210,7 +210,7 @@ export function DivisionPage() {
                   )}
                 </div>
               )}
-              <h3 className="text-h4-m leading-[1.25]">{c.title}</h3>
+              <h2 className="text-h4-m leading-[1.25]">{c.title}</h2>
               {c.body ? <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{c.body}</p> : null}
             </article>
           ))}
@@ -225,7 +225,7 @@ export function DivisionPage() {
               {d.steps.map((s, i) => (
                 <li key={s.title} className="border-t border-black/20 pt-6">
                   <span className="text-caption-s text-black/50">Step {String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="mt-4 text-h4-m leading-[1.25]">{s.title}</h3>
+                  <h2 className="mt-4 text-h4-m leading-[1.25]">{s.title}</h2>
                   {s.body ? <p className="mt-3 text-body2-s leading-[1.6] text-black/60">{s.body}</p> : null}
                 </li>
               ))}

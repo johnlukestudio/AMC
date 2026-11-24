@@ -1,5 +1,8 @@
 # Always revalidate the HTML shell so new deploys show without a hard refresh.
 <IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=15552000"
+</IfModule>
+<IfModule mod_headers.c>
   <FilesMatch "\.(html|webmanifest)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
@@ -33,6 +36,13 @@
   RewriteEngine On
   RewriteBase /
 
+  # Real 301s. Relative targets so the scheme stays HTTPS.
+  RewriteRule ^index\.html$ / [R=301,L]
+  RewriteRule ^portfolio/?$ /portfolio/all/ [R=301,L]
+  RewriteRule ^portfolio/project/?$ /portfolio/all/ [R=301,L]
+  RewriteRule ^insights/?$ /insights/casework-vs-millwork/ [R=301,L]
+  RewriteRule ^news/pa-construction-may-resume/?$ /news/ [R=301,L]
+
   # Each route is a real directory with index.html, which nginx can serve.
   # These 301s run when the request reaches Apache (before that directory index).
   RewriteRule ^services/commercial-casework/?$ /americase/ [R=301,L,QSA]
@@ -40,10 +50,6 @@
   RewriteRule ^services/millwork/?$ /services/architectural-millwork/ [R=301,L,QSA]
   RewriteRule ^installers/?$ /divisions/amc-installers/ [R=301,L,QSA]
   RewriteRule ^divisions/american-installers/?$ /divisions/amc-installers/ [R=301,L,QSA]
-  RewriteRule ^portfolio/?$ /portfolio/millwork/ [R=301,L,QSA]
-  RewriteRule ^portfolio/project/?$ /portfolio/project/ave-blue-bell/ [R=301,L,QSA]
-  RewriteRule ^index\.html$ / [R=301,L]
-
   # /about (no slash) is a directory. Leave /about/ alone.
   # Unknown /missing/ still drops the slash before the 404 below.
   RewriteCond %{REQUEST_FILENAME} !-d

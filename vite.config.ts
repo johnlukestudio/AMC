@@ -6,6 +6,7 @@ import path from 'node:path'
 import type { ServerResponse } from 'node:http'
 
 import siteConfiguration from './.figma/make/site.json'
+import { robotsTxt } from './src/launch.ts'
 import { ALIASES, aliasTarget, normalizePath, publicPath } from './src/routes.ts'
 
 // Vite config — https://vitejs.dev/config/
@@ -187,32 +188,25 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
   const headEnd = config.customScripts?.headEnd ?? ''
   const bodyStart = config.customScripts?.bodyStart ?? ''
   const bodyEnd = config.customScripts?.bodyEnd ?? ''
-  // The beta stays out of search results. /email/ is the exception: Gmail's
-  // image proxy and other mail clients fetch the signature logo, and a
-  // sitewide Disallow blocks that fetch. Allow is more specific than
-  // Disallow: /, so only that directory is fetchable.
-  const robotsTxt =
-    config.robots?.index === false
-      ? 'User-agent: *\nAllow: /email/\nDisallow: /\n\nUser-agent: GoogleImageProxy\nAllow: /email/\nDisallow: /\n'
-      : ''
+  const robotsBody = config.robots?.index === false ? robotsTxt() : ''
 
   return {
     name: 'figma-site-configuration',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        if (!robotsTxt || req.url?.split('?')[0] !== '/robots.txt') return next()
+        if (!robotsBody || req.url?.split('?')[0] !== '/robots.txt') return next()
 
         res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-        res.end(robotsTxt)
+        res.end(robotsBody)
       })
     },
     generateBundle() {
-      if (!robotsTxt) return
+      if (!robotsBody) return
 
       this.emitFile({
         type: 'asset',
         fileName: 'robots.txt',
-        source: robotsTxt,
+        source: robotsBody,
       })
     },
     transformIndexHtml: {

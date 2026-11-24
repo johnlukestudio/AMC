@@ -166,6 +166,10 @@ const PORTFOLIO_ORDER = [
   "lehigh-country-club",
   "washington-crossing",
   "lancaster-history",
+  "l-l-bean",
+  "kutztown-cafe",
+  "hand-middle-school",
+  "phoenixville-photos",
 ]
 
 export const PROJECTS: Project[] = PORTFOLIO_ORDER.map((slug) => {

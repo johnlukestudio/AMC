@@ -1,15 +1,31 @@
 import { NEWS } from "./NewsPage"
+import { ROBOTS_META } from "./launch"
+import { portfolioSources } from "./portfolio-photos"
 import { projectBySlug } from "./projects"
 import { absoluteUrl, resolveRoute, SITE_ORIGIN, type RouteId } from "./routes"
 
 const SITE_NAME = "American Millwork & Cabinetry"
 const DEFAULT_DESCRIPTION =
   "American Millwork & Cabinetry builds custom architectural millwork, cabinetry and countertops in the Lehigh Valley, PA. Founded in 2002."
-const SITE_URL = "https://www.amcmillwork.com"
+type SeoEntry = { title: string; description: string; image?: string; type?: "website" | "article" }
 
-type SeoEntry = { title: string; description: string; image?: string }
+const NEWS_SEO_TITLES: Record<string, string> = {
+  "awi-award-of-excellence": "AWI Award of Excellence",
+  "awi-project-management-seminar": "AWI Seminar in Emmaus",
+  "altitude-marketing-desk-shields": "Altitude Desk Shields",
+  "covid-19-custom-partitions": "COVID-19 Partitions",
+  "north-shore-animal-league": "North Shore Animal League",
+  "second-harvest-lehigh-valley": "Second Harvest Donation",
+  "awi-self-labeling": "AWI Self-Labeling",
+  "ember-berwyn-design-solutions-cover": "Ember @ Berwyn Cover",
+}
 
-const DEFAULT_OG_IMAGE = "/media/factory/bc70d6ea_image.png"
+function absoluteAsset(path?: string) {
+  const fallback = `${SITE_ORIGIN}/media/factory/bc70d6ea_image.png`
+  if (!path) return fallback
+  if (path.startsWith("http")) return path
+  return `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`
+}
 
 const SERVICE_TITLES: Record<string, string> = {
   millwork: "Millwork",
@@ -153,8 +169,9 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
   if (id === "article") {
     const post = NEWS.find((item) => item.slug === slug)
     if (!post) return ROUTE_SEO.news
-    const image = post.img ? `${SITE_ORIGIN}${post.img}` : undefined
-    return { title: `${post.title} | ${SITE_NAME}`, description: post.excerpt, image }
+    const image = absoluteAsset(post.img)
+    const headline = NEWS_SEO_TITLES[post.slug] ?? post.title
+    return { title: `${headline} | ${SITE_NAME}`, description: post.excerpt, image, type: "article" as const }
   }
 
   if (id === "portfolio") {
@@ -171,6 +188,7 @@ function resolveSeo(id: RouteId, slug: string): SeoEntry {
     return {
       title: `${project.name} | ${SITE_NAME}`,
       description: `${project.name}. Custom millwork by American Millwork & Cabinetry, fabricated in the Lehigh Valley, PA.`,
+      image: absoluteAsset(portfolioSources(project.image).src),
     }
   }
 
@@ -188,9 +206,10 @@ export function seoForPath(pathname: string): SeoMeta {
 
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": ["Organization", "LocalBusiness"],
   name: SITE_NAME,
-  url: SITE_URL,
+  url: SITE_ORIGIN,
+  telephone: "+1-610-965-0040",
   address: {
     "@type": "PostalAddress",
     streetAddress: "840 Broad St",
@@ -210,10 +229,10 @@ const ORGANIZATION_JSON_LD = {
 const VIDEO_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "VideoObject",
-  name: "Who We Are | American Millwork & Cabinetry, Custom Millwork Since 2003",
+  name: "Who We Are | American Millwork & Cabinetry, Custom Millwork Since 2002",
   description:
     "A short film from the AMC shop in the Lehigh Valley, PA. See custom millwork built to field dimensions, vertical milling and QC at every step, then hear from employees about career growth and family values.",
-  thumbnailUrl: "https://beta.amcmillwork.com/media/amc-film-poster.jpg",
+  thumbnailUrl: `${SITE_ORIGIN}/media/amc-film-poster.jpg`,
   embedUrl: "https://www.youtube.com/embed/74eBYIORrts",
   contentUrl: "https://www.youtube.com/watch?v=74eBYIORrts",
   duration: "PT2M9S",
@@ -224,6 +243,7 @@ const RECRUITING_VIDEO_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "VideoObject",
   name: "Careers at American Millwork & Cabinetry | Now Hiring in Lehigh Valley, PA",
+  description: "Careers at American Millwork & Cabinetry. Now hiring in the Lehigh Valley, PA.",
   thumbnailUrl: "https://i.ytimg.com/vi/isCjg7Zgrjs/maxresdefault.jpg",
   embedUrl: "https://www.youtube.com/embed/isCjg7Zgrjs",
   contentUrl: "https://www.youtube.com/watch?v=isCjg7Zgrjs",
@@ -233,9 +253,63 @@ const RECRUITING_VIDEO_JSON_LD = {
 const VIDEO_ROUTES = new Set<RouteId>(["about", "careers"])
 const RECRUITING_VIDEO_JSON_ID = "amc-recruiting-video-jsonld"
 
+function breadcrumbJsonLd(pathname: string) {
+  const route = resolveRoute(pathname)
+  if (route.id === "home" || route.id === "not-found") return null
+  const seo = seoForPath(pathname)
+  const crumbs = [
+    { name: "Home", item: `${SITE_ORIGIN}/` },
+    { name: seo.title.replace(` | ${SITE_NAME}`, ""), item: seo.canonical ?? absoluteUrl(pathname) },
+  ]
+  if (route.id === "article") {
+    crumbs.splice(1, 0, { name: "News", item: `${SITE_ORIGIN}/news/` })
+  } else if (route.id === "project" || route.id === "portfolio") {
+    crumbs.splice(1, 0, { name: "Portfolio", item: `${SITE_ORIGIN}/portfolio/all/` })
+  } else if (route.id === "service" || route.id === "architectural-millwork") {
+    crumbs.splice(1, 0, { name: "Services", item: `${SITE_ORIGIN}/services/` })
+  } else if (route.id === "division") {
+    crumbs.splice(1, 0, { name: "Divisions", item: `${SITE_ORIGIN}/divisions/amc-installers/` })
+  }
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.name,
+      item: crumb.item,
+    })),
+  }
+}
+
+function articleJsonLd(pathname: string) {
+  const route = resolveRoute(pathname)
+  if (route.id !== "article") return null
+  const post = NEWS.find((item) => item.slug === route.slug)
+  if (!post) return null
+  const seo = seoForPath(pathname)
+  const parsed = new Date(post.date)
+  const data: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: post.title,
+    description: post.excerpt,
+    image: absoluteAsset(post.img),
+    mainEntityOfPage: seo.canonical,
+    author: { "@type": "Organization", name: SITE_NAME },
+    publisher: { "@type": "Organization", name: SITE_NAME },
+  }
+  if (!Number.isNaN(parsed.getTime())) data.datePublished = parsed.toISOString().slice(0, 10)
+  return data
+}
+
 export function jsonLdForPath(pathname: string): { id: string; data: object }[] {
   const route = resolveRoute(pathname)
   const blocks: { id: string; data: object }[] = [{ id: "amc-organization-jsonld", data: ORGANIZATION_JSON_LD }]
+  const crumbs = breadcrumbJsonLd(pathname)
+  if (crumbs) blocks.push({ id: "amc-breadcrumb-jsonld", data: crumbs })
+  const article = articleJsonLd(pathname)
+  if (article) blocks.push({ id: "amc-article-jsonld", data: article })
   if (VIDEO_ROUTES.has(route.id)) blocks.push({ id: "amc-video-jsonld", data: VIDEO_JSON_LD })
   if (route.id === "careers") blocks.push({ id: RECRUITING_VIDEO_JSON_ID, data: RECRUITING_VIDEO_JSON_LD })
   return blocks
@@ -261,18 +335,18 @@ function removeMeta(attr: "name" | "property", key: string) {
 
 /** Update document title and meta tags for the current path. Keeps noindex. */
 export function applySeo(pathname: string) {
-  const { title, description, canonical, image } = seoForPath(pathname)
+  const { title, description, canonical, image, type } = seoForPath(pathname)
   const route = resolveRoute(pathname)
 
   document.title = title
   document.documentElement.lang = "en"
 
   upsertMeta("name", "description", description)
-  upsertMeta("name", "robots", "noindex, nofollow")
+  upsertMeta("name", "robots", ROBOTS_META)
 
   upsertMeta("property", "og:title", title)
   upsertMeta("property", "og:description", description)
-  upsertMeta("property", "og:type", "website")
+  upsertMeta("property", "og:type", type ?? "website")
   upsertMeta("property", "og:site_name", SITE_NAME)
   if (canonical) upsertMeta("property", "og:url", canonical)
   else removeMeta("property", "og:url")
@@ -280,7 +354,7 @@ export function applySeo(pathname: string) {
   upsertMeta("name", "twitter:title", title)
   upsertMeta("name", "twitter:description", description)
 
-  const ogImage = image ?? DEFAULT_OG_IMAGE
+  const ogImage = absoluteAsset(image)
   upsertMeta("property", "og:image", ogImage)
   upsertMeta("name", "twitter:image", ogImage)
 

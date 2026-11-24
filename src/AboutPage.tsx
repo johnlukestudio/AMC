@@ -95,7 +95,7 @@ function CardBody({ item: t, onClick }: { item: Milestone; onClick: (e: React.Mo
         )}
       </div>
       <h3 className="mt-3 text-h4-s">{t.title}</h3>
-      <p className="mt-2 max-w-[200px] text-body2-s text-black/60">{t.body}</p>
+      <p className="mt-2 max-w-[200px] text-body2-s text-black/80">{t.body}</p>
     </>
   )
   if (!t.href) return inner
@@ -449,6 +449,8 @@ function CountUpStat({ value, delay = 0 }: { value: string; delay?: number }) {
 }
 
 const STATS = [
+  // 2026 minus a 2002 founding is 24 only if the anniversary month has passed.
+  // The month is not on the site, so 23+ stays accurate either way.
   { n: "23+", title: "Years experience", body: "Founded in 2002" },
   { n: "~83", title: "People across the shop", body: "About 50 on the floor, ~22 in the office, 9 to 11 on install, six in estimating, five in project management" },
   { n: "80k", title: "Sq. ft. facility", body: "Our Lehigh Valley, PA plant houses every operation" },
@@ -486,19 +488,19 @@ const TIMELINE: Milestone[] = [
   { year: "2009", kind: "Growth", sqft: 30000, title: "Doubled the floor", body: "Grew to 30,000 sq ft.", img: `${asset}/factory/bc70d6ea_image.png` },
   { year: "2011", kind: "Growth", sqft: 50000, title: "Americas production", body: "2010-2011: another 20,000 sq ft for the Americas production division.", img: `${asset}/factory/6cf042d6_image.png` },
   { year: "2014", kind: "Growth", sqft: 55000, title: "Americas warehouse", body: "A few years later, another 5,000 sq ft warehouse to support Americas.", img: `${asset}/08f78.png` },
-  { year: "2015", kind: "Technology", title: "A Schelling saw for AmeriCase", body: "February 2015: AMC installs a Schelling panel saw and retrieval system for the AmeriCase line, the first of its kind in a U.S. architectural millwork plant.", img: `${asset}/about/timeline/schelling-saw-700.jpg`, srcBase: `${asset}/about/timeline/schelling-saw`, widths: [480, 700], href: "https://amcmillwork.com/new-panel-retrieval-system-puts-amc-cutting-edge/", alt: "Schelling panel saw and retrieval system installed for the AmeriCase line, from AMC's February 2015 news post." },
-  { year: "2016", kind: "Recognition", title: "Bay Head in Design Solutions", body: "Bay Head Yacht Club's restoration after Superstorm Sandy is featured in AWI Design Solutions.", img: `${asset}/about/timeline/bay-head-ds-680.jpg`, srcBase: `${asset}/about/timeline/bay-head-ds`, widths: [480, 680], href: "https://amcmillwork.com/bay-head-yacht-club-featured-on-design-solutions/", alt: "Bay Head Yacht Club interior woodwork, from AMC's Design Solutions news post." },
-  { year: "2016", kind: "Industry", title: "NJ AWI tours the plant", body: "November 2016: the New Jersey AWI chapter tours the AMC plant in the Lehigh Valley.", img: `${asset}/about/timeline/njawi-tour-2016-984.jpg`, srcBase: `${asset}/about/timeline/njawi-tour-2016`, widths: [480, 960, 984], href: "https://amcmillwork.com/awi-architectural-woodworking-institute-takes-a-plant-tour/", alt: "A machinist at the AMC plant during the New Jersey AWI chapter tour, from the November 2016 news post." },
+  { year: "2015", kind: "Technology", title: "A Schelling saw for AmeriCase", body: "February 2015: AMC installs a Schelling panel saw and retrieval system for the AmeriCase line, the first of its kind in a U.S. architectural millwork plant.", img: `${asset}/about/timeline/schelling-saw-700.jpg`, srcBase: `${asset}/about/timeline/schelling-saw`, widths: [480, 700], href: "/americase/", alt: "Schelling panel saw and retrieval system installed for the AmeriCase line, from AMC's February 2015 news post." },
+  { year: "2016", kind: "Recognition", title: "Bay Head in Design Solutions", body: "Bay Head Yacht Club's restoration after Superstorm Sandy is featured in AWI Design Solutions.", img: `${asset}/about/timeline/bay-head-ds-680.jpg`, srcBase: `${asset}/about/timeline/bay-head-ds`, widths: [480, 680], href: "/portfolio/project/bay-head-yacht-club/", alt: "Bay Head Yacht Club interior woodwork, from AMC's Design Solutions news post." },
+  { year: "2016", kind: "Industry", title: "NJ AWI tours the plant", body: "November 2016: the New Jersey AWI chapter tours the AMC plant in the Lehigh Valley.", img: `${asset}/about/timeline/njawi-tour-2016-984.jpg`, srcBase: `${asset}/about/timeline/njawi-tour-2016`, widths: [480, 960, 984], alt: "A machinist at the AMC plant during the New Jersey AWI chapter tour, from the November 2016 news post." },
   { year: "2018", kind: "Industry", title: "NJ and PA chapters meet here", body: "February 2018: AMC hosts a joint meeting of the New Jersey and Pennsylvania AWI chapters.", img: `${asset}/factory/2777aef6_image.png`, alt: "AMC craftspeople assembling millwork on the Emmaus shop floor." },
-  { year: "2019", kind: "Quality", title: "AWI QCP self-labeling", body: "April 2019: AMC reaches AWI Quality Certification Program self-labeling status.", img: `${asset}/factory/11af8e22_image.png`, href: "https://amcmillwork.com/american-millwork-cabinetrys-awi-status-changed-to-self-labeling/", alt: "An AMC craftsman measuring a panel in the Emmaus shop." },
+  { year: "2019", kind: "Quality", title: "AWI QCP self-labeling", body: "April 2019: AMC reaches AWI Quality Certification Program self-labeling status.", img: `${asset}/factory/11af8e22_image.png`, href: "/news/awi-self-labeling/", alt: "An AMC craftsman measuring a panel in the Emmaus shop." },
   { year: "2019", kind: "Award", title: "ABC STEP Diamond", body: "Late 2019 into early 2020: Association of Builders and Contractors STEP Award at Diamond Level, for the greatest safety improvement.", img: `${asset}/about/awards/step-diamond.jpg` },
   { year: "2020", kind: "Award", title: "Zero Lost Time", body: "Over 100,000 man hours with zero lost time in one fiscal year. Recognized with Federated Insurance and AWI partners.", img: `${asset}/about/awards/zero-lost-time.jpg` },
   { year: "2020", kind: "Award", title: "Safety Improvement", body: "Safety Improvement Recognition for year-over-year gains and the programs that stuck.", img: `${asset}/about/awards/safety-improvement.jpg` },
   { year: "2020", kind: "Award", title: "Fire certification", body: "Fire certification on record for the plant and our America's Finest standard.", img: `${asset}/about/awards/fire-cert.png` },
   { year: "2021", kind: "Award", title: "AWI Award of Excellence", body: "February 2021: AWI Award of Excellence for AVE Blue Bell luxury apartments, featured in Design Solutions Magazine.", img: `${asset}/about/timeline/awi-excellence-1400.jpg`, srcBase: `${asset}/about/timeline/awi-excellence`, widths: [480, 960, 1400], alt: "AWI Award of Excellence, 2021. The seal centers the Architectural Woodwork Institute logo from awinet.org." },
   { year: "2021", kind: "Quality", title: "NJ Public Works", body: "State of New Jersey Public Works Contractor Registration #663358. Registration date March 12, 2021. George Reitz, President.", img: `${asset}/about/awards/nj-public-works.jpg` },
-  { year: "2021", kind: "Award", title: "Zero Lost Time again", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/step-2020.jpg` },
-  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/about/timeline/flag-exterior-1400.jpg`, srcBase: `${asset}/about/timeline/flag-exterior`, widths: [480, 960, 1400], alt: "American flag in front of the American Millwork and Cabinetry plant in Emmaus." },
+  { year: "2021", kind: "Award", title: "Zero Lost Time Recognition", body: "Another Zero Lost Time recognition on the America's Finest standard wall, kept beside the STEP and safety awards.", img: `${asset}/about/awards/step-2020.jpg` },
+  { year: "2022", kind: "Growth", sqft: 80000, title: "80,000 sq ft today", body: "Another 5,000 sq ft for solid surface and Corian. About 83 people across the shop.", img: `${asset}/about/timeline/flag-exterior-1124.jpg`, srcBase: `${asset}/about/timeline/flag-exterior`, widths: [480, 960, 1124], alt: "American flag in front of the American Millwork and Cabinetry plant in Emmaus." },
   { year: "2022", kind: "Quality", title: "AWI & QCP renewals", body: "AWI membership and QCP certificates renewed. AMC, AMC Installers, and AmeriCase are QCP-certified. Long-term AWI members in good standing.", img: `${asset}/about/awards/awi-2022.jpg` },
   { year: "2023", kind: "Growth", title: "AMC Acoustical launches", body: "AMC launches AMC Acoustical, for acoustic panels, ceilings and sound control.", img: `${asset}/acoustical/wood-veneer-1024.jpg`, href: "/divisions/amc-acoustical/", alt: "Wood veneer acoustic panels from AMC Acoustical." },
   { year: "2023", kind: "Growth", title: "20,000 sq ft addition", body: "Nearing completion in June 2023: a new building for AMC Acoustical (panels and ceiling tiles) and solid surface and Corian work for healthcare, plus more cabinetry floor space. Expecting 35 to 40 new hires.", img: `${asset}/about/timeline/aerial-plant-1400.jpg`, srcBase: `${asset}/about/timeline/aerial-plant`, widths: [480, 960, 1400], alt: "High aerial view of the American Millwork and Cabinetry buildings in Emmaus, showing the size of the plant." },
@@ -510,10 +512,10 @@ const TIMELINE: Milestone[] = [
   { year: "2026", kind: "Company", title: "The industry learns at AMC", body: "AWI brings its two-day project management seminar, \"Tame the Chaos,\" to our Emmaus plant. About 70 woodwork professionals spend Oct. 1 and 2 learning on our shop floor.", img: `${asset}/about/timeline/awi-seminar-836.jpg`, srcBase: `${asset}/about/timeline/awi-seminar`, widths: [480, 836], href: "/news/awi-project-management-seminar/", alt: "Wide view of the AWI Project Management seminar in session inside the AMC shop, October 2026." },
 ]
 
-const TEAM = [
-  { name: "George Reitz", role: "President & CEO", img: `${asset}/about/chris.jpg` },
+const TEAM: { name: string; role: string; img: string; webp?: string }[] = [
+  { name: "George Reitz", role: "President & CEO", img: `${asset}/about/george.jpg`, webp: `${asset}/about/george.webp` },
   { name: "Linda Reitz", role: "Office Manager", img: `${asset}/about/linda.jpg` },
-  { name: "Chris Robbins", role: "General Manager", img: `${asset}/about/george.jpg` },
+  { name: "Chris Robbins", role: "General Manager", img: `${asset}/about/chris.jpg`, webp: `${asset}/about/chris.webp` },
   { name: "Meredith", role: "VP of Operations", img: `${asset}/about/meredith.jpg` },
 ]
 
@@ -686,7 +688,10 @@ export function AboutPage() {
           {TEAM.map((m) => (
             <figure key={m.name}>
               <div className="aspect-[4/5] overflow-hidden bg-neutral-100">
-                <img src={m.img} alt={m.name} className="size-full object-cover transition duration-500" />
+                <picture>
+                  {m.webp && <source type="image/webp" srcSet={m.webp} />}
+                  <img src={m.img} alt={m.name} className="size-full object-cover transition duration-500" />
+                </picture>
               </div>
               <figcaption className="mt-3 flex justify-between gap-3 text-caption-m">
                 <span>{m.name}</span>

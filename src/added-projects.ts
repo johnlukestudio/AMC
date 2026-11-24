@@ -1,4 +1,12 @@
+import type { PortfolioPhotoId } from "./portfolio-photos"
 import type { Project } from "./projects"
+
+function gallery(prefix: string, count: number, alt: string) {
+  return Array.from({ length: count }, (_, i) => ({
+    src: `${prefix}-${String(i + 2).padStart(2, "0")}` as PortfolioPhotoId,
+    alt,
+  }))
+}
 
 /** Projects added from the live amcmillwork.com portfolio. Galleries are the photos on each live project page. Those pages have no written descriptions. */
 export const ADDED_PROJECTS: Project[] = [
@@ -313,6 +321,50 @@ export const ADDED_PROJECTS: Project[] = [
       { src: "lancaster-history-19", alt: "Lancaster History" },
       { src: "lancaster-history-20", alt: "Lancaster History" },
     ],
+    cls: "md:col-span-6",
+    ratio: "aspect-[3/2]",
+  },
+  {
+    slug: "l-l-bean",
+    name: "L.L. Bean",
+    year: "",
+    categories: ["millwork"],
+    image: "ll-bean-01",
+    alt: "L.L. Bean",
+    gallery: gallery("ll-bean", 15, "L.L. Bean"),
+    cls: "md:col-span-6",
+    ratio: "aspect-[3/2]",
+  },
+  {
+    slug: "kutztown-cafe",
+    name: "Kutztown Cafe",
+    year: "",
+    categories: ["millwork"],
+    image: "kutztown-cafe-01",
+    alt: "Kutztown Cafe",
+    gallery: gallery("kutztown-cafe", 15, "Kutztown Cafe"),
+    cls: "md:col-span-6",
+    ratio: "aspect-[3/2]",
+  },
+  {
+    slug: "hand-middle-school",
+    name: "Hand Middle School",
+    year: "",
+    categories: ["casework"],
+    image: "hand-middle-school-01",
+    alt: "Hand Middle School",
+    gallery: gallery("hand-middle-school", 13, "Hand Middle School"),
+    cls: "md:col-span-6",
+    ratio: "aspect-[3/2]",
+  },
+  {
+    slug: "phoenixville-photos",
+    name: "Phoenixville Photos",
+    year: "",
+    categories: ["casework"],
+    image: "phoenixville-photos-01",
+    alt: "Phoenixville Photos",
+    gallery: gallery("phoenixville-photos", 8, "Phoenixville Photos"),
     cls: "md:col-span-6",
     ratio: "aspect-[3/2]",
   },

@@ -1,8 +1,9 @@
 /** Path routing for the beta site. Hash URLs (#/about) never reach the server. */
 
+import { SITE_LAUNCH } from "./launch"
 import { projectPathnames, PROJECTS } from "./projects"
 
-export const SITE_ORIGIN = "https://beta.amcmillwork.com"
+export const SITE_ORIGIN = SITE_LAUNCH.origin
 
 export const NAVIGATE_EVENT = "amc-navigate"
 
@@ -13,9 +14,10 @@ export const ALIASES: Record<string, string> = {
   "/services/millwork": "/services/architectural-millwork",
   "/installers": "/divisions/amc-installers",
   "/divisions/american-installers": "/divisions/amc-installers",
-  "/portfolio": "/portfolio/millwork",
+  "/portfolio": "/portfolio/all",
   "/portfolio/acoustics": "/portfolio/all",
-  "/portfolio/project": "/portfolio/project/ave-blue-bell",
+  "/portfolio/project": "/portfolio/all",
+  "/insights": "/insights/casework-vs-millwork",
   "/news/pa-construction-may-resume": "/news",
 }
 
